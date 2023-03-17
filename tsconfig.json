@@ -32,7 +32,7 @@
     "plugins": [
       "@vue-macros/volar/define-slots",
       "@vue-macros/volar/define-model"
-    ],
+    ]
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
   "exclude": ["node_modules", "dist", "**/*.js"],

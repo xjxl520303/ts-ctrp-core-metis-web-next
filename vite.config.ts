@@ -1,4 +1,4 @@
-import { resolve } from 'path'
+import { resolve } from 'node:path'
 import { defineConfig, loadEnv } from 'vite'
 import type { ConfigEnv, UserConfig } from 'vite'
 import Vue from '@vitejs/plugin-vue'
@@ -47,6 +47,19 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
           'vue/macros',
           '@vueuse/head',
           '@vueuse/core',
+          {
+            'xstate': [
+              'createMachine',
+              'assign',
+              'spawn',
+            ],
+            '@xstate/vue': [
+              'useMachine',
+              'useActor',
+              'useInterpret',
+              'useSelector',
+            ],
+          },
         ],
         dts: 'src/auto-imports.d.ts',
         dirs: [
