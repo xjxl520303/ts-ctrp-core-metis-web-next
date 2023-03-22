@@ -52,6 +52,9 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
               'createMachine',
               'assign',
               'spawn',
+              'raise',
+              'send',
+              'sendTo',
             ],
             '@xstate/vue': [
               'useMachine',

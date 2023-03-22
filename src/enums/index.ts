@@ -117,3 +117,41 @@ export enum TemplateTypeEnum {
   /** 库存水位导入 */
   STOCK_LEVEL = 4,
 }
+
+/**
+ * 菜单项类型枚举
+ */
+export enum MenuItemTypeEnum {
+  /** 丰景台 */
+  FJT = 'fjt',
+  /** 订单 */
+  ORDER = 'order',
+  /** 订单导出 */
+  ORDER_IMPORT = 'import',
+  /** 工单 */
+  WO = 'wo',
+  /** 工单创建【本地】 */
+  WO_CREATE = 'woCreate',
+  /** 工单处理结果导入 */
+  WORK_ORDER_IMPORT = 'woImport',
+  /** 工单处理结果导入 */
+  WORK_ORDER_PROCESS_IMPORT = 'processImport',
+  /** 库存水位导入 */
+  INV_IMPORT = 'invThresholdImport',
+  /** 账单列表正式 */
+  BILL = 'bill',
+  /** 账单批量导入 */
+  BILL_IMPORT = 'billImport',
+  /** 账单审核批量导入 */
+  BILL_APPLY_IMPORT = 'billApplyImport',
+  /** 账单审核测试 */
+  BILL_APPLY = 'billApply',
+  /** 账单预览 */
+  BILL_SHOW = 'billShow',
+  /** 预警 */
+  WARNING = 'waring',
+  /** 用户信息 */
+  USER = 'user',
+  /** 账务中心 */
+  ACCOUNT = 'account',
+}
