@@ -80,3 +80,9 @@ export type ResponseOfOptions<T = string> = AxiosPromise<Result<OptionsItem<T>>>
 
 /** 代码运行环境 */
 export type AppMode = 'test' | 'dev' | 'sit' | 'uat' | 'pre' | 'prod'
+
+/** window.open 参数 */
+export type TargetContext = '_self' | '_parent' | '_blank' | '_top'
+
+/** 对话框关闭原因，[关闭] , [取消] 或 [再次打开] */
+export type CloseReason = 'close' | 'cancel' | 'again'

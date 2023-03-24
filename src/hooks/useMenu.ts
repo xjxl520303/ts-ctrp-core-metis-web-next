@@ -1,12 +1,20 @@
-import { createSetMenuMachine } from '@/machines/set-menu'
-import { setMenuPromise } from '@/promises'
+import type { MenuContext } from '@/machines/menu'
+import { createMenuMachine } from '@/machines/menu'
+import type { MenuResult } from '@/promises'
+import { getMenuPromise } from '@/promises'
+
+export interface UseMenuReturnType extends MenuContext {
+  /** 实例引用 */
+  service: ReturnType<typeof useInterpret>
+  /** 获取菜单 */
+  getMenus: () => MenuResult
+}
 
 /**
  * 使用 `useMenu` 来获取后端返回的菜单配置
  */
-export const useMenu = () => {
-  const service = useInterpret(createSetMenuMachine)
-
+export const useMenu = (serviceInstance?: ReturnType<typeof useInterpret>) => {
+  const service = serviceInstance || useInterpret(createMenuMachine())
   const isLoading = useSelector(service, state => state.matches('request'))
   const isSuccess = useSelector(service, state => state.matches('success'))
   const isError = useSelector(service, state => state.matches('error'))
@@ -18,9 +26,10 @@ export const useMenu = () => {
   const cacheGroupMenu = useSelector(service, state => state.context.cacheGroupMenu)
   const cacheMenu = useSelector(service, state => state.context.cacheMenu)
   const __refs = useSelector(service, state => state.context.__refs)
-  const setMenu = () => setMenuPromise(service)
+  const getMenus = () => getMenuPromise(service)
 
   return {
+    service,
     isLoading,
     isSuccess,
     isError,
@@ -32,6 +41,6 @@ export const useMenu = () => {
     cacheGroupMenu,
     cacheMenu,
     __refs,
-    setMenu,
-  }
+    getMenus,
+  } as unknown as UseMenuReturnType
 }

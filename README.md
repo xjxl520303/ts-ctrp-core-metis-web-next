@@ -25,3 +25,34 @@
 - `ci` 持续集成
 - `types` 类型定义文件修改
 - `wip` 开发中
+
+## Machine 样例代码
+
+```ts
+/* eslint-disable @typescript-eslint/consistent-type-definitions */
+import type { RegisterContext } from './context'
+import type { RegisterEvents } from './events'
+
+type RegisterServices = {
+
+}
+
+export type RegisterMachine = ReturnType<typeof createRegisterMachine>
+
+export const createRegisterMachine = () => {
+  return createMachine({
+    schema: {
+      context: {} as RegisterContext,
+      events: {} as RegisterEvents,
+      services: {} as RegisterServices,
+    },
+    tsTypes: {} as import('./machine.typegen').Typegen0,
+    predictableActionArguments: true,
+    id: 'register',
+    states: {},
+  }, {
+    actions: {},
+    services: {},
+  })
+}
+```
