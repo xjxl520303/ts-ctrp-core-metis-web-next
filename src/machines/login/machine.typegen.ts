@@ -4,15 +4,15 @@
   export interface Typegen0 {
         '@@xstate/typegen': true;
         internalEvents: {
-          "error.platform.login.form.login:invocation[0]": { type: "error.platform.login.form.login:invocation[0]"; data: unknown };
-"error.platform.login.form.sms:invocation[0]": { type: "error.platform.login.form.sms:invocation[0]"; data: unknown };
-"error.platform.login.form.user:invocation[0]": { type: "error.platform.login.form.user:invocation[0]"; data: unknown };
+          "error.platform.login.api.loginByPhone:invocation[0]": { type: "error.platform.login.api.loginByPhone:invocation[0]"; data: unknown };
+"error.platform.login.api.sendPhoneCode:invocation[0]": { type: "error.platform.login.api.sendPhoneCode:invocation[0]"; data: unknown };
+"error.platform.login.api.updateUserAttr:invocation[0]": { type: "error.platform.login.api.updateUserAttr:invocation[0]"; data: unknown };
 "xstate.init": { type: "xstate.init" };
         };
         invokeSrcNameMap: {
-          "loginByPhone": "done.invoke.login.form.login:invocation[0]";
-"sendPhoneCode": "done.invoke.login.form.sms:invocation[0]";
-"updateUserAttr": "done.invoke.login.form.user:invocation[0]";
+          "loginByPhone": "done.invoke.login.api.loginByPhone:invocation[0]";
+"sendPhoneCode": "done.invoke.login.api.sendPhoneCode:invocation[0]";
+"updateUserAttr": "done.invoke.login.api.updateUserAttr:invocation[0]";
         };
         missingImplementations: {
           actions: never;
@@ -21,7 +21,7 @@
           services: never;
         };
         eventsCausingActions: {
-          "handleResError": "error.platform.login.form.login:invocation[0]" | "error.platform.login.form.sms:invocation[0]" | "error.platform.login.form.user:invocation[0]";
+          "handleError": "error.platform.login.api.loginByPhone:invocation[0]" | "error.platform.login.api.sendPhoneCode:invocation[0]" | "error.platform.login.api.updateUserAttr:invocation[0]";
         };
         eventsCausingDelays: {
           
@@ -30,11 +30,13 @@
           
         };
         eventsCausingServices: {
-          "loginByPhone": never;
+          "loginByPhone": "LOGIN_BY_PHONE";
 "sendPhoneCode": "SEND_PHONE_CODE";
 "updateUserAttr": "UPDATE_USER_ATTR";
         };
-        matchesStates: "form" | "form.error" | "form.login" | "form.sms" | "form.success" | "form.success.sms" | "form.success.user" | "form.user" | "idle" | { "form"?: "error" | "login" | "sms" | "success" | "user" | { "success"?: "sms" | "user"; }; };
+        matchesStates: "api" | "api.loginByPhone" | "api.loginByPhone.failed" | "api.loginByPhone.success" | "api.sendPhoneCode" | "api.sendPhoneCode.failed" | "api.sendPhoneCode.success" | "api.updateUserAttr" | "api.updateUserAttr.failed" | "api.updateUserAttr.success" | "end" | "ui" | { "api"?: "loginByPhone" | "sendPhoneCode" | "updateUserAttr" | { "loginByPhone"?: "failed" | "success";
+"sendPhoneCode"?: "failed" | "success";
+"updateUserAttr"?: "failed" | "success"; }; };
         tags: never;
       }
   

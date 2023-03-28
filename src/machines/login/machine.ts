@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/consistent-type-definitions */
+import { createUserMachine } from '../user'
 import type { LoginContext } from './context'
 import { INITIAL_LOGIN_CONTEXT } from './context'
 import type { LoginEvents } from './events'
@@ -18,7 +19,7 @@ export type LoginMachine = ReturnType<typeof createLoginMachine>
 
 export const createLoginMachine = () => {
   return createMachine({
-    /** @xstate-layout N4IgpgJg5mDOIC5QBsD2UCWA7AxAZQAkB5AdQH0AVAJQEkBBAGUpoAU8BtABgF1FQAHVLAwAXDKix8QAD0QAWAOwA2AHQKAzEoCcmgKycAHHN0BGLboA0IAJ6ITnXSsMAmLfa2c5DkwF8fVtExcQlIyOhYWMgARUgA5BiI6KK5eJBBBYTEJKVkEYzkVJWUDZ2dtTgc3K1sEE2c-APRsfGJyAGEiAFVYihiSWJSpDNFxSTTcuSVVYyn1BS0FuUXquwr1FV11AwUTZSVNsoUGkEDmkPIqAFEAcRo8CkuqQbThrLHQCYMTFWdPJU5NDs5OoPOoVggDEYfgZNOVNAY3AZjqdgpdYlEyCxiLFLmQOlFLs8BEIRtlxogiuDtKotAoFHJnApnHISiV6v4Tk1cJ0WFE6A8yJ08I8whRqET0iS3jkKQpwboFAY1OZDP8zCV5siuSoAGaoABOAFsVLBDbAcBAJGAVNgAG6oADW1pRuoNxtNsAQdtQAGMAIZvFIS16jGUIf6qdSeBnA3RTebOeUgtScEy6FlaLwmOQ5rVBV1Gk1mnBgfX6g0qfjIAN6wsu2vus1erD2-2BnjBqWh8nhziR6PM9RxopaRM2RC6AyqEqTTgKOPZkFHDn1t0qFEWq02luO53ahvrrnN1sB0ZBnhDLtkj7yTROIomdTqEz-dMOKnzjZKKdeOP0+e6Hm2AFsaG6luW+qVtWIgHqudZHt6bZnh2F4vFe7wyBOkJqJOcyjloXylGONRMloKg5pwmacM4MKlNRQFYCBKgAK6wKWm5YNa3pOoe+YHqxpbHr6p4SOeqTEpk3Y3ggug6IUBFxgsShpqOcrjnkFTkQYpieLSRgaFMDFMQJ+olmWFZVjWa5wcaJlCUhokoeJkqSdemEyXJ2jadoWjKbJjLgjmCiFIY9ggo+dKmIBxxYKgEBwFIKKXq5GG5GY4LZgUL4KnoDIgoZK7ahgEDIGAyWkqlspUlsKiQkozhDs+yg0cujR8W65XSj26ilCo2YIlOHiTPl4KMkqUwKgyRijjGShGQeHqdVJ7lzI4-UEeUw2+fKCicCotLxnOZhDpM83WVyS1ubkq19Rmg1-CN6lMsF2gvlGB2-AVbXAfxbH6pdlUIHMe3rfdW1KIFz5qGq6jAlO+hRq1nLtYW4EGgDYYzioWzKb5mz1TCWjgvSIPaM4cYONpsm+IVKPusxPo+nA8BoSlmMmN8ONmPsmg0SC4Kwn1+waIoXnk1OZ2FrADNM7AsBFizEkVZjsnY1O3P43zRPqaYBQNQCz49VseiS-TjPMyxf0Yz22lkVzeO84TgWbIU+zfkOCzmDsc1+D4QA */
+    /** @xstate-layout N4IgpgJg5mDOIC5QBsD2UCWA7AdAVwwGIBlACQHkB1AfQBUAlASQEEAZOxgBWIG0AGALqJQAB1SwMAFwyoswkAA9EAJgCcARhwA2LQBZ1B5etW6tAdi0AaEAE9E+vjgDMZ1U5e6Lxp8q0BfP2s0TFwCEgoaZk5OagARKgA5VnJmWP4hJBAxCWlZeSUEX1Vnc3UADi0nPj4nMs9rOwQndS0cXV81ZWUAVjNlCoCg9Gx8IjIqagBhcgBVBNp4ygT0+WypGTlMgv7NZTMnXTLu0zKe9WVdBpUutv31F1Vesuf7wZBgkbDxmnoAUQBxRjEWi-egrTJrXKbUDbVStdSuMwtfple58SpXBDnMo4brGVRlJxabp1VR8fpvD64ACGIjGvwSsWonAoCV+U3IsV+4NE4nWeS2iGROFcfD6vXa3QuukutiFRl0JVJZl6VTFlOGNLphGSgIS1AAQgBNZms7mCVZ8qH5IVaZQisnisyS6WyxrqElOHBdVxEsVaI7KJwakI4WlEGacWLMEHUGbEUHUGMMHlZK0bG1Yu0OsU9Z09V2YsqubTtcllMV8ExOVQhkbhnCwMBYCCcAAWsjAk1QEDAhAgnZw2AAbqgANZgHBUsN0xvN1sdrBdntgBAj1AAY2pUPSqchGcFCF05JwGlVjxaCN03UxBmMOAMFSr5w0pjrWowc5b7c73d7hDAAAnQDUEAnARGQbcADNQIAWynTUZ0-Jtv0XZdezXLBRy3HdBD3dMBRhewTzPfYLy0K8bzlLEEWKPRjDqAw+G6R5-ECd5EIbKkDRsH8l37Qd1wnBDQy4zUeL41d1xwjZdwtCECOhRREFqMxtDhOESWUdEpWUW92mKKtuirExqhMcp3yQkTsAktCAOA0DwMgyQYMA+DpzEkJbM7TDsO3WS8Pk3kcgPIimmLdStE004dK6W9jhxYz7nubp3EeclLIbPARAgbcwBmJtAOYSRJEAgSlyHLDx0nDzZ2y3LJHywritK3zN382Q5IyYL+SUgpj26NpmicVKzDKVQJueMwi2qNoPU8dw+Hm7pMrqnK8oKoCWrKoCQLAiDoLg6yP3wdbGs2oqSsAtqZM6wLurTELCOUo9mKGlKXHGybiyLa9T2W45iTMdFgzeLAV3gTIqUtJ6+sQHQcydF0ZTdRAAFpBoJapyg9AMa20spLIIGHeszR85ocD09jqaorGo4zincC4NDMFUWIMMxVowEnrUPAxFVFJGCxRzFelafRujxT0nj4Qn2Nq5D50kv8wB50KXpGxVSJrPEKOdKjGkeHEKiOCtmOG84ua-BdfxXRs8A3Dc4EhnrebCijFSqSp9maANnTKW8qy9IkjlcOFznuOWhlE2cUJtpcVZwKDqQwZBIDV56Cg95wQZ9lpi0OW9tM0EOKPObotDFAZ5c42duN4tCM7hpoa0i6LtOJOLqJfRUWN0Ca+H0I4al0K368k+3HedpvMxJEvUqMFopWqFj9L0HBB9OXxxpxzma5jz9x7QpOU7TiAZ8POfnAXgxO5X1R4uB71qYqe4NGLKOOIP06GqararovmFEaaldDDVGl9AkP1qI6C9GeQ4hwJqvmUFbeqG1mpXUnk7WALtHqk0PJXNS9wZQmADAiCs01qKuBxBLeB5CJrmBQWdP+l1Son1TunBSsNMwEIfAcfuJwyFiiLAjPQ2kfDmBGhcNiAQgA */
     schema: {
       context: {} as LoginContext,
       events: {} as LoginEvents,
@@ -28,82 +29,104 @@ export const createLoginMachine = () => {
     predictableActionArguments: true,
     id: 'login',
     context: INITIAL_LOGIN_CONTEXT,
-    initial: 'idle',
+    type: 'parallel',
+    entry: assign({
+      userRef: () => spawn(createUserMachine(), { sync: true }),
+    }),
     states: {
-      idle: {},
-      form: {
-        states: {
-          sms: {
-            invoke: {
-              src: 'sendPhoneCode',
-              onDone: {
-                target: 'success.sms',
-              },
-              onError: { target: 'error', actions: 'handleResError' },
-            },
+      ui: {
+        on: {
+          SHOW_TRIAL_TIPS: {
+            actions: assign({ showTrialTips: context => !context.showTrialTips }),
+            target: 'end',
           },
-          login: {
-            invoke: {
-              src: 'loginByPhone',
-              onDone: {},
-              onError: { target: 'error', actions: 'handleResError' },
-            },
+          SHOW_APP_DOWNLOAD: {
+            actions: assign({ showAppDownload: context => !context.showAppDownload }),
           },
-          user: {
-            invoke: {
-              src: 'updateUserAttr',
-              onDone: {
-                target: 'success.user',
-              },
-              onError: { target: 'error', actions: 'handleResError' },
-            },
+          SHOW_COUNTDOWN: {
+            actions: assign({
+              showCountdown: context => !context.showCountdown,
+            }),
           },
-          error: {},
-          success: {
-            states: {
-              sms: {
-                type: 'final',
-                entry: [
-                  raise({ type: 'SHOW_COUNTDOWN' }),
-                ],
-              },
-              user: {
-                type: 'final',
-              },
-            },
+          SHOW_REGISTER: {
+            actions: [
+              assign({ showRegister: context => !context.showRegister }),
+            ],
           },
         },
       },
-    },
-    on: {
-      SHOW_TRIAL_TIPS: {
-        actions: assign({ showTrialTips: context => !context.showTrialTips }),
+      api: {
+        states: {
+          sendPhoneCode: {
+            invoke: {
+              src: 'sendPhoneCode',
+              onDone: {
+                target: '.success',
+              },
+              onError: { target: '.failed', actions: 'handleError' },
+            },
+            states: {
+              success: {
+                type: 'final',
+                exit: [
+                  raise({ type: 'SHOW_COUNTDOWN' }),
+                ],
+              },
+              failed: {},
+            },
+          },
+          loginByPhone: {
+            invoke: {
+              src: 'loginByPhone',
+              onDone: {
+                target: '.success',
+                actions: [
+                  (context, event) => {
+                    context.userRef?.send({ type: 'SET_USER', val: event.data })
+                  },
+                  assign({ user: ({ userRef }) => userRef?.getSnapshot().context.user }),
+                ],
+              },
+              onError: { target: '.failed', actions: 'handleError' },
+            },
+            states: {
+              success: {},
+              failed: {},
+            },
+          },
+          updateUserAttr: {
+            invoke: {
+              src: 'updateUserAttr',
+              onDone: {
+                target: '.success',
+              },
+              onError: { target: '.failed', actions: 'handleError' },
+            },
+            states: {
+              success: {},
+              failed: {},
+            },
+          },
+        },
+        on: {
+          SEND_PHONE_CODE: {
+            target: 'api.sendPhoneCode',
+          },
+          LOGIN_BY_PHONE: {
+            target: 'api.loginByPhone',
+          },
+          UPDATE_USER_ATTR: {
+            target: 'api.updateUserAttr',
+          },
+        },
       },
-      SHOW_APP_DOWNLOAD: {
-        actions: assign({ showAppDownload: context => !context.showAppDownload }),
-      },
-      SHOW_COUNTDOWN: {
-        actions: assign({
-          showCountdown: context => !context.showCountdown,
-        }),
-      },
-      SHOW_REGISTER: {
-        actions: [
-          assign({ showRegister: context => !context.showRegister }),
-        ],
-      },
-      SEND_PHONE_CODE: {
-        target: 'form.sms',
-        cond: context => !!context.form.phone.trim().length,
-      },
-      UPDATE_USER_ATTR: {
-        target: 'form.user',
+      end: {
+        type: 'final',
       },
     },
   }, {
     actions: {
-      /** 处理请求失败 */
-      handleResError: assign({ error: (_, event: any) => event.data }),
+      handleError: assign({ error: (_, event: any) => event.data }),
     },
     services: {
       /** 发送手机号短信验证码 */

@@ -21,33 +21,32 @@ export const createRegisterMachine = () => {
     id: 'register',
     context: INITIAL_REGISTER_CONTEXT,
     states: {
-      one: {},
-      two: {},
-      three: {},
-    },
-    on: {
-      'SET_VISIBLE': {
-        actions: assign({ visible: (_, event) => event.val }),
+      ui: {
+        initial: 'one',
+        states: {
+          one: {},
+          two: {},
+          three: {},
+        },
+        on: {
+          'SET_VISIBLE': {
+            actions: assign({ visible: (_, event) => event.val }),
+          },
+          'SET_STEP': {
+            actions: 'selectStep',
+            cond: context => !!context.stepOptions,
+          },
+          'STEP.prev': {
+            cond: context => !!context.step,
+            actions: 'selectPrev',
+          },
+          'STEP.next': {
+            cond: context => !!context.step,
+            actions: 'selectNext',
+          },
+        },
       },
-      'SET_STEP': {
-        actions: 'selectStep',
-        cond: context => !!context.stepOptions,
-      },
-      'STEP.prev': {
-        cond: context => !!context.step,
-        actions: 'selectPrev',
-      },
-      'STEP.next': {
-        cond: context => !!context.step,
-        actions: 'selectNext',
-        // actions: assign({
-        //   step: context => context.step === 'one'
-        //     ? 'two'
-        //     : context.step === 'two'
-        //       ? 'three'
-        //       : 'three',
-        // }),
-      },
+      api: {},
     },
   }, {
     actions: {
@@ -73,6 +72,7 @@ export const createRegisterMachine = () => {
             ? ['one']
             : ['one', 'two'],
       }),
+      /** 选中下一步 */
       selectNext: assign({
         step: ({ step }): RegisterStep => step === 'one'
           ? 'two'

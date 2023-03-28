@@ -1,5 +1,5 @@
 import type { ActorRef } from 'xstate'
-import type { ErrorPayload } from '@/types'
+import type { ErrorPayload, UserDto } from '@/types'
 
 export interface LoginContext {
   /** 接口错误信息 */
@@ -12,8 +12,6 @@ export interface LoginContext {
   showCountdown: boolean
   /** 注册 */
   showRegister: boolean
-  /** 注册 Machine 引用 */
-  registerRef?: ActorRef<any>
   /** 表单 */
   form: {
     /** 手机号 */
@@ -21,6 +19,10 @@ export interface LoginContext {
     /** 短信验证码 */
     phoneCode: string
   }
+  /** 用户信息 */
+  user?: UserDto
+  /** user Machine 引用 */
+  userRef?: ActorRef<any>
 }
 
 export const INITIAL_LOGIN_CONTEXT: LoginContext = {
@@ -29,9 +31,10 @@ export const INITIAL_LOGIN_CONTEXT: LoginContext = {
   showAppDownload: false,
   showCountdown: false,
   showRegister: false,
-  registerRef: undefined,
   form: reactive({
     phone: '',
     phoneCode: '',
   }),
+  user: undefined,
+  userRef: undefined,
 }

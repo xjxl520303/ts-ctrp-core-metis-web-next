@@ -25,9 +25,7 @@ export type MenuContext = {
 }
 
 export type MenuEvents =
-  | { type: 'REQUEST' }
-  | { type: 'SUCCESS' }
-  | { type: 'ERROR'; error: ErrorPayload | null }
+  | { type: 'GET_MENUS' }
   | { type: 'MARK.activeGroup'; code?: string }
   | { type: 'MARK.active'; id?: number }
   | { type: 'GET_FJT_IDS' }
@@ -41,7 +39,7 @@ export type MenuMachine = ReturnType<typeof createMenuMachine>
 export const createMenuMachine = () => {
   return createMachine(
     {
-      /** @xstate-layout N4IgpgJg5mDOIC5SzAFwLJgHYFcDEASgKICKAqkQMoAqA2gAwC6ioADgPawCWqX7WLEAA9EANgDsAGhABPRAFYAjIoB0AZnkBONQBY9ADgBMOw4s0Bfc9JQZs+IgQIB5Ag2ZIQHbr36CRCCWk5BDU1QxUdelFTTR0jEzNLazRMXDx0AEECAGkVAEMAY14ANzAAcQAndhxWN0EvHj4BD38w8RVFOJ01cXkgxEUeiPk1RUN5JJAbVPxMnPyirlK6jwafZtBWnU0I031e-oQxyem7PDKiagB9ADEAKWuASQARShW2TkbfFsRdHeVxIp9n1ZIhATt5NEdKJYvEYicUnYVBUwABHHBwVB4CD8MAqLhYYrsADWeJR6Mx708n3WfkQ230HXG9DU9CUvXE+kUh0h7X0Gk0UU0cMSVimiNwyLRGNgWLAFSqFRUrAANnlUAAzdgVAC2UopsqpayadIQDKZ8hZbMUHK5hx04h0Kn0Rk5ZhFFkmWHYEDgglOuHqNJNPyOmkOxidguiZjixj2+gRtklXAgKrAQe8Ic2AzZKmF3QOoLNalE6i0ugM8dFyWTOH1MtQma+G2EiEMoXzomB9v25e0ejjCU9tZmKlgOAKBTg8FWwe+OYCfcLI2ttu5xfkkRUUWMMKH8LFAfr8sVzdpoe77RXrPZ8jdh1LqhdhjdwurnssQA */
+      /** @xstate-layout N4IgpgJg5mDOIC5QFswDsCuBiAsgQQCUBpAOgEMBjAFwEsA3MAcQCcB7DABwG0AGAXUSgOrWDVqs0gkAA9EARgCsAZhIA2AEwAWAJwAOBZtVy5S9QHZ1AGhABPROtWqS2nkc27VC7as3qFCgF8A61RMXEJSSloGXgEkEGFRcUl42QQ5MwUSXT1NOXUebyVdHk1rO3SlbRJNZR4zTVM9dXzdIJD0bEYAUQAVAH0AMQApAYBJABEAZVipRLEaCSk0jKyvJQalBRLdWoby+XV2kFCMcg4aLB6BnG6AOQBVGf45kQWl1MQzMwOEZV0SFttOolI0XLp9JpjqdzjQSDAqDhOrAsBAJGASDQ0HRWABrDEwsgXeFgRHIhBYnEUMjJWKzeLzZLLQ5WWyIbRmOSA3QOMzAuQc1yBYInTqwklkzAosDMNjMEgcAA2NIAZqxmMgSITiQikVKKdjWNTafx6UI3kzPul1KyKnIeCU1KZVB5QZlMqogiK0KwIHApKdXklFilQGkALQ235KVQqIE29R6bSGKrQsVEmhB96hmT2VS-Wo8bJeG3FROab5HEXauG65FZy1hr5lNkIMy6Ln6bRyfRGHkmORpzDiutSkiwDAUChweAMi0h5kIJTGQH5HRVYxKYr51vJ9SArwCnt+Yr1IdnDMSvUYWAkFVkGiKyANhdW5dc5dabQbkzb37GHh93jAx9A2bslC9AIgA */
       schema: {
         context: {} as MenuContext,
         events: {} as MenuEvents,
@@ -49,8 +47,7 @@ export const createMenuMachine = () => {
       },
       tsTypes: {} as import('./menu.typegen').Typegen0,
       predictableActionArguments: true,
-      id: 'Menu',
-      initial: 'idle',
+      id: 'menu',
       context: {
         error: null,
         menus: [],
@@ -61,33 +58,37 @@ export const createMenuMachine = () => {
         cacheMenu: undefined,
         __refs: undefined,
       },
+      initial: 'api',
       states: {
-        idle: {
-
-        },
-        request: {
-          invoke: {
-            src: 'fetchMenus',
-            id: 'request',
-            onDone: { target: 'success', actions: 'handleResSuccess' },
-            onError: { target: 'error', actions: 'handleResError' },
+        api: {
+          states: {
+            getMenus: {
+              invoke: {
+                src: 'getMenus',
+                onDone: { target: '.success', actions: 'handleResSuccess' },
+                onError: { target: '.failed', actions: 'handleResError' },
+              },
+              states: {
+                success: {
+                  type: 'final',
+                  exit: [
+                    raise({ type: 'MARK.activeGroup' }),
+                    raise({ type: 'MARK.active' }),
+                    raise({ type: 'GET_FJT_IDS' }),
+                  ],
+                },
+                failed: {},
+              },
+            },
+          },
+          on: {
+            GET_MENUS: {
+              target: 'api.getMenus',
+            },
           },
         },
-        success: {
-          entry: [
-            raise({ type: 'MARK.activeGroup' }),
-            raise({ type: 'MARK.active' }),
-            raise({ type: 'GET_FJT_IDS' }),
-          ],
-        },
-        error: {},
       },
       on: {
-        'REQUEST': 'request',
-        'ERROR': {
-          actions: 'handleResError',
-          target: 'error',
-        },
         'MARK.activeGroup': {
           cond: context => context.menus.length > 0,
           actions: ['getActiveGroupMenu'],
@@ -167,7 +168,7 @@ export const createMenuMachine = () => {
       },
       services: {
         /** 获取菜单 */
-        fetchMenus: async () => {
+        getMenus: async () => {
           const res: Result<MenuGroupItem[]> = await callApi({
             url: `${URL_PREFIX}/menu/getMenu`,
             method: RequestEnum.GET,

@@ -19,12 +19,6 @@ export interface UseRegisterReturnType extends RegisterContext {
  */
 export const useRegister = (serviceInstance?: ReturnType<typeof useInterpret>) => {
   const service = serviceInstance || useInterpret(createRegisterMachine())
-  // export const useRegister = (serviceInstance?: ReturnType<typeof useInterpret>) => {
-  //   const service = serviceInstance || useInterpret(createRegisterMachine)
-
-  // const isSmsLoading = useSelector(service, state => state.matches('form.sms'))
-  // const isSuccess = useSelector(service, state => state.matches('form.success.sms'))
-  // const error = useSelector(service, state => state.context.error)
   const visible = useSelector(service, state => state.context.visible)
   const step = useSelector(service, state => state.context.step)
   const selected = useSelector(service, state => state.context.selected)
@@ -36,9 +30,6 @@ export const useRegister = (serviceInstance?: ReturnType<typeof useInterpret>) =
 
   return {
     service,
-    // isSmsLoading,
-    // isSuccess,
-    // error,
     visible,
     step,
     selected,

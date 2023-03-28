@@ -15,9 +15,6 @@ export interface UseMenuReturnType extends MenuContext {
  */
 export const useMenu = (serviceInstance?: ReturnType<typeof useInterpret>) => {
   const service = serviceInstance || useInterpret(createMenuMachine())
-  const isLoading = useSelector(service, state => state.matches('request'))
-  const isSuccess = useSelector(service, state => state.matches('success'))
-  const isError = useSelector(service, state => state.matches('error'))
   const error = useSelector(service, state => state.context.error)
   const menus = useSelector(service, state => state.context.menus)
   const fjtMenuIds = useSelector(service, state => state.context.fjtMenuIds)
@@ -30,9 +27,6 @@ export const useMenu = (serviceInstance?: ReturnType<typeof useInterpret>) => {
 
   return {
     service,
-    isLoading,
-    isSuccess,
-    isError,
     error,
     menus,
     fjtMenuIds,

@@ -7,8 +7,10 @@ import Register from './components/register.vue'
 import { FooterLinkTypeEnum, LoginMethodEnum, ProtocolTypeEnum } from './types'
 import type { RegisterStep } from '@/machines/register'
 import { useLogin } from '@/hooks/useLogin'
+import { useMenu } from '@/hooks/useMenu'
 import { openWindow } from '@/utils'
-import type { BusinessStatusEnum, PreOpenDto } from '@/types/model/userModel'
+import { BusinessStatusEnum, ContractSignStatusEnum, PayTypeEnum } from '@/types/model/userModel'
+import type { PreOpenDto } from '@/types/model/userModel'
 
 const router = useRouter()
 const {
@@ -17,8 +19,11 @@ const {
   showCountdown,
   showRegister,
   form,
+  user,
   sendPhoneCode,
+  loginByPhone,
 } = useLogin()
+const { getMenus } = useMenu()
 
 const formRef = ref<FormInstance>()
 /** 登录方式 */
@@ -53,27 +58,21 @@ const preOpenDto = ref<PreOpenDto>()
 /** 显示在线咨询二维码 */
 const showFaqQRcode = ref(false)
 /* -------------------------------------------------------------------------- */
-/** 显示注册步骤 */
-const showRegistStep = ref(false)
 /** 默认步骤 */
 const defaultStep = ref<RegisterStep>()
 /** 显示审核结果 */
 const showAuditResult = ref(false)
-/** 商机状态 */
-const businessStatus = ref<BusinessStatusEnum>()
-/** 商机申请码 */
-const businessCode = ref<string | null>()
-/** 商机客户名称 */
-const businessCustomerName = ref<string>()
 
 /**
  * 发送短信验证码
  */
-function sendCode() {
+async function sendCode() {
   if (showCountdown.value)
     return
   countdown.value = Date.now() + 1000 * 60
-  sendPhoneCode(form.phoneCode)
+  const { error, isError } = await sendPhoneCode(form.phoneCode)
+  if (isError)
+    ElMessage.error(error?.message)
 }
 
 /**
@@ -97,8 +96,49 @@ function changeLogin(method: LoginMethodEnum) {
 async function submitForm() {
   if (!formRef.value)
     return
-  await formRef.value.validate((valid: boolean, fields) => {
-    if (valid) {}
+  await formRef.value.validate(async (valid: boolean) => {
+    if (valid) {
+      const { error, isError } = await loginByPhone(form.value.phone, form.value.phoneCode)
+      if (isError) {
+        ElMessage.error(error?.message)
+      }
+      else {
+        const { businessStatus, contractSignStatus, payType, preOpenDto, userYearPayDto } = user.value || {}
+
+        if (businessStatus === BusinessStatusEnum.PRISTINE) {
+          ElMessage.error('该用户未注册')
+        }
+        else if (businessStatus === BusinessStatusEnum.AUDITED) {
+          if (
+            (contractSignStatus === ContractSignStatusEnum.SIGNED && payType === PayTypeEnum.MONTH)
+          || (contractSignStatus === ContractSignStatusEnum.SIGNED && payType === PayTypeEnum.YEAR && userYearPayDto?.pay)
+          ) {
+            console.log('正常')
+            await getMenus()
+          }
+          else if (contractSignStatus === ContractSignStatusEnum.SIGNED && payType === PayTypeEnum.YEAR && !userYearPayDto?.pay) {
+            // 年包 dialog
+            console.log('年包 dialog')
+          }
+          else if (contractSignStatus === ContractSignStatusEnum.NOT_SIGN && payType === PayTypeEnum.YEAR && !userYearPayDto?.pay) {
+            // 显示线上协议
+            console.log('显示线上协议')
+          }
+          else if (contractSignStatus === ContractSignStatusEnum.NOT_SIGN && payType === PayTypeEnum.MONTH) {
+            console.log('显示试用提醒')
+            if (preOpenDto?.needRemind !== false)
+              showTrialTips.value = true
+            else
+            // 获取菜单
+              console.log('kkkk')
+          }
+        }
+        else if ([BusinessStatusEnum.AWAIT, BusinessStatusEnum.REJECTED].includes(businessStatus.value)) {
+          console.log('ohter')
+          showAuditResult.value = true
+        }
+      }
+    }
   })
 }
 
@@ -344,7 +384,7 @@ function footerLinkEvent(type: FooterLinkTypeEnum) {
   <!-- 审核结果 -->
   <!-- <AuditResult
     v-model="showAuditResult" :status="businessStatus" @to-step="(step) => {
-      showRegistStep = true
+      showRegisterStep = true
       defaultStep = 'one'
     }" @close="() => close()"
   >
