@@ -1,5 +1,11 @@
 # ts-ctrp-core-metis-web-next
 
+## 0.0.4
+
+### Patch Changes
+
+- 添加登录与注册部分 Machine 逻辑
+
 ## 0.0.3
 
 ### Patch Changes
