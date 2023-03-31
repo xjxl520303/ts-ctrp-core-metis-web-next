@@ -23,7 +23,7 @@ const {
   sendPhoneCode,
   loginByPhone,
 } = useLogin()
-const { getMenus } = useMenu()
+const { menus, activeMenu, getMenus, selectMenu } = useMenu()
 
 const formRef = ref<FormInstance>()
 /** 登录方式 */
@@ -113,8 +113,8 @@ async function submitForm() {
             (contractSignStatus === ContractSignStatusEnum.SIGNED && payType === PayTypeEnum.MONTH)
           || (contractSignStatus === ContractSignStatusEnum.SIGNED && payType === PayTypeEnum.YEAR && userYearPayDto?.pay)
           ) {
-            console.log('正常')
             await getMenus()
+            selectMenu(activeMenu.value!)
           }
           else if (contractSignStatus === ContractSignStatusEnum.SIGNED && payType === PayTypeEnum.YEAR && !userYearPayDto?.pay) {
             // 年包 dialog

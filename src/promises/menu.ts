@@ -8,9 +8,9 @@ export const getMenuPromise = async (
   interpreter: InterpreterFrom<MenuMachine>,
 ): Promise<MenuResult> =>
   new Promise((resolve) => {
-    interpreter.send('GET_MENUS')
+    interpreter.send('REQUEST')
     interpreter.onTransition((state) => {
-      if (state.matches('api.getMenus.failed')) {
+      if (state.matches('idle')) {
         resolve({
           error: state.context.error,
           isError: true,
@@ -18,7 +18,7 @@ export const getMenuPromise = async (
         })
       }
 
-      if (state.matches('api.getMenus.success')) {
+      if (state.matches('action')) {
         resolve({
           isError: false,
           isSuccess: true,

@@ -6,15 +6,13 @@ import type { I18nItem } from '@/types'
  */
 export interface MenuItem extends I18nItem {
   /** 菜单id */
-  id: number | string
+  id: number
   /** 订单类型 */
   orderType: string
   /** @date 2022-08-17 不知道作用 */
   subOrderType?: string
-  /** 是否激活 */
-  actived: boolean
   /** 排序 */
-  order?: string
+  sort?: string
   /** 类型 */
   type: MenuItemTypeEnum | string
   /** 地址 */

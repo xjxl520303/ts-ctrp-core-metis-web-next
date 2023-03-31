@@ -4,12 +4,12 @@
   export interface Typegen0 {
         '@@xstate/typegen': true;
         internalEvents: {
-          "done.invoke.menu.api.getMenus:invocation[0]": { type: "done.invoke.menu.api.getMenus:invocation[0]"; data: unknown; __tip: "See the XState TS docs to learn how to strongly type this." };
-"error.platform.menu.api.getMenus:invocation[0]": { type: "error.platform.menu.api.getMenus:invocation[0]"; data: unknown };
+          "done.invoke.menu.fetchMenus:invocation[0]": { type: "done.invoke.menu.fetchMenus:invocation[0]"; data: unknown; __tip: "See the XState TS docs to learn how to strongly type this." };
+"error.platform.menu.fetchMenus:invocation[0]": { type: "error.platform.menu.fetchMenus:invocation[0]"; data: unknown };
 "xstate.init": { type: "xstate.init" };
         };
         invokeSrcNameMap: {
-          "getMenus": "done.invoke.menu.api.getMenus:invocation[0]";
+          "request": "done.invoke.menu.fetchMenus:invocation[0]";
         };
         missingImplementations: {
           actions: never;
@@ -18,11 +18,20 @@
           services: never;
         };
         eventsCausingActions: {
-          "getActiveGroupMenu": "MARK.activeGroup";
-"getActiveMenu": "MARK.active";
-"getFjtIds": "GET_FJT_IDS";
-"handleResError": "error.platform.menu.api.getMenus:invocation[0]";
-"handleResSuccess": "done.invoke.menu.api.getMenus:invocation[0]";
+          "addCacheGroupMenu": "ADD_CACHE.group";
+"addCacheMenu": "ADD_CACHE.menu";
+"handleResError": "error.platform.menu.fetchMenus:invocation[0]";
+"initActiveGroupMenu": "done.invoke.menu.fetchMenus:invocation[0]";
+"initActiveMenu": "done.invoke.menu.fetchMenus:invocation[0]";
+"initCacheGroupMenu": "done.invoke.menu.fetchMenus:invocation[0]";
+"initCacheMenu": "done.invoke.menu.fetchMenus:invocation[0]";
+"initFjdIds": "done.invoke.menu.fetchMenus:invocation[0]";
+"initMenus": "done.invoke.menu.fetchMenus:invocation[0]";
+"removeCacheGroupMenu": "REMOVE_CACHE.group";
+"setActiveGroupMenu": "SET.activeGroup";
+"setActiveMenu": "SET.active";
+"setCache": "SET.cache";
+"setTabVisible": "SET.tabVisible";
         };
         eventsCausingDelays: {
           
@@ -31,9 +40,9 @@
           
         };
         eventsCausingServices: {
-          "getMenus": "GET_MENUS";
+          "request": "REQUEST";
         };
-        matchesStates: "api" | "api.getMenus" | "api.getMenus.failed" | "api.getMenus.success" | { "api"?: "getMenus" | { "getMenus"?: "failed" | "success"; }; };
+        matchesStates: "action" | "action.addCacheGroup" | "action.addCacheMenu" | "action.idle" | "action.removeCacheGroupMenu" | "action.setActive" | "action.setActiveGroup" | "action.setCache" | "action.setTabVisible" | "fetchMenus" | "idle" | { "action"?: "addCacheGroup" | "addCacheMenu" | "idle" | "removeCacheGroupMenu" | "setActive" | "setActiveGroup" | "setCache" | "setTabVisible"; };
         tags: never;
       }
   

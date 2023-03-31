@@ -1,23 +1,23 @@
+import type { ToRefs } from 'vue'
 import type { LoginContext } from '@/machines/login'
 import { createLoginMachine } from '@/machines/login'
 import { loginByPhonePromise, sendPhoneCodePromise, updateUserAttrPromise } from '@/promises'
 import type { ActionErrorState } from '@/types'
 
-export interface UseLoginReturnType extends LoginContext {
-  /** 实例引用 */
+export interface UseLoginReturnType extends ToRefs<LoginContext> {
   service: ReturnType<typeof useInterpret>
   /** 发送短信验证码 */
-  sendPhoneCode: (phone?: string) => ActionErrorState
+  sendPhoneCode: (phone?: string) => Promise<ActionErrorState>
   /** 手机号登录 */
-  loginByPhone: (phone: string, phoneCode: string) => ActionErrorState
+  loginByPhone: (phone: string, phoneCode: string) => Promise<ActionErrorState>
   /** 更新用户拓展信息（样式、语言） */
-  updateUserAttr: (key: string, value: string) => ActionErrorState
+  updateUserAttr: (key: string, value: string) => Promise<ActionErrorState>
 }
 
 /**
  * 使用 `useLogin` 处理登录页面逻辑
  */
-export const useLogin = (serviceInstance?: ReturnType<typeof useInterpret>) => {
+export const useLogin = (serviceInstance?: ReturnType<typeof useInterpret>): UseLoginReturnType => {
   const service = serviceInstance || useInterpret(createLoginMachine())
   const error = useSelector(service, state => state.context.error)
   const user = useSelector(service, state => state.context.user)
@@ -42,5 +42,5 @@ export const useLogin = (serviceInstance?: ReturnType<typeof useInterpret>) => {
     sendPhoneCode,
     loginByPhone,
     updateUserAttr,
-  } as unknown as UseLoginReturnType
+  }
 }

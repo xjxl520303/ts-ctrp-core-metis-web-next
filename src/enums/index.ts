@@ -128,6 +128,8 @@ export enum MenuItemTypeEnum {
   ORDER = 'order',
   /** 订单导出 */
   ORDER_IMPORT = 'import',
+  /** 订单详情 */
+  ORDER_DETAIL = 'orderDetail',
   /** 工单 */
   WO = 'wo',
   /** 工单创建【本地】 */
@@ -154,4 +156,6 @@ export enum MenuItemTypeEnum {
   USER = 'user',
   /** 账务中心 */
   ACCOUNT = 'account',
+  /** 消息中心 */
+  MESSAGE = 'message',
 }

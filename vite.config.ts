@@ -55,6 +55,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
               'raise',
               'send',
               'sendTo',
+              'actions',
             ],
             '@xstate/vue': [
               'useMachine',

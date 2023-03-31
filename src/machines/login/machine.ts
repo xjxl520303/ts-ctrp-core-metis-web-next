@@ -10,9 +10,9 @@ import { RequestEnum, ResponseCodeEnum } from '@/enums'
 import type { Result } from '@/types'
 
 type LoginServices = {
-  sendPhoneCode: { data: SendPhoneCodeResponse }
-  loginByPhone: { data: LoginByPhoneResponse }
-  updateUserAttr: { data: UpdateUserAttrResponse }
+  sendPhoneCode: SendPhoneCodeResponse
+  loginByPhone: LoginByPhoneResponse
+  updateUserAttr: UpdateUserAttrResponse
 }
 
 export type LoginMachine = ReturnType<typeof createLoginMachine>
