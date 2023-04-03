@@ -7,9 +7,9 @@ import { getMenuPromise } from '@/promises'
 import type { MenuGroupItem, MenuItem } from '@/types'
 import { toMenuRoute } from '@/utils/menu'
 import { MenuItemTypeEnum } from '@/enums'
+import { MENU_STORAGE_KEY } from '@/constants'
 
 export interface UseMenuReturnType extends ToRefs<MenuContext> {
-  service: ReturnType<typeof useInterpret>
   /** 获取菜单 */
   getMenus: () => Promise<MenuResult>
   /** 选择菜单 */
@@ -23,8 +23,11 @@ export interface UseMenuReturnType extends ToRefs<MenuContext> {
 /**
  * 使用 `useMenu` 来获取后端返回的菜单配置
  */
-export const useMenu = (serviceInstance?: ReturnType<typeof useInterpret>): UseMenuReturnType => {
-  const service = serviceInstance || useInterpret(createMenuMachine())
+export const useMenu = (): UseMenuReturnType => {
+  const machine = createMenuMachine()
+  const persistedState = useStorage(MENU_STORAGE_KEY, machine.initialState, localStorage)
+  const { service } = useMachine(machine, { state: persistedState.value })
+
   const error = useSelector(service, state => state.context.error)
   const menus = useSelector(service, state => state.context.menus)
   const fjtMenuIds = useSelector(service, state => state.context.fjtMenuIds)
@@ -50,7 +53,7 @@ export const useMenu = (serviceInstance?: ReturnType<typeof useInterpret>): UseM
       service.send('SET.activeGroup')
     }
     service.send('ADD_CACHE.menu', { menu })
-    toMenuRoute(activeMenu.value)
+    toMenuRoute(activeMenu.value!)
   }
 
   /**
@@ -73,7 +76,7 @@ export const useMenu = (serviceInstance?: ReturnType<typeof useInterpret>): UseM
       else {
         service.send('SET.activeGroup')
       }
-      toMenuRoute(activeMenu.value, isBlank)
+      toMenuRoute(activeMenu.value!, isBlank)
     }
   }
 
@@ -94,7 +97,7 @@ export const useMenu = (serviceInstance?: ReturnType<typeof useInterpret>): UseM
 
     _removeCacheMenu(menu, action)
     if (action === 'post' || action === 'pre')
-      toMenuRoute(activeMenu.value)
+      toMenuRoute(activeMenu.value!)
   }
 
   /**
@@ -103,10 +106,10 @@ export const useMenu = (serviceInstance?: ReturnType<typeof useInterpret>): UseM
   function _removeCacheMenu(menu: MenuItem, action: MenuAction = 'current') {
     const cache = clone(unref(cacheMenu.value))
     const index = cache.findIndex((item: MenuItem) => item.id === menu.id)
-    const getGroup = (id: number) => cacheGroupMenu.value.find((item: MenuGroupItem) => item.code === __refs.value.get(id))
+    const getGroup = (id: number) => cacheGroupMenu.value.find((item: MenuGroupItem) => item.code === __refs.value?.get(id))
     const shouldRemoveGroup = (id: number) => !cache
       .filter((item: MenuItem) => item.id !== id)
-      .some((item: MenuItem) => __refs.value.get(item.id) === __refs.value.get(id))
+      .some((item: MenuItem) => __refs.value?.get(item.id) === __refs.value?.get(id))
 
     if (action === 'current') {
       if (cache.length === 1) {
@@ -138,8 +141,8 @@ export const useMenu = (serviceInstance?: ReturnType<typeof useInterpret>): UseM
     }
     else if (action === 'all') {
       service.send('SET.active', { menu: activeMenu.value })
-      if (activeMenu.value.type !== MenuItemTypeEnum.MESSAGE) {
-        const group = menus.value.find((item: MenuGroupItem) => item.code === __refs.value.get(activeMenu.value.id))
+      if (activeMenu.value!.type !== MenuItemTypeEnum.MESSAGE) {
+        const group = menus.value.find((item: MenuGroupItem) => item.code === __refs.value?.get(activeMenu.value!.id))
         service.send('SET.activeGroup', { group })
       }
       else {
@@ -151,10 +154,11 @@ export const useMenu = (serviceInstance?: ReturnType<typeof useInterpret>): UseM
     service.send('SET.cache', { menus: cache })
   }
 
-  service.onTransition(state => console.log(state))
+  service.onTransition((state) => {
+    persistedState.value = state
+  })
 
   return {
-    service,
     error,
     menus,
     fjtMenuIds,

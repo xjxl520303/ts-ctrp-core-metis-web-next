@@ -176,7 +176,7 @@ function isMenuActive(menu: MenuItem) {
       <i class="iconfont icon-caidan !text-6 text-$zx-primary" dark:text-hex-979797 cursor-pointer @mouseover="isMenuVisible = true" />
     </div>
     <div flex justify-center w-full>
-      <img :src="isDark ? '/src/assets/logo_head_dark.png' : '/src/assets/logo_head.png'" w-50>
+      <img :src="isDark ? '/src/assets/images/logo_head_dark.png' : '/src/assets/images/logo_head.png'" w-50>
     </div>
     <div flex justify-end items-center>
       <portal-target name="locale" />

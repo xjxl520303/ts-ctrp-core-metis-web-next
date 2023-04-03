@@ -1,4 +1,5 @@
 import type { RouteRecordRaw } from 'vue-router'
+import { workbenchRoute } from './workbench'
 
 export const RootRoute: RouteRecordRaw = {
   path: '/',
@@ -22,4 +23,5 @@ export const appRoutes = [
   LoginRoute,
   RootRoute,
   AboutRoute,
+  workbenchRoute,
 ]
