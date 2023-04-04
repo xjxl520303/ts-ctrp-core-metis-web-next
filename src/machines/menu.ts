@@ -24,7 +24,7 @@ export type MenuContext = {
   /** 缓存菜单 */
   cacheMenu: MenuItem[]
   /** 菜单ID与菜单分组引用关系 */
-  __refs?: Map<number, string>
+  __refs?: Record<string, string>
   /** 标签选项卡是否可见，当关闭所有选项卡时标记为 `true` */
   isTabVisible?: boolean
 }
@@ -159,12 +159,12 @@ export const createMenuMachine = () => {
         initMenus: assign({
           menus: (_, event) => event.data,
           __refs: (_, event: any) => {
-            const map = new Map()
+            const result: Record<string, string> = {}
             event.data.forEach((item: MenuGroupItem) => {
               if (item.menuList && Array.isArray(item.menuList) && item.menuList.length > 0)
-                item.menuList.forEach(menu => map.set(menu.id, item.code))
+                item.menuList.forEach(menu => result[`${menu.id}`] = item.code)
             })
-            return map
+            return result
           },
         }),
 

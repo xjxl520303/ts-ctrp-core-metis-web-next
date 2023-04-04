@@ -42,8 +42,8 @@ export const useMenu = (): UseMenuReturnType => {
    * 选择菜单
    */
   function selectMenu(menu: MenuItem) {
-    const code = __refs.value?.get(menu.id)
     service.send('SET.active', { menu })
+    const code = __refs.value![String(menu.id)]
     if (code) {
       const group = menus.value.find((item: MenuGroupItem) => item.code === code)
       service.send('SET.activeGroup', { group })
@@ -67,7 +67,7 @@ export const useMenu = (): UseMenuReturnType => {
     else {
       service.send('SET.active', { menu })
       service.send('ADD_CACHE.menu', { menu })
-      const code = __refs.value?.get(menu.id)
+      const code = __refs.value![String(menu.id)]
       if (code) {
         const group = menus.value.find((item: MenuGroupItem) => item.code === code)
         service.send('SET.activeGroup', { group })
@@ -106,10 +106,10 @@ export const useMenu = (): UseMenuReturnType => {
   function _removeCacheMenu(menu: MenuItem, action: MenuAction = 'current') {
     const cache = clone(unref(cacheMenu.value))
     const index = cache.findIndex((item: MenuItem) => item.id === menu.id)
-    const getGroup = (id: number) => cacheGroupMenu.value.find((item: MenuGroupItem) => item.code === __refs.value?.get(id))
+    const getGroup = (id: number) => cacheGroupMenu.value.find((item: MenuGroupItem) => item.code === __refs.value![String(id)])
     const shouldRemoveGroup = (id: number) => !cache
       .filter((item: MenuItem) => item.id !== id)
-      .some((item: MenuItem) => __refs.value?.get(item.id) === __refs.value?.get(id))
+      .some((item: MenuItem) => __refs.value![String(item.id)] === __refs.value![String(id)])
 
     if (action === 'current') {
       if (cache.length === 1) {
@@ -142,7 +142,7 @@ export const useMenu = (): UseMenuReturnType => {
     else if (action === 'all') {
       service.send('SET.active', { menu: activeMenu.value })
       if (activeMenu.value!.type !== MenuItemTypeEnum.MESSAGE) {
-        const group = menus.value.find((item: MenuGroupItem) => item.code === __refs.value?.get(activeMenu.value!.id))
+        const group = menus.value.find((item: MenuGroupItem) => item.code === __refs.value![String(activeMenu.value!.id)])
         service.send('SET.activeGroup', { group })
       }
       else {

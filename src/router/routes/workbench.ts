@@ -1,21 +1,15 @@
 import type { RouteRecordRaw } from 'vue-router'
-import { i18n } from '@/modules/i18n'
 import { MenuItemTypeEnum } from '@/enums'
-
-const { t } = i18n.global as any
 
 export const workbenchRoute: RouteRecordRaw = {
   path: '/',
   name: 'Layout',
-  component: import('@/layouts/index.vue'),
+  component: () => import('@/layouts/index.vue'),
   children: [
     {
       path: '/home/:id',
       name: MenuItemTypeEnum.FJT,
       component: () => import('@/views/home/index.vue'),
-      meta: {
-        title: t('sys.routes.fjt'),
-      },
     },
     /* ----------------------------------- 工单 ----------------------------------- */
     {

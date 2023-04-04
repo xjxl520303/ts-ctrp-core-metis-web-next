@@ -5,7 +5,7 @@ import { INITIAL_LOGIN_CONTEXT } from './context'
 import type { LoginEvents } from './events'
 import type { LoginByPhoneResponse, SendPhoneCodeResponse, UpdateUserAttrResponse } from '@/types/responses'
 import callApi from '@/utils/request'
-import { URL_PREFIX } from '@/constants'
+import { URL_PREFIX, USER_STORAGE_KEY } from '@/constants'
 import { RequestEnum, ResponseCodeEnum } from '@/enums'
 import type { Result } from '@/types'
 
@@ -83,6 +83,9 @@ export const createLoginMachine = () => {
                 actions: [
                   (context, event) => {
                     context.userRef?.send({ type: 'SET_USER', val: event.data })
+                    if (!localStorage.getItem(USER_STORAGE_KEY))
+                      // 持久化用户数据
+                      useStorage(USER_STORAGE_KEY, context.userRef?.getSnapshot(), localStorage)
                   },
                   assign({ user: ({ userRef }) => userRef?.getSnapshot().context.user }),
                 ],
