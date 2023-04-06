@@ -1,6 +1,6 @@
 {
   "name": "ts-ctrp-core-metis-web-next",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "private": true,
   "scripts": {
     "dev": "vite --open --host",

@@ -1,5 +1,11 @@
 # ts-ctrp-core-metis-web-next
 
+## 0.0.5
+
+### Patch Changes
+
+- 完成用户信息和菜单主逻辑
+
 ## 0.0.4
 
 ### Patch Changes
