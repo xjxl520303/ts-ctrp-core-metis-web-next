@@ -5,13 +5,15 @@ import en from '@/locale/en'
 import cn from '@/locale/zh-CN'
 import { LocaleEnum } from '@/enums'
 
+const { locale } = useUser()
+
 /** 国际化配置选项 */
 export const LOCALE_OPTIONS = [
   { label: '中文', value: LocaleEnum.ZH_CN },
   { label: 'English', value: LocaleEnum.EN },
 ]
-// const defaultLocale = storage.get(StorageEnum.LOCALE) || LocaleEnum.ZH_CN
-const defaultLocale = LocaleEnum.ZH_CN
+
+const defaultLocale = locale.value || LocaleEnum.ZH_CN
 
 export const i18n = createI18n({
   legacy: false,

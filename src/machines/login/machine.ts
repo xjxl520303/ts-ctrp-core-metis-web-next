@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/consistent-type-definitions */
-import { createUserMachine } from '../user'
 import type { LoginContext } from './context'
 import { INITIAL_LOGIN_CONTEXT } from './context'
 import type { LoginEvents } from './events'
 import type { LoginByPhoneResponse, SendPhoneCodeResponse, UpdateUserAttrResponse } from '@/types/responses'
 import callApi from '@/utils/request'
-import { URL_PREFIX, USER_STORAGE_KEY } from '@/constants'
+import { URL_PREFIX } from '@/constants'
 import { RequestEnum, ResponseCodeEnum } from '@/enums'
 import type { Result } from '@/types'
 
@@ -19,7 +18,7 @@ export type LoginMachine = ReturnType<typeof createLoginMachine>
 
 export const createLoginMachine = () => {
   return createMachine({
-    /** @xstate-layout N4IgpgJg5mDOIC5QBsD2UCWA7AdAVwwGIBlACQHkB1AfQBUAlASQEEAZOxgBWIG0AGALqJQAB1SwMAFwyoswkAA9EAJgCcARhwA2LQBZ1B5etW6tAdi0AaEAE9E+vjgDMZ1U5e6Lxp8q0BfP2s0TFwCEgoaZk5OagARKgA5VnJmWP4hJBAxCWlZeSUEX1Vnc3UADi0nPj4nMs9rOwQndS0cXV81ZWUAVjNlCoCg9Gx8IjIqagBhcgBVBNp4ygT0+WypGTlMgv7NZTMnXTLu0zKe9WVdBpUutv31F1Vesuf7wZBgkbDxmnoAUQBxRjEWi-egrTJrXKbUDbVStdSuMwtfple58SpXBDnMo4brGVRlJxabp1VR8fpvD64ACGIjGvwSsWonAoCV+U3IsV+4NE4nWeS2iGROFcfD6vXa3QuukutiFRl0JVJZl6VTFlOGNLphGSgIS1AAQgBNZms7mCVZ8qH5IVaZQisnisyS6WyxrqElOHBdVxEsVaI7KJwakI4WlEGacWLMEHUGbEUHUGMMHlZK0bG1Yu0OsU9Z09V2YsqubTtcllMV8ExOVQhkbhnCwMBYCCcAAWsjAk1QEDAhAgnZw2AAbqgANZgHBUsN0xvN1sdrBdntgBAj1AAY2pUPSqchGcFCF05JwGlVjxaCN03UxBmMOAMFSr5w0pjrWowc5b7c73d7hDAAAnQDUEAnARGQbcADNQIAWynTUZ0-Jtv0XZdezXLBRy3HdBD3dMBRhewTzPfYLy0K8bzlLEEWKPRjDqAw+G6R5-ECd5EIbKkDRsH8l37Qd1wnBDQy4zUeL41d1xwjZdwtCECOhRREFqMxtDhOESWUdEpWUW92mKKtuirExqhMcp3yQkTsAktCAOA0DwMgyQYMA+DpzEkJbM7TDsO3WS8Pk3kcgPIimmLdStE004dK6W9jhxYz7nubp3EeclLIbPARAgbcwBmJtAOYSRJEAgSlyHLDx0nDzZ2y3LJHywritK3zN382Q5IyYL+SUgpj26NpmicVKzDKVQJueMwi2qNoPU8dw+Hm7pMrqnK8oKoCWrKoCQLAiDoLg6yP3wdbGs2oqSsAtqZM6wLurTELCOUo9mKGlKXHGybiyLa9T2W45iTMdFgzeLAV3gTIqUtJ6+sQHQcydF0ZTdRAAFpBoJapyg9AMa20spLIIGHeszR85ocD09jqaorGo4zincC4NDMFUWIMMxVowEnrUPAxFVFJGCxRzFelafRujxT0nj4Qn2Nq5D50kv8wB50KXpGxVSJrPEKOdKjGkeHEKiOCtmOG84ua-BdfxXRs8A3Dc4EhnrebCijFSqSp9maANnTKW8qy9IkjlcOFznuOWhlE2cUJtpcVZwKDqQwZBIDV56Cg95wQZ9lpi0OW9tM0EOKPObotDFAZ5c42duN4tCM7hpoa0i6LtOJOLqJfRUWN0Ca+H0I4al0K368k+3HedpvMxJEvUqMFopWqFj9L0HBB9OXxxpxzma5jz9x7QpOU7TiAZ8POfnAXgxO5X1R4uB71qYqe4NGLKOOIP06GqararovmFEaaldDDVGl9AkP1qI6C9GeQ4hwJqvmUFbeqG1mpXUnk7WALtHqk0PJXNS9wZQmADAiCs01qKuBxBLeB5CJrmBQWdP+l1Son1TunBSsNMwEIfAcfuJwyFiiLAjPQ2kfDmBGhcNiAQgA */
+    /** @xstate-layout N4IgpgJg5mDOIC5QBsD2UCWA7AdAVwwGIBlACQHkB1AfQBUAlASQEEAZOxgBWIG0AGALqJQAB1SwMAFwyoswkAA9EAdgDMAVhzqAbACYALAA51fAJyrt607oA0IAJ6JVpwzgCM63ce-q1ugL7+dmiYuAQkFDTMnJzUACJUAHKs5Mxx-EJIIGIS0rLySgie2jhq+hqW6m5efIZ2jgiqunw4+rp6hk3ayp2q+sqBwejY+ERkVNQAwuQAqom0CZSJGfI5UjJyWYXqqq7a+nzaZtqmym5u+-WIugatah76lS6m6oMgISPh4zT0AKIA4oxiLRfvQVlk1nlNqBtjstI9jG5jKZ9C5bA5ENVXJ4+HxztptKplMcAkF3sNcABDERjX6JOLUTgURK-KbkOK-cGicTrfJbFTohpuWqqHCdXTqfTqQxuYm6C5vD5UmmEFKAxLUABCAE1GczOYJVjyoQUBVcEG42iVdLtibjfEidoqKThqUQZpw4swQdQZsRQdRvQwudljRtTQhlIKVEZ3HwrKY+Ko3Ko8R5naFXTScLAwFgIJwABayMCTVAQMCECAlnDYABuqAA1mAcEqsxgc3mC8WsKXy2AEPXUABjSlQjIhyHh-mNS3uCV4l5GfRS6MIZ5aQwSqrOVOGU4ZkZuzv5oslssVwhgABO19Q15wImQY4AZveALatl3H3Onnt9itBywBtR3HQRJzDPkYScOdqhMNwl0MFdPHNYUTDjKxDGJZM+gPMk22PJVNXsM9eyrGsh2bL9M0IiliNIgch1AjYJ0NCFIOhRRrhcHBEz0bRZU8UxTjqDELV0YStCsJM+HKYksLcQ9lQ7IiSP-K9b3vR9n0kN9r0-Ajs1UhigJAscWPAtjuVyadoIQCTXD49pBIkkTUOcXQtGqS1qjOKpdAGfDv2zPARAgMcwBmXNr2YSRJGvcje1rYCmxbQyO1C8LJEi6LYvi0yR3M2RWMyazeU4wpkxKfZDmUSVOmUKVVHNAkSiw8wXCqYSmkCoYaJCsKIqim88oSm87wfJ9Xw-aijwGrKcpGuLrwK5jiss0rQxsqCuNnaqDm6eqiSa80zn0HAiRRPgAoJR5lG0QIySwft4CyJUjW2irEAAWgMc1vs0U5hOBkHgaU0YPvKiNzlMVpLXjbpTmlG1mrEto3Au5QUXOdruka1RwbdSGTRnP60fKMUsYOKo2jq-dCezX9u3Pftids3b2hKODF3q5C1y3WHVCaB1qnaCxTAZjsmYYi8W1gPBh2HOBXrKkm7M8TQqh0PF+hXRdzVMQkxWFgT5R0awHqC-qpa7GX+xwF9KQwZBIDZnbtglLztctRqDgQ1C+DOY2JSlGU5QVK25pUui1JLN2vvs9CnIEurXJ6VCLk0eNExEyxlDqxTI+U2asHo-8cwVpXYBVraoZnVFPJ0EPUVMC5sfUdz5RwLx1Glawbjq6xJZLsua0d53XfYz6IwbrQ9ElFu2-0DxUOX86bSw3F4zOJDDGHzKhty5b44jdo9gOuqjGOnZzR2DHLuX5wkSOCx98G7Lhpi5aK8V5WT5nHEF1yhbg8PGfcloWqWEpldP2mcURvwWp-UaDsnYuwgP-dWzQgG7DNmA1u+hToWAwsJJMKY0yWz6iMLsGDdq+FQnVEojwNbymzrsS2gQgA */
     schema: {
       context: {} as LoginContext,
       events: {} as LoginEvents,
@@ -30,9 +29,9 @@ export const createLoginMachine = () => {
     id: 'login',
     context: INITIAL_LOGIN_CONTEXT,
     type: 'parallel',
-    entry: assign({
-      userRef: () => spawn(createUserMachine(), { sync: true }),
-    }),
+    // entry: assign({
+    //   userRef: () => spawn(createUserMachine(), { sync: true }),
+    // }),
     states: {
       ui: {
         on: {
@@ -80,15 +79,19 @@ export const createLoginMachine = () => {
               src: 'loginByPhone',
               onDone: {
                 target: '.success',
-                actions: [
-                  (context, event) => {
-                    context.userRef?.send({ type: 'SET_USER', val: event.data })
-                    if (!localStorage.getItem(USER_STORAGE_KEY))
-                      // 持久化用户数据
-                      useStorage(USER_STORAGE_KEY, context.userRef?.getSnapshot(), localStorage)
-                  },
-                  assign({ user: ({ userRef }) => userRef?.getSnapshot().context.user }),
-                ],
+                actions: assign({
+                  user: (_, { data }) => data,
+                }),
+                // actions: [
+                //   (context, event) => {
+                //     context.userRef?.send({ type: 'SET_USER', user: event.data })
+                //     console.log(context.userRef?.getSnapshot(), 'kkk')
+                //     if (!localStorage.getItem(USER_STORAGE_KEY))
+                //       // 持久化用户数据
+                //       useStorage(USER_STORAGE_KEY, context.userRef?.getSnapshot(), localStorage)
+                //   },
+                //   assign({ user: ({ userRef }) => userRef?.getSnapshot().context.user }),
+                // ],
               },
               onError: { target: '.failed', actions: 'handleError' },
             },

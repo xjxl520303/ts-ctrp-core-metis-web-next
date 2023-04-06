@@ -11,6 +11,7 @@ import { useMenu } from '@/hooks/useMenu'
 import { openWindow } from '@/utils'
 import { BusinessStatusEnum, ContractSignStatusEnum, PayTypeEnum } from '@/types/model/userModel'
 import type { PreOpenDto } from '@/types/model/userModel'
+import { ThemeEnum } from '@/enums'
 
 const router = useRouter()
 const {
@@ -23,7 +24,9 @@ const {
   sendPhoneCode,
   loginByPhone,
 } = useLogin()
-const { menus, activeMenu, getMenus, selectMenu } = useMenu()
+const { activeMenu, getMenus, selectMenu } = useMenu()
+const { theme, locale, setUser } = useUser()
+const { changeLocale } = useLocale()
 
 const formRef = ref<FormInstance>()
 /** 登录方式 */
@@ -70,7 +73,7 @@ async function sendCode() {
   if (showCountdown.value)
     return
   countdown.value = Date.now() + 1000 * 60
-  const { error, isError } = await sendPhoneCode(form.phoneCode)
+  const { error, isError } = await sendPhoneCode(form.value.phoneCode)
   if (isError)
     ElMessage.error(error?.message)
 }
@@ -103,7 +106,7 @@ async function submitForm() {
         ElMessage.error(error?.message)
       }
       else {
-        const { businessStatus, contractSignStatus, payType, preOpenDto, userYearPayDto } = user.value || {}
+        const { businessStatus, contractSignStatus, payType, preOpenDto, userYearPayDto } = user?.value || {}
 
         if (businessStatus === BusinessStatusEnum.PRISTINE) {
           ElMessage.error('该用户未注册')
@@ -114,6 +117,10 @@ async function submitForm() {
           || (contractSignStatus === ContractSignStatusEnum.SIGNED && payType === PayTypeEnum.YEAR && userYearPayDto?.pay)
           ) {
             await getMenus()
+            user?.value && setUser(user?.value)
+            if (theme.value === ThemeEnum.DARK)
+              toggleDark()
+            changeLocale(locale.value)
             selectMenu(activeMenu.value!)
           }
           else if (contractSignStatus === ContractSignStatusEnum.SIGNED && payType === PayTypeEnum.YEAR && !userYearPayDto?.pay) {
