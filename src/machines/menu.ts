@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/indent */
 import { clone } from 'lodash-es'
 import { URL_PREFIX } from '@/constants'
-import { MenuItemTypeEnum, RequestEnum, ResponseCodeEnum } from '@/enums'
+import { RequestEnum, ResponseCodeEnum } from '@/enums'
 import type { ErrorPayload, MenuGroupItem, MenuItem, Result } from '@/types'
 import type { GetMenuResponse } from '@/types/responses'
 import callApi from '@/utils/request'
@@ -19,8 +19,6 @@ export type MenuContext = {
   activeGroupMenu: MenuGroupItem | undefined
   /** 当前激活菜单 */
   activeMenu: MenuItem | undefined
-  /** 缓存菜单分组 */
-  cacheGroupMenu: MenuGroupItem[]
   /** 缓存菜单 */
   cacheMenu: MenuItem[]
   /** 菜单ID与菜单分组引用关系 */
@@ -35,9 +33,7 @@ export type MenuEvents =
   | { type: 'SET.activeGroup'; group: MenuGroupItem | null }
   | { type: 'SET.active'; menu: MenuItem }
   | { type: 'SET.cache'; menus: MenuItem[] }
-  | { type: 'ADD_CACHE.group'; group?: MenuGroupItem }
   | { type: 'ADD_CACHE.menu'; menu: MenuItem; index?: number }
-  | { type: 'REMOVE_CACHE.group'; group?: MenuGroupItem }
 
 export type MenuServices = {
   // request: { data: GetMenuResponse }
@@ -64,7 +60,6 @@ export const createMenuMachine = () => {
         fjtMenuIds: [],
         activeGroupMenu: undefined,
         activeMenu: undefined,
-        cacheGroupMenu: [],
         cacheMenu: [],
         __refs: undefined,
         isTabVisible: undefined,
@@ -88,7 +83,6 @@ export const createMenuMachine = () => {
                 'initFjdIds',
                 'initActiveGroupMenu',
                 'initActiveMenu',
-                'initCacheGroupMenu',
                 'initCacheMenu',
               ],
             },
@@ -108,10 +102,6 @@ export const createMenuMachine = () => {
                   target: 'setActive',
                   actions: 'setActiveMenu',
                 },
-                'ADD_CACHE.group': {
-                  target: 'addCacheGroup',
-                  actions: 'addCacheGroupMenu',
-                },
                 'ADD_CACHE.menu': {
                   target: 'addCacheMenu',
                   actions: 'addCacheMenu',
@@ -119,10 +109,6 @@ export const createMenuMachine = () => {
                 'SET.cache': {
                   target: 'setCache',
                   actions: 'setCache',
-                },
-                'REMOVE_CACHE.group': {
-                  target: 'removeCacheGroupMenu',
-                  actions: 'removeCacheGroupMenu',
                 },
                 'SET.tabVisible': {
                   target: 'setTabVisible',
@@ -201,29 +187,10 @@ export const createMenuMachine = () => {
         }),
 
         /**
-         * 初始化菜单组缓存
-         **/
-        initCacheGroupMenu: assign({
-          cacheGroupMenu: (_, event) => {
-            const notFjt = event.data.every(item => item.menuList.every(subItem => subItem.type !== MenuItemTypeEnum.FJT))
-            if (notFjt)
-              return [event.data[0]]
-
-            return []
-          },
-        }),
-
-        /**
          * 初始化菜单缓存
          **/
         initCacheMenu: assign({
-          cacheMenu: (_, event) => {
-            const notFjt = event.data[0].menuList.every(item => item.type === MenuItemTypeEnum.FJT)
-            if (!notFjt)
-              return [event.data[0].menuList[0]]
-
-            return []
-          },
+          cacheMenu: (_, event) => [event.data[0].menuList[0]],
         }),
 
         /**
@@ -248,30 +215,11 @@ export const createMenuMachine = () => {
         }),
 
         /**
-         * 添加菜单组到缓存
-         **/
-        addCacheGroupMenu: assign({
-          cacheGroupMenu: (context, event) => {
-            const cache = clone(context.cacheGroupMenu)
-            if (event.group) {
-              const notFjt = event.group?.menuList.every(item => item.type === MenuItemTypeEnum.FJT)
-              if (!notFjt && !cache.find(item => item.code === event.group?.code))
-                cache.push(event.group!)
-            }
-
-            return cache
-          },
-        }),
-
-        /**
          * 添加菜单到缓存
          **/
         addCacheMenu: assign({
           cacheMenu: (context, event) => {
             const cache = clone(context.cacheMenu) as MenuItem[]
-            if (event.menu.type === MenuItemTypeEnum.FJT)
-              return cache
-
             const index = event.index
               ? (event.index > cache.length || event.index < 0)
                 ? cache.length
@@ -289,25 +237,6 @@ export const createMenuMachine = () => {
             }
 
             return cache
-          },
-        }),
-
-        /**
-         * 移除缓存菜单组
-         **/
-        removeCacheGroupMenu: assign({
-          cacheGroupMenu: (context, event) => {
-            const cache = clone(context.cacheGroupMenu)
-            if (!event.group) {
-              return []
-            }
-            else {
-              const index = cache.findIndex(item => item.code === event.group?.code)
-              if (index > -1)
-                cache.splice(index, 1)
-
-              return cache
-            }
           },
         }),
       },

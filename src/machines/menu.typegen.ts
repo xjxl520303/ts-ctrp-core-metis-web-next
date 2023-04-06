@@ -18,16 +18,13 @@
           services: never;
         };
         eventsCausingActions: {
-          "addCacheGroupMenu": "ADD_CACHE.group";
-"addCacheMenu": "ADD_CACHE.menu";
+          "addCacheMenu": "ADD_CACHE.menu";
 "handleResError": "error.platform.menu.fetchMenus:invocation[0]";
 "initActiveGroupMenu": "done.invoke.menu.fetchMenus:invocation[0]";
 "initActiveMenu": "done.invoke.menu.fetchMenus:invocation[0]";
-"initCacheGroupMenu": "done.invoke.menu.fetchMenus:invocation[0]";
 "initCacheMenu": "done.invoke.menu.fetchMenus:invocation[0]";
 "initFjdIds": "done.invoke.menu.fetchMenus:invocation[0]";
 "initMenus": "done.invoke.menu.fetchMenus:invocation[0]";
-"removeCacheGroupMenu": "REMOVE_CACHE.group";
 "setActiveGroupMenu": "SET.activeGroup";
 "setActiveMenu": "SET.active";
 "setCache": "SET.cache";
