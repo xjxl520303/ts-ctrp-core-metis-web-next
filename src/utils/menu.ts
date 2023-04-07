@@ -19,8 +19,8 @@ export const createMessageMenu = (): MenuItem => ({
 /**
  * 创建【创建工单】菜单
  */
-export const createCreateWoMenu = (id: number): MenuItem => ({
-  id,
+export const createCreateWoMenu = (): MenuItem => ({
+  id: 135790 << 2,
   orderType: 'SALE_ORDER',
   sort: '-1',
   url: '/wo/create',

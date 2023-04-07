@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import LayoutHeader from './header/index.vue'
-// import LayoutTabs from './tabs/index.vue'
+import LayoutTabs from './tabs/index.vue'
 // import Home from '@/views/home/index.vue'
 
 defineOptions({
@@ -24,7 +24,7 @@ const isHomeRoute = computed(() => {
       <LayoutHeader />
     </header>
     <nav class="shadow-[0_4px_10px_#d6d6d6_inset] dark:shadow-[0_4px_10px_#000_inset]" h-8 py-1px bg-hex-E9E9EA dark:bg-hex-25272C>
-      <!-- <LayoutTabs /> -->
+      <LayoutTabs />
     </nav>
     <main flex-1 dark:bg-black>
       fdsfsfsdf

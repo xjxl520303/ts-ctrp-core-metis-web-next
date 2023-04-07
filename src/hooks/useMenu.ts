@@ -20,9 +20,6 @@ export interface UseMenuReturnType extends ToRefs<MenuContext> {
   addMenu: (menu: MenuItem, index?: number, isBlank?: boolean) => void
 }
 
-/**
- * 使用 `useMenu` 来获取后端返回的菜单配置
- */
 export const useMenu = (): UseMenuReturnType => {
   const machine = createMenuMachine()
   const persistedState = useStorage(MENU_STORAGE_KEY, machine.initialState, localStorage)
@@ -33,7 +30,6 @@ export const useMenu = (): UseMenuReturnType => {
   const fjtMenuIds = useSelector(service, state => state.context.fjtMenuIds)
   const activeGroupMenu = useSelector(service, state => state.context.activeGroupMenu)
   const activeMenu = useSelector(service, state => state.context.activeMenu)
-  const cacheGroupMenu = useSelector(service, state => state.context.cacheGroupMenu)
   const cacheMenu = useSelector(service, state => state.context.cacheMenu)
   const __refs = useSelector(service, state => state.context.__refs)
   const getMenus = () => getMenuPromise(service)
@@ -47,7 +43,6 @@ export const useMenu = (): UseMenuReturnType => {
     if (code) {
       const group = menus.value.find((item: MenuGroupItem) => item.code === code)
       service.send('SET.activeGroup', { group })
-      service.send('ADD_CACHE.group', { group })
     }
     else {
       service.send('SET.activeGroup')
@@ -71,7 +66,6 @@ export const useMenu = (): UseMenuReturnType => {
       if (code) {
         const group = menus.value.find((item: MenuGroupItem) => item.code === code)
         service.send('SET.activeGroup', { group })
-        service.send('ADD_CACHE.group', { group })
       }
       else {
         service.send('SET.activeGroup')
@@ -106,37 +100,24 @@ export const useMenu = (): UseMenuReturnType => {
   function _removeCacheMenu(menu: MenuItem, action: MenuAction = 'current') {
     const cache = clone(unref(cacheMenu.value))
     const index = cache.findIndex((item: MenuItem) => item.id === menu.id)
-    const getGroup = (id: number) => cacheGroupMenu.value.find((item: MenuGroupItem) => item.code === __refs.value![String(id)])
-    const shouldRemoveGroup = (id: number) => !cache
-      .filter((item: MenuItem) => item.id !== id)
-      .some((item: MenuItem) => __refs.value![String(item.id)] === __refs.value![String(id)])
 
     if (action === 'current') {
-      if (cache.length === 1) {
+      if (cache.length === 1)
         service.send('SET.tabVisible', { bool: false })
-      }
-      else {
+
+      else
         cache.splice(index, 1)
-        if (shouldRemoveGroup(menu.id))
-          service.send('REMOVE_CACHE.group', getGroup(menu.id))
-      }
     }
     else if (action === 'pre') {
       for (let i = 0; i < cache.length; i++) {
-        if (i < index) {
+        if (i < index)
           cache.splice(i, 1)
-          if (shouldRemoveGroup(cache[i].id))
-            service.send('REMOVE_CACHE.group', getGroup(cache[i].id))
-        }
       }
     }
     else if (action === 'post') {
       for (let i = 0; i < cache.length; i++) {
-        if (i > index) {
+        if (i > index)
           cache.splice(i, 1)
-          if (shouldRemoveGroup(cache[i].id))
-            service.send('REMOVE_CACHE.group', getGroup(cache[i].id))
-        }
       }
     }
     else if (action === 'all') {
@@ -164,7 +145,6 @@ export const useMenu = (): UseMenuReturnType => {
     fjtMenuIds,
     activeGroupMenu,
     activeMenu,
-    cacheGroupMenu,
     cacheMenu,
     __refs,
     getMenus,
