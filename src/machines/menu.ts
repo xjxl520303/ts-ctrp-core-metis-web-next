@@ -7,7 +7,8 @@ import type { ErrorPayload, MenuGroupItem, MenuItem, Result } from '@/types'
 import type { GetMenuResponse } from '@/types/responses'
 import callApi from '@/utils/request'
 
-export type MenuAction = 'pre' | 'post' | 'current' | 'all'
+/** 标签页操作：关闭左则 | 右则 | 其它 | 全部 */
+export type MenuAction = 'left' | 'right' | 'other' | 'all'
 export type MenuContext = {
   /** 接口错误信息 */
   error: ErrorPayload | null
@@ -29,7 +30,7 @@ export type MenuContext = {
 
 export type MenuEvents =
   | { type: 'REQUEST'; data: MenuGroupItem[] }
-  | { type: 'SET.tabVisible'; bool: boolean }
+  | { type: 'SET.tabVisible'; visible: boolean }
   | { type: 'SET.activeGroup'; group: MenuGroupItem | null }
   | { type: 'SET.active'; menu: MenuItem }
   | { type: 'SET.cache'; menus: MenuItem[] }
@@ -137,13 +138,14 @@ export const createMenuMachine = () => {
         /**
          * 是否显示标签页
          **/
-        setTabVisible: assign({ isTabVisible: (_, event) => event.bool }),
+        setTabVisible: assign({ isTabVisible: (_, event) => event.visible }),
 
         /**
          * 初始化菜单
          **/
         initMenus: assign({
           menus: (_, event) => event.data,
+          isTabVisible: () => true,
           __refs: (_, event: any) => {
             const result: Record<string, string> = {}
             event.data.forEach((item: MenuGroupItem) => {

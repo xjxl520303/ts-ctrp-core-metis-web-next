@@ -15,6 +15,8 @@ declare module '@vue/runtime-core' {
     ElConfigProvider: typeof import('element-plus/es')['ElConfigProvider']
     ElContainer: typeof import('element-plus/es')['ElContainer']
     ElCountdown: typeof import('element-plus/es')['ElCountdown']
+    ElDivider: typeof import('element-plus/es')['ElDivider']
+    ElDivier: typeof import('element-plus/es')['ElDivier']
     ElFooter: typeof import('element-plus/es')['ElFooter']
     ElForm: typeof import('element-plus/es')['ElForm']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']

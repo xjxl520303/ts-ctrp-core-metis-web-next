@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { LocaleEnum, ThemeEnum } from '@/enums'
 import type { MenuGroupItem, MenuItem } from '@/types'
+import { bus } from '@/utils/bus'
 
 defineOptions({
   name: 'LayoutHeader',
@@ -10,7 +11,7 @@ defineOptions({
 const { t } = useI18n()
 const { currentLocale, changeLocale } = useLocale()
 const { user, setLocale, setTheme } = useUser()
-const { activeMenu, activeGroupMenu, menus, selectMenu } = useMenu()
+const { activeMenu, activeGroupMenu, cacheMenu, menus, selectMenu, addMenu } = useMenu()
 
 const showMenu = ref(false)
 
@@ -26,14 +27,25 @@ const bottomMenuGroup = computed(() => {
   return menus.value.find(item => item.code === 'bottom')?.menuList
 })
 
+bus.on('UPDATE_MENU', (context) => {
+  activeMenu.value = context.activeMenu
+  activeGroupMenu.value = context.activeGroupMenu
+  cacheMenu.value = context.cacheMenu
+})
+
 /**
  * 进入指定菜单路由
  */
 function toMenu(menu: MenuItem) {
   if (menu.id === activeMenu.value?.id)
     return
+
   showMenu.value = false
-  selectMenu(menu)
+
+  if (cacheMenu.value.find(item => item.id === menu.id))
+    selectMenu(menu)
+  else
+    addMenu(menu)
 }
 
 /**

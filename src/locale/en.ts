@@ -4,6 +4,12 @@ export default {
   'sys.layout.header.more': 'View more',
   'sys.layout.header.light': 'Light theme',
   'sys.layout.header.dark': 'Dark theme',
+  'sys.layout.tabs.reload': 'Reload',
+  'sys.layout.tabs.close': 'Close tab',
+  'sys.layout.tabs.closeToLeft': 'Close to left',
+  'sys.layout.tabs.closeToRight': 'Close to right',
+  'sys.layout.tabs.closeOther': 'Close others',
+  'sys.layout.tabs.closeAll': 'Close all',
   // 页面标题
   'sys.routes.root': 'ZhengXing Supply Chain Control Tower',
   'sys.routes.login': 'SCCT | Login',

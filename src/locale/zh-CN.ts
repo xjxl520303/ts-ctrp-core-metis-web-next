@@ -4,6 +4,12 @@ export default {
   'sys.layout.header.more': '查看更多',
   'sys.layout.header.light': '浅色主题',
   'sys.layout.header.dark': '深色主题',
+  'sys.layout.tabs.reload': '重新加载',
+  'sys.layout.tabs.close': '关闭标签页',
+  'sys.layout.tabs.closeToLeft': '关闭左侧标签页',
+  'sys.layout.tabs.closeToRight': '关闭右侧标签页',
+  'sys.layout.tabs.closeOther': '关闭其它标签页',
+  'sys.layout.tabs.closeAll': '关闭全部标签页',
   // 页面标题
   'sys.routes.root': '正行供应链控制塔',
   'sys.routes.login': '正行供应链控制塔 | 登录',

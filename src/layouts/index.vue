@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import LayoutHeader from './header/index.vue'
 import LayoutTabs from './tabs/index.vue'
+import { bus } from '@/utils/bus'
 // import Home from '@/views/home/index.vue'
 
 defineOptions({
@@ -9,9 +10,14 @@ defineOptions({
 })
 
 const route = useRoute()
+const isTabVisible = ref<boolean | undefined>(true)
 
 const isHomeRoute = computed(() => {
   return route.fullPath.includes('home')
+})
+
+bus.on('UPDATE_MENU', (context) => {
+  isTabVisible.value = context.isTabVisible
 })
 </script>
 
@@ -23,7 +29,12 @@ const isHomeRoute = computed(() => {
     >
       <LayoutHeader />
     </header>
-    <nav class="shadow-[0_4px_10px_#d6d6d6_inset] dark:shadow-[0_4px_10px_#000_inset]" h-8 py-1px bg-hex-E9E9EA dark:bg-hex-25272C>
+    <!-- <template v-if="isTabVisible">
+      <nav class="shadow-[0_4px_10px_#d6d6d6_inset] dark:shadow-[0_4px_10px_#000_inset]" h-8 py-1px bg-hex-E9E9EA dark:bg-hex-25272C>
+        <LayoutTabs />
+      </nav>
+    </template> -->
+    <nav v-show="isTabVisible" class="shadow-[0_4px_10px_#d6d6d6_inset] dark:shadow-[0_4px_10px_#000_inset]" h-8 py-1px bg-hex-E9E9EA dark:bg-hex-25272C>
       <LayoutTabs />
     </nav>
     <main flex-1 dark:bg-black>

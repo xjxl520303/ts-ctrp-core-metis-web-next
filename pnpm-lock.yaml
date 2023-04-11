@@ -27,6 +27,7 @@ specifiers:
   husky: ^8.0.3
   jsdom: ^21.1.1
   lodash-es: ^4.17.21
+  mitt: ^3.0.0
   msw: ^1.1.0
   nprogress: ^0.2.0
   portal-vue: ^3.0.0
@@ -64,6 +65,7 @@ dependencies:
   dayjs: 1.11.7
   element-plus: 2.3.0_vue@3.2.47
   lodash-es: 4.17.21
+  mitt: 3.0.0
   nprogress: 0.2.0
   portal-vue: 3.0.0_vue@3.2.47
   vue: 3.2.47
@@ -6364,6 +6366,10 @@ packages:
   /minimist/1.2.8:
     resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==}
     dev: true
+
+  /mitt/3.0.0:
+    resolution: {integrity: sha512-7dX2/10ITVyqh4aOSVI9gdape+t9l2/8QxHrFmUXu4EEUpdlxl6RudZUPZoc+zuY2hk1j7XxVroIVIan/pD/SQ==}
+    dev: false
 
   /mixme/0.5.5:
     resolution: {integrity: sha512-/6IupbRx32s7jjEwHcycXikJwFD5UujbVNuJFkeKLYje+92OvtuPniF6JhnFm5JCTDUhS+kYK3W/4BWYQYXz7w==}
