@@ -27,7 +27,7 @@ const bottomMenuGroup = computed(() => {
   return menus.value.find(item => item.code === 'bottom')?.menuList
 })
 
-bus.on('UPDATE_MENU', (context) => {
+bus.on('UPDATE_MENU', ({ context }) => {
   activeMenu.value = context.activeMenu
   activeGroupMenu.value = context.activeGroupMenu
   cacheMenu.value = context.cacheMenu

@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 import LayoutHeader from './header/index.vue'
 import LayoutTabs from './tabs/index.vue'
+import { MenuItemTypeEnum } from '@/enums'
+import type { MenuItem } from '@/types'
 import { bus } from '@/utils/bus'
-// import Home from '@/views/home/index.vue'
+import Home from '@/views/home/index.vue'
 
 defineOptions({
   name: 'Layout',
@@ -10,15 +12,26 @@ defineOptions({
 })
 
 const route = useRoute()
+const { cacheMenu } = useMenu()
+
 const isTabVisible = ref<boolean | undefined>(true)
+const cacheMenuKey = ref(_getCacheMenuKey(cacheMenu.value))
 
 const isHomeRoute = computed(() => {
   return route.fullPath.includes('home')
 })
 
-bus.on('UPDATE_MENU', (context) => {
-  isTabVisible.value = context.isTabVisible
+bus.on('UPDATE_MENU', ({ action, context }) => {
+  if (action === 'SET.tabVisible')
+    isTabVisible.value = context.isTabVisible
+  if (action === 'SET.cache')
+    cacheMenuKey.value = _getCacheMenuKey(context.cacheMenu)
 })
+
+/** 获取缓存Key */
+function _getCacheMenuKey(caches: MenuItem[]) {
+  return caches.filter(menu => menu.type !== MenuItemTypeEnum.FJT).map(menu => `${menu.url}/${menu.id}`)
+}
 </script>
 
 <template>
@@ -29,32 +42,19 @@ bus.on('UPDATE_MENU', (context) => {
     >
       <LayoutHeader />
     </header>
-    <!-- <template v-if="isTabVisible">
-      <nav class="shadow-[0_4px_10px_#d6d6d6_inset] dark:shadow-[0_4px_10px_#000_inset]" h-8 py-1px bg-hex-E9E9EA dark:bg-hex-25272C>
-        <LayoutTabs />
-      </nav>
-    </template> -->
     <nav v-show="isTabVisible" class="shadow-[0_4px_10px_#d6d6d6_inset] dark:shadow-[0_4px_10px_#000_inset]" h-8 py-1px bg-hex-E9E9EA dark:bg-hex-25272C>
       <LayoutTabs />
     </nav>
     <main flex-1 dark:bg-black>
-      fdsfsfsdf
+      <template v-if="!isHomeRoute">
+        <router-view v-slot="{ Component }">
+          <keep-alive :include="cacheMenuKey">
+            <component :is="Component" :key="$route.fullPath" />
+          </keep-alive>
+        </router-view>
+      </template>
+
+      <Home v-show="isHomeRoute" />
     </main>
   </div>
-  <!-- <div h-full w-full flex flex-col overflow-hidden relative>
-    <div flex-grow-0>
-      <LayoutHeader />
-      <LayoutTabs />
-    </div>
-
-    <template v-if="!isHomeRoute">
-      <router-view v-slot="{ Component }">
-        <keep-alive :include="getCacheRouteNames">
-          <component :is="Component" :key="$route.fullPath" />
-        </keep-alive>
-      </router-view>
-    </template>
-
-    <Home v-show="isHomeRoute" />
-  </div> -->
 </template>

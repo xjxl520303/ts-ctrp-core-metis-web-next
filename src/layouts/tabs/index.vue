@@ -18,7 +18,7 @@ const showTabAction = ref(false)
 
 const activeMenuIndex = computed(() => cacheMenu.value.findIndex(item => item.id === activeMenu.value?.id))
 
-bus.on('UPDATE_MENU', (context) => {
+bus.on('UPDATE_MENU', ({ context }) => {
   activeMenu.value = context.activeMenu
   cacheMenu.value = context.cacheMenu
   currentTab.value = activeMenu.value?.id

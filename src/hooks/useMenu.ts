@@ -18,6 +18,8 @@ export interface UseMenuReturnType extends ToRefs<MenuContext> {
   removeMenu: (menu: MenuItem, action?: MenuAction) => void
   /** 添加菜单 */
   addMenu: (menu: MenuItem, index?: number, isBlank?: boolean) => void
+  /** 设置显示标签页 */
+  setTabVisible: (visible: boolean) => void
 }
 
 export const useMenu = (): UseMenuReturnType => {
@@ -39,7 +41,8 @@ export const useMenu = (): UseMenuReturnType => {
    * 选择菜单
    */
   function selectMenu(menu: MenuItem) {
-    service.send('SET.cache', { menus: cacheMenu.value }) // !重置缓存
+    const { context } = persistedState.value
+    service.send('SET.cache', { menus: context.cacheMenu }) // !重置缓存
     service.send('SET.active', { menu })
     _setActiveGroupMenu(menu)
     toMenuRoute(menu)
@@ -49,7 +52,11 @@ export const useMenu = (): UseMenuReturnType => {
    * 添加菜单
    */
   function addMenu(menu: MenuItem, index?: number, isBlank = false) {
-    const cache = cloneDeep(cacheMenu.value)
+    const { context } = persistedState.value
+    const cache = cloneDeep(context.cacheMenu)
+    if (!context.isTabVisible)
+      setTabVisible(true)
+
     const exist = cache.find((item: MenuItem) => item.id === menu.id && item.url === menu.url)
     if (exist) {
       selectMenu(menu)
@@ -60,7 +67,7 @@ export const useMenu = (): UseMenuReturnType => {
       cache.splice(index || cache.length, 0, menu)
       service.send('SET.cache', { menus: cache })
       _setActiveGroupMenu(menu)
-      toMenuRoute(activeMenu.value!, isBlank)
+      toMenuRoute(context.activeMenu!, isBlank)
     }
   }
 
@@ -68,9 +75,10 @@ export const useMenu = (): UseMenuReturnType => {
    * 移除菜单
    */
   function removeMenu(menu: MenuItem, action?: MenuAction) {
-    const cache = cloneDeep(cacheMenu.value)
+    const { context } = persistedState.value
+    const cache = cloneDeep(context.cacheMenu)
     const removeIndex = cache.findIndex(item => item.id === menu.id)
-    const activeIndex = cache.findIndex(item => item.id === activeMenu.value?.id)
+    const activeIndex = cache.findIndex(item => item.id === context.activeMenu?.id)
 
     if (!action) {
       if (removeIndex === activeIndex) {
@@ -87,7 +95,7 @@ export const useMenu = (): UseMenuReturnType => {
       else {
         cache.splice(removeIndex, 1)
         service.send('SET.cache', { menus: cache })
-        selectMenu(activeMenu.value!)
+        selectMenu(context.activeMenu!)
       }
     }
     else if (action === 'left') {
@@ -99,15 +107,21 @@ export const useMenu = (): UseMenuReturnType => {
       selectMenu(menu)
     }
     else if (action === 'other') {
-      service.send('SET.cache', { menus: [activeMenu.value] })
+      service.send('SET.cache', { menus: [context.activeMenu] })
       selectMenu(menu)
     }
     else if (action === 'all') {
-      service.send([
-        { type: 'SET.tabVisible', visible: false },
-        { type: 'SET.cache', menus: [activeMenu.value!] },
-      ])
+      setTabVisible(false)
+      service.send('SET.cache', { menus: [context.activeMenu!] })
+      selectMenu(context.activeMenu!)
     }
+  }
+
+  /**
+   * 设置显示标签页
+   */
+  function setTabVisible(visible: boolean) {
+    service.send('SET.tabVisible', { visible })
   }
 
   function _setActiveGroupMenu(menu: MenuItem) {
@@ -123,8 +137,7 @@ export const useMenu = (): UseMenuReturnType => {
 
   service.onTransition((state) => {
     persistedState.value = state
-    bus.emit('UPDATE_MENU', state.context)
-    // console.log(state.event.type, state.event)
+    bus.emit('UPDATE_MENU', { action: state.event.type, context: state.context })
   })
 
   return {
@@ -140,5 +153,6 @@ export const useMenu = (): UseMenuReturnType => {
     selectMenu,
     removeMenu,
     addMenu,
+    setTabVisible,
   }
 }
