@@ -57,6 +57,14 @@ function tabCloseAction(type?: MenuAction) {
   showTabAction.value = false
   removeMenu(activeMenu.value!, type)
 }
+
+/**
+ * 上下文菜单显示时关闭其它
+ */
+function handleContextmenuShow(menu: MenuItem, index: number) {
+  showTabContextmenu.value = cacheMenu.value.map(() => false)
+  showTabContextmenu.value[index] = true
+}
 </script>
 
 <template>
@@ -66,6 +74,7 @@ function tabCloseAction(type?: MenuAction) {
       type="card"
       class="w-[calc(100%-80px)] flex-1"
       :closable="cacheMenu.length > 1"
+      :hide-after="0"
       style="--el-tabs-header-height:32px;"
       @tab-click="selectTab"
       @tab-remove="removeTab"
@@ -76,7 +85,14 @@ function tabCloseAction(type?: MenuAction) {
         :name="item.id"
       >
         <template #label>
-          <el-popover v-model:visible="showTabContextmenu[index]" placement="bottom" trigger="contextmenu" :offset="4" :show-arrow="false">
+          <el-popover
+            v-model:visible="showTabContextmenu[index]"
+            placement="bottom"
+            trigger="contextmenu"
+            :offset="4"
+            :show-arrow="false"
+            @show="() => handleContextmenuShow(item, index)"
+          >
             <template #reference>
               <div min-w-30>
                 {{ isZh ? item.nameCn : item.nameEn }}
