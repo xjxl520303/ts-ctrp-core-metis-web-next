@@ -1,4 +1,5 @@
-import type { ErrorPayload, Result } from './common'
+import type { ErrorPayload, OptionsItem, ResponseWithPagination, Result } from './common'
+import type { PageConfigDto } from './model/dynamicListModel'
 import type { MenuGroupItem } from './model/menuModel'
 import type { UserDto } from './model/userModel'
 
@@ -8,6 +9,17 @@ export interface NullableErrorResponse {
 
 /** 获取菜单 */
 export interface GetMenuResponse extends NullableErrorResponse, Result<MenuGroupItem[]> {}
+
+/** 获取列表项数据 */
+export interface GetDictResponse extends NullableErrorResponse, Result<OptionsItem[]> {}
+
+/* -------------------------- service: dynamic list ------------------------- */
+
+/** 获取动态列表配置数据 */
+export interface GetPageConfigResponse extends NullableErrorResponse, Result<PageConfigDto> {}
+
+/** 获取动态列表数据 */
+export interface GetDynamicListResponse extends NullableErrorResponse, Result<ResponseWithPagination<any>> {}
 
 /* ------------------------------- page: Login ------------------------------ */
 /** 发送手机号短信验证码 */

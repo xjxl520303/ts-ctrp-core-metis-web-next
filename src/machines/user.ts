@@ -2,6 +2,7 @@
 
 import { LocaleEnum, ThemeEnum } from '@/enums'
 import type { SystemLanguageAttr, SystemThemeAttr, UserDto, UserYearPayDto } from '@/types'
+import { setCompactLocale, setCompactTheme } from '@/utils/compact'
 
 export type UserContext = {
   /** 用户信息 */
@@ -114,9 +115,7 @@ export const createUserMachine = () => {
         setTheme: assign({
           theme: (event, { theme }: any) => {
             theme = theme || event.user?.attr.style || ThemeEnum.LIGHT
-            if (['black', 'white'].includes(theme))
-              return theme === 'black' ? ThemeEnum.DARK : ThemeEnum.LIGHT
-            return theme as ThemeEnum
+            return setCompactTheme(theme)
           },
         }),
 
@@ -126,9 +125,7 @@ export const createUserMachine = () => {
         setLocale: assign({
           locale: (event, { lang }: any) => {
             lang = lang || event.user?.attr.language || LocaleEnum.ZH_CN
-            if (['cn', 'en'].includes(lang))
-              return lang === 'en' ? LocaleEnum.EN : LocaleEnum.ZH_CN
-            return lang as LocaleEnum
+            return setCompactLocale(lang)
           },
         }),
 

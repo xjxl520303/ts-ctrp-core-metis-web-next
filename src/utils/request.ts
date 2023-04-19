@@ -4,12 +4,12 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { isFunction } from 'lodash-es'
 import { router } from '@/router'
 import { ResponseCodeEnum } from '@/enums'
-// import { isDev } from '@/utils/env'
+import { isDev } from '@/utils/env'
 import { i18n } from '@/modules/i18n'
 
 const { VITE_APP_BASE_URL } = import.meta.env
 const { t } = i18n.global as any
-// const { getToken } = useUserStore()
+const { token } = useUser()
 let showAlert = false
 
 axios.defaults.withCredentials = true
@@ -69,10 +69,9 @@ const errorHandler = (error: AxiosError) => {
 }
 
 service.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-  // const token = getToken || (isDev() ? import.meta.env.VITE_API_TOKEN : null)
-  const token = ''
-  if (token)
-    isFunction(config.headers?.set) && config.headers?.set('token', token)
+  const _token = token.value || (isDev() ? import.meta.env.VITE_API_TOKEN : null)
+  if (_token)
+    isFunction(config.headers?.set) && config.headers?.set('token', _token)
 
   // console.log(config, 'req')
   return config
