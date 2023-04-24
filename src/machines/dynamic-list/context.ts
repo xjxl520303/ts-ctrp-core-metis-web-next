@@ -4,19 +4,19 @@ export interface DynamicListContext {
   /** 接口错误信息 */
   error: ErrorPayload | null
   /** 按钮权限 */
-  btnPermissionOptions?: string[]
+  btnPermissionOptions: string[]
   /** 导出按钮 */
-  exportBtnOptions?: ExportBtnItem[]
+  exportBtnOptions: ExportBtnItem[]
   /** 菜单跳转按钮 */
-  menuBtnOptions?: MenuBtnItem[]
+  menuBtnOptions: MenuBtnItem[]
   /** 切片器数据 */
-  slicerOptions?: SlicerItem[]
+  slicerOptions: SlicerItem[]
   /** 丰景台数据 */
-  fjtOption?: FjtItem
+  fjtOption: FjtItem | null
   /** 里程碑数据 */
-  milestoneOptions?: MilestoneItem[]
+  milestoneOptions: MilestoneItem[]
   /** 订单列表数据 */
-  orderListOptions?: OrderListItem[]
+  orderListOptions: OrderListItem[]
 }
 
 export const INITIAL_DYNAMIC_LIST_CONTEXT: DynamicListContext = {
@@ -25,7 +25,7 @@ export const INITIAL_DYNAMIC_LIST_CONTEXT: DynamicListContext = {
   exportBtnOptions: [],
   menuBtnOptions: [],
   slicerOptions: [],
-  fjtOption: undefined,
+  fjtOption: null,
   milestoneOptions: [],
   orderListOptions: [],
 }

@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/consistent-type-definitions */
-
 import { LocaleEnum, ThemeEnum } from '@/enums'
 import type { SystemLanguageAttr, SystemThemeAttr, UserDto, UserYearPayDto } from '@/types'
 import { setCompactLocale, setCompactTheme } from '@/utils/compact'
@@ -59,16 +58,17 @@ export const createUserMachine = () => {
       },
       type: 'parallel',
       states: {
-        setUser: {
-          entry: [
-            'setTheme',
-            'setLocale',
-            'setToken',
-            'setIsInternal',
-            'setShowWoCaptcha',
-            'setYearPayDto',
-          ],
-        },
+        // setUser: {
+        //   entry: [
+        //     'setTheme',
+        //     'setLocale',
+        //     'setToken',
+        //     'setIsInternal',
+        //     'setShowWoCaptcha',
+        //     'setYearPayDto',
+        //   ],
+        // },
+        setUser: {},
         setTheme: {},
         setLocale: {},
         setToken: {},
@@ -78,7 +78,15 @@ export const createUserMachine = () => {
       },
       on: {
         SET_USER: {
-          actions: 'setUser',
+          actions: [
+            'setUser',
+            // 'setTheme',
+            // 'setLocale',
+            // 'setToken',
+            // 'setIsInternal',
+            // 'setShowWoCaptcha',
+            // 'setYearPayDto',
+          ],
           target: 'setUser',
         },
         SET_THEME: {
@@ -113,9 +121,8 @@ export const createUserMachine = () => {
          * 设置主题
          */
         setTheme: assign({
-          theme: (event, { theme }: any) => {
-            theme = theme || event.user?.attr.style || ThemeEnum.LIGHT
-            return setCompactTheme(theme)
+          theme: (_, { theme }) => {
+            return setCompactTheme(theme || ThemeEnum.LIGHT)
           },
         }),
 
@@ -123,36 +130,42 @@ export const createUserMachine = () => {
          * 设置语言
          */
         setLocale: assign({
-          locale: (event, { lang }: any) => {
-            lang = lang || event.user?.attr.language || LocaleEnum.ZH_CN
-            return setCompactLocale(lang)
+          locale: (_, { lang }) => {
+            return setCompactLocale(lang || LocaleEnum.ZH_CN)
           },
         }),
 
         /**
          * 设置Token
          */
-        setToken: assign({ token: (event, { token }: any) => token || event.user?.token || '' }),
+        setToken: assign({ token: (_, { token }) => token || '' }),
 
         /**
          * 设置是否内部用户
          */
-        setIsInternal: assign({ isInternal: (event, { val }: any) => val || event.user?.sfuser || false }),
+        setIsInternal: assign({ isInternal: (_, { val }) => val || false }),
 
         /**
          * 设置工单创建时是否显示图形验证码
          */
-        setShowWoCaptcha: assign({ showWoCaptcha: (_, { val }: any) => val }),
+        setShowWoCaptcha: assign({ showWoCaptcha: (_, { val }) => val || false }),
 
         /**
          * 设置年包用户信息
          */
-        setYearPayDto: assign({ yearPayDto: (event, { val }: any) => val || event.user?.userYearPayDto || null }),
+        setYearPayDto: assign({ yearPayDto: (_, { val }) => val || null }),
 
         /**
          * 设置用户
          */
-        setUser: assign({ user: (_, { user }) => user }),
+        setUser: assign({
+          user: (_, { user }) => user,
+          theme: (_, { user }) => setCompactTheme(user.attr.style || ThemeEnum.LIGHT),
+          locale: (_, { user }) => setCompactLocale(user.attr.language || LocaleEnum.ZH_CN),
+          token: (_, { user }) => user.token || '',
+          isInternal: (_, { user }) => user.sfuser || false,
+          yearPayDto: (_, { user }) => user.userYearPayDto || null,
+        }),
       },
     },
   )

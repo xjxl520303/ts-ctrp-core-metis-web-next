@@ -4,6 +4,7 @@ import { createUserMachine } from '@/machines/user'
 import { USER_STORAGE_KEY } from '@/constants'
 import type { LocaleEnum, ThemeEnum } from '@/enums'
 import type { SystemLanguageAttr, SystemThemeAttr, UserDto } from '@/types'
+import { bus } from '@/utils/bus'
 
 export interface UseUserReturnType extends ToRefs<UserContext> {
   /** 设置用户 */
@@ -38,6 +39,7 @@ export const useUser = (): UseUserReturnType => {
 
   service.onTransition((state) => {
     persistedState.value = state
+    bus.emit('UPDATE_USER', { action: state.event.type, context: state.context })
   })
 
   return {

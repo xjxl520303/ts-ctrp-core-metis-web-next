@@ -73,7 +73,7 @@ async function sendCode() {
   if (showCountdown.value)
     return
   countdown.value = Date.now() + 1000 * 60
-  const { error, isError } = await sendPhoneCode(form.value.phoneCode)
+  const { error, isError } = await sendPhoneCode(form.value.phone)
   if (isError)
     ElMessage.error(error?.message)
 }
@@ -116,11 +116,11 @@ async function submitForm() {
             (contractSignStatus === ContractSignStatusEnum.SIGNED && payType === PayTypeEnum.MONTH)
           || (contractSignStatus === ContractSignStatusEnum.SIGNED && payType === PayTypeEnum.YEAR && userYearPayDto?.pay)
           ) {
-            await getMenus()
             user?.value && setUser(user?.value)
             if (theme.value === ThemeEnum.DARK)
               toggleDark()
             changeLocale(locale.value)
+            await getMenus()
             selectMenu(activeMenu.value!)
           }
           else if (contractSignStatus === ContractSignStatusEnum.SIGNED && payType === PayTypeEnum.YEAR && !userYearPayDto?.pay) {

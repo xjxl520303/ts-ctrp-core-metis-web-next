@@ -80,13 +80,13 @@ export const createDynamicListMachine = () => {
 
       /** 初始化页面配置信息 */
       initPageConfig: assign({
-        btnPermissionOptions: (_, { data }) => data.button || [],
-        exportBtnOptions: (_, { data }) => data.export || [],
-        menuBtnOptions: (_, { data }) => data.menuButton || [],
-        slicerOptions: (_, { data }) => data.slicer || [],
-        fjtOption: (_, { data }) => data.fjt,
-        milestoneOptions: (_, { data }) => data.mileStone || [],
-        orderListOptions: (_, { data }) => data.orderList || [],
+        btnPermissionOptions: (_, { data }) => data.button ?? [],
+        exportBtnOptions: (_, { data }) => data.export ?? [],
+        menuBtnOptions: (_, { data }) => data.menuButton ?? [],
+        slicerOptions: (_, { data }) => data.slicer ?? [],
+        fjtOption: (_, { data }) => data.fjt ?? null,
+        milestoneOptions: (_, { data }) => data.mileStone ?? [],
+        orderListOptions: (_, { data }) => data.orderList ?? [],
       }),
     },
     services: {

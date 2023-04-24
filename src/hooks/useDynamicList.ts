@@ -11,15 +11,15 @@ import { getCompactLocale, getCompactTheme } from '@/utils/compact'
 export interface UseDynamicListReturnType extends ToRefs<DynamicListContext> {
   service: ReturnType<typeof useInterpret>
   /** 菜单 ID */
-  menuId?: ComputedRef<number>
+  menuId: ComputedRef<number>
   /** 解析后的风景台 iframe 地址 */
   fjtUrl?: ComputedRef<string>
   /** 丰景台数据 */
   localFjtOption?: ComputedRef<LocalFjtItem[]>
   /** 本地化后的切片器数据 */
-  localSlicerOptions?: ComputedRef<LocalSlicerItem[]>
+  localSlicerOptions: ComputedRef<LocalSlicerItem[]>
   /** Slicer 中提取的表单模型 */
-  slicerFormModels?: ComputedRef<Record<string, any>>
+  slicerFormModels: ComputedRef<Record<string, any>>
   /** Slicer 格式化后的提交数据 */
   slicerSubmitModels?: ComputedRef<Record<string, any>>
   /** 获取页面配置信息 */
@@ -118,6 +118,8 @@ export const useDynamicList = (serviceInstance?: ReturnType<typeof useInterpret>
 
         result.push(item)
       }
+
+      return result
     }
 
     return []

@@ -5,7 +5,6 @@ import { RequestEnum, ResponseCodeEnum } from '@/enums'
 import type { GetDictResponse } from '@/types/responses'
 import callApi from '@/utils/request'
 
-// 定义上下文
 export type GlobalContext = {
   /** 注释 */
   error: ErrorPayload | null
@@ -13,19 +12,15 @@ export type GlobalContext = {
   dictOptions: OptionsItem[]
 }
 
-// 定义事件
 export type GlobalEvents =
   | { type: 'GET_DICT'; code: string }
 
-// 定义服务
 export type GlobalServices = {
   getDict: GetDictResponse
 }
 
-// 定义类型
 export type GlobalMachine = ReturnType<typeof createGlobalMachine>
 
-// 这里根据情况也可以指定参数传入
 export const createGlobalMachine = () => {
   return createMachine(
     {

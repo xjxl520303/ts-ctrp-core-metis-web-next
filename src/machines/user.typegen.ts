@@ -16,13 +16,13 @@
           services: never;
         };
         eventsCausingActions: {
-          "setIsInternal": "SET_IS_INTERNAL" | "SET_LOCALE" | "SET_SHOW_WO_CAPTCHA" | "SET_THEME" | "SET_TOKEN" | "SET_USER" | "SET_YEAR_PAY_DTO" | "xstate.init";
-"setLocale": "SET_IS_INTERNAL" | "SET_LOCALE" | "SET_SHOW_WO_CAPTCHA" | "SET_THEME" | "SET_TOKEN" | "SET_USER" | "SET_YEAR_PAY_DTO" | "xstate.init";
-"setShowWoCaptcha": "SET_IS_INTERNAL" | "SET_LOCALE" | "SET_SHOW_WO_CAPTCHA" | "SET_THEME" | "SET_TOKEN" | "SET_USER" | "SET_YEAR_PAY_DTO" | "xstate.init";
-"setTheme": "SET_IS_INTERNAL" | "SET_LOCALE" | "SET_SHOW_WO_CAPTCHA" | "SET_THEME" | "SET_TOKEN" | "SET_USER" | "SET_YEAR_PAY_DTO" | "xstate.init";
-"setToken": "SET_IS_INTERNAL" | "SET_LOCALE" | "SET_SHOW_WO_CAPTCHA" | "SET_THEME" | "SET_TOKEN" | "SET_USER" | "SET_YEAR_PAY_DTO" | "xstate.init";
+          "setIsInternal": "SET_IS_INTERNAL";
+"setLocale": "SET_LOCALE";
+"setShowWoCaptcha": "SET_SHOW_WO_CAPTCHA";
+"setTheme": "SET_THEME";
+"setToken": "SET_TOKEN";
 "setUser": "SET_USER";
-"setYearPayDto": "SET_IS_INTERNAL" | "SET_LOCALE" | "SET_SHOW_WO_CAPTCHA" | "SET_THEME" | "SET_TOKEN" | "SET_USER" | "SET_YEAR_PAY_DTO" | "xstate.init";
+"setYearPayDto": "SET_YEAR_PAY_DTO";
         };
         eventsCausingDelays: {
           

@@ -47,6 +47,10 @@ export default {
   'sys.exception.networkErrorSubTitle': '抱歉，您的网络连接已断开，请检查您的网络！',
   // 通用
   'sys.common.text.warning': '警告',
+  'sys.common.text.input': '请输入',
+  'sys.common.text.select': '请选择',
+  'sys.common.text.startAt': '开始时间',
+  'sys.common.text.endAt': '结束时间',
   'sys.common.text.tip': '提示',
   'sys.common.action.ok': '确定',
   'sys.common.action.cancel': '取消',
@@ -54,6 +58,9 @@ export default {
   'sys.common.action.upload': '上传',
   'sys.common.action.batchUpload': '批量上传',
   'sys.common.action.download': '下载',
+  'sys.common.action.selectAll': '全选',
+  'sys.common.action.unselect': '反选',
+  'sys.common.action.reset': '重置',
   // 文件上传
   'sys.common.upload.downloadTemplate': '下载模板',
   'sys.common.upload.uploadFile': '上传文件',

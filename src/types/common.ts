@@ -13,6 +13,7 @@ export interface ErrorPayload {
  * 请求返回状态
  */
 export interface ActionErrorState {
+  isFetching: boolean
   isSuccess: boolean
   isError: boolean
   error: ErrorPayload | null

@@ -2,6 +2,7 @@ import axios from 'axios'
 import type { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { isFunction } from 'lodash-es'
+import { bus } from './bus'
 import { router } from '@/router'
 import { ResponseCodeEnum } from '@/enums'
 import { isDev } from '@/utils/env'
@@ -11,6 +12,11 @@ const { VITE_APP_BASE_URL } = import.meta.env
 const { t } = i18n.global as any
 const { token } = useUser()
 let showAlert = false
+
+bus.on('UPDATE_USER', ({ action, context }) => {
+  if (action === 'SET_TOKEN' || action === 'SET_USER')
+    token.value = context.token
+})
 
 axios.defaults.withCredentials = true
 const service = axios.create({
@@ -69,6 +75,7 @@ const errorHandler = (error: AxiosError) => {
 }
 
 service.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+  console.log(token.value, 'kkkk')
   const _token = token.value || (isDev() ? import.meta.env.VITE_API_TOKEN : null)
   if (_token)
     isFunction(config.headers?.set) && config.headers?.set('token', _token)
