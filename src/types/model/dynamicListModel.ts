@@ -54,7 +54,7 @@ export interface LocalSlicerItem {
   field: string
   /** 控件类型 */
   controlType: ControlType
-  /** 下拉选择框数据请求查房关键词 */
+  /** 下拉选择框数据请求查询关键词 */
   query: string
   /** select 的数据源 */
   options?: OptionsItem[]

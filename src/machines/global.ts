@@ -24,7 +24,7 @@ export type GlobalMachine = ReturnType<typeof createGlobalMachine>
 export const createGlobalMachine = () => {
   return createMachine(
     {
-      /** @xstate-layout N4IgpgJg5mDOIC5RQDYHsBGBDFA6LADgJYDEA4gKIAquERAxgC4DaADALqKgFqxGNE0AOy4gAHogDsAJgA0IAJ6IAzAE4ALLgCMk1ZOUBWAGxH1ADlaGAvlfmpMOfMVwxGAEQaMSEYWFxEhADc0AGs-e2w8QiIXMHdPBADg+iwBYTZ2DNEePjSRJHFEaWkjXFVWI2llLQNldVYSjXklBBLJXANWLuktMy1e9SNJAxs7dEinGNcPJhIwACd5tHncAhRUgDNlgFsXccdo2PimRKC0FLyMrIKc-kF80AlWkrKKqpq6hqMmxRUjVlw6lqvTMGi06hKZhsthAQjQEDgogiOGyvDuwlETwAtNJ1M1EFiIaMQMiosRUbl7piinjfgggYDVEzJKxOpIaqpjMTSZMjjNGBT0Q9CggdGZXpVqrV6o1aS0tMppGUmUzFdIupJ6spufsyVM4vzcLAAK70ehweA3NF5akINQGXBmTWqPpGZSsVTFLT41qg3DFIzGMy1AzFOpGHUOPV8zy4DZYIgoSCCm0FJ72x3O13uz09H3KMxKnSqIxmOoGcrmWrQqxAA */
+      /** @xstate-layout N4IgpgJg5mDOIC5RQDYHsBGBDFA6LADgJa5EQpgDEA4gKIAqA+gCICSAwvQNoAMAuolAE0sIgBciaAHaCQAD0QBGAKwA2ADQgAnkuWKAvvs2pMOfMVwwxzIgGMxlCNLCkpANzQBrFyex5CJFY29ghE7mi2WBLSvHyxssKi0TJI8kqKAOyaOgjKAEwAnIbG6H7mgWDWdg5gAE61aLW4BChRAGaNALaWpWYBlpXBYqHhkcmx8amJ4pIpoAoIipnZiKp5irgFygDMinnKhkYgUmgQcLK+OAkiM9KyCwC0eVnaiE8ALMUgl-7E10mze6IdYrBCqba4A5HH7lUjkMD-W5zNIIDJ5UEqDZQkqmX4VKr2RHJIFggqg7YFd6Qr4w-pBaq4WAAV1stjg8CmN2JqQWeQAHMpNqo+RllKDlMoeLg0ao1Psab08QMCWJcG0sEQKBAiYCecCBUKRWLXmD3hDVBkCsLRYd9EA */
       schema: {
         context: {} as GlobalContext,
         events: {} as GlobalEvents,
@@ -40,8 +40,17 @@ export const createGlobalMachine = () => {
       type: 'parallel',
       states: {
         api: {
+          initial: 'idle',
           states: {
+            idle: {
+              on: {
+                GET_DICT: {
+                  target: 'getDict',
+                },
+              },
+            },
             getDict: {
+              initial: 'initial',
               invoke: {
                 src: 'getDict',
                 onDone: {
@@ -51,14 +60,12 @@ export const createGlobalMachine = () => {
                 onError: { target: '.failed', actions: 'handleResError' },
               },
               states: {
+                initial: {
+                  entry: () => assign({ dictOptions: [] }),
+                },
                 success: {},
                 failed: {},
               },
-            },
-          },
-          on: {
-            GET_DICT: {
-              target: 'api.getDict',
             },
           },
         },

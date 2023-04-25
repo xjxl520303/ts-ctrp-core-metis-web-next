@@ -30,7 +30,7 @@
         eventsCausingServices: {
           "getDict": "GET_DICT";
         };
-        matchesStates: "api" | "api.getDict" | "api.getDict.failed" | "api.getDict.success" | { "api"?: "getDict" | { "getDict"?: "failed" | "success"; }; };
+        matchesStates: "api" | "api.getDict" | "api.getDict.failed" | "api.getDict.initial" | "api.getDict.success" | "api.idle" | { "api"?: "getDict" | "idle" | { "getDict"?: "failed" | "initial" | "success"; }; };
         tags: never;
       }
   

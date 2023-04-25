@@ -22,6 +22,10 @@ export interface UseDynamicListReturnType extends ToRefs<DynamicListContext> {
   slicerFormModels: ComputedRef<Record<string, any>>
   /** Slicer 格式化后的提交数据 */
   slicerSubmitModels?: ComputedRef<Record<string, any>>
+  /** 获取页面配置信息 - loading */
+  isGetPageConfigLoading: Ref<boolean>
+  /** 获取列表数据 - loading */
+  isGetDynamicListLoading: Ref<boolean>
   /** 获取页面配置信息 */
   getPageConfig: (menuId: number) => Promise<GetPageConfigResult>
   /** 获取列表数据 */
@@ -42,7 +46,8 @@ export const useDynamicList = (serviceInstance?: ReturnType<typeof useInterpret>
   const milestoneOptions = useSelector(service, state => state.context.milestoneOptions)
   const orderListOptions = useSelector(service, state => state.context.orderListOptions)
   const menuId = computed(() => +(route.params.id as string))
-
+  const isGetPageConfigLoading = useSelector(service, state => state.matches('api.getPageConfig.initial'))
+  const isGetDynamicListLoading = useSelector(service, state => state.matches('api.getDynamicList.initial'))
   const fjtUrl = computed(() => {
     const compactTheme = getCompactTheme(theme.value)
     const compactLocale = getCompactLocale(locale.value)
@@ -195,6 +200,8 @@ export const useDynamicList = (serviceInstance?: ReturnType<typeof useInterpret>
     localFjtOption,
     slicerFormModels,
     slicerSubmitModels,
+    isGetPageConfigLoading,
+    isGetDynamicListLoading,
     getPageConfig,
     getDynamicList,
   }

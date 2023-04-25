@@ -58,16 +58,6 @@ export const createUserMachine = () => {
       },
       type: 'parallel',
       states: {
-        // setUser: {
-        //   entry: [
-        //     'setTheme',
-        //     'setLocale',
-        //     'setToken',
-        //     'setIsInternal',
-        //     'setShowWoCaptcha',
-        //     'setYearPayDto',
-        //   ],
-        // },
         setUser: {},
         setTheme: {},
         setLocale: {},
@@ -78,15 +68,7 @@ export const createUserMachine = () => {
       },
       on: {
         SET_USER: {
-          actions: [
-            'setUser',
-            // 'setTheme',
-            // 'setLocale',
-            // 'setToken',
-            // 'setIsInternal',
-            // 'setShowWoCaptcha',
-            // 'setYearPayDto',
-          ],
+          actions: 'setUser',
           target: 'setUser',
         },
         SET_THEME: {

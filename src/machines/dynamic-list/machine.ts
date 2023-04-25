@@ -17,7 +17,7 @@ export type DynamicListMachine = ReturnType<typeof createDynamicListMachine>
 
 export const createDynamicListMachine = () => {
   return createMachine({
-    /** @xstate-layout N4IgpgJg5mDOIC5QQJ4DsCGBbAlgYwBkdYAXAOgwAccBiAcQFEAVAfQAUBBRlgYQHkAcgDEAknQDaABgC6iUJQD2sHCRwK0ckAA9EAdgBMAGhApE+yQE4yAVkl39AFgsAOAMy2AjLoBsAX1-GqJi4hMTkVDhkMCRsGDA86gBmOFA0EOpgZDhoAG4KANaZQdj4RKQU1FFgMXFgCWjJUAjZeXgYqupS0l2aisodGkjaiB5exqYI3h6uZI4WFrquzt76Fg6u-oHoJaHlEVU18UkpNGAATmcKZ2SUADbtiVdYZMUhZeGV0bFHDSnNuQo2gMuj0hn0VGpBqAdAhRrpxohvIsyLpFg4nB5vBZ9NZUf4AiA0AoIHBNK9SmFekoIepNDCALT6eEmRD07xkOycrnc3SbEDk3bkACuOCp-UhdMQDiMLIQzg8Ni5S3MTNckl5BIF7wqorB1IGkoQ+g8CNh+n0HM5xsxrnNzg1W2CFL2n2q3zqxygYppUOGkwspoc1hm3Os5uDrlRfk12zeYR1B3d9UaZFgQrweDg8D14tpQxhrg8zhsFkj3nVLkkDnV3lN1ntis5Dg8Lms3kjfK18f2X1qyZSZESGBwt0g3oN+cQheL1lLPgrzirNdNWOsjbsHnWbhx0f8QA */
+    /** @xstate-layout N4IgpgJg5mDOIC5QQJ4DsCGBbAlgYwBkdYAXAOgwAccycIAbMAYgHEBRAFQH0AFAQXZcAwgHkAcgDEAkiwDaABgC6iUJQD2sHCRxq0KkAA9EARgCsANgA0IFIgAspgJxlzAdkdvHADlfzz80ztXAF9g61RMXEJicioaOkZWTi4AEQBNMT4AWSkhLgIpAGUOBWUkEHVNbV19IwQzKxtEVwsXAGYAJi95Ox8-ANNQ8PRsfCJSCmoyGBIeDBghXQAzHCgmCF0wWjQANzUAay2I0eiJuOmwWfmwRbQVqAQcXbU8DGq0UtL9Sq0dPXK6m0vM4usYOsZHL0OnZwY5rLYEB03GQ7I40Y4Om1fP5AiEwiBjlFxrEpjM5gtlqsmGAAE40tQ0siUehvJYMrBkQljGKTGhk663e6PZ6vd6fJTfDS-GoAxBAkFeMEQqEwiHw+xIsiOUxtYzGVxY-q4oYEkZEnnnGYpM3c0jrTbbPaHTk204kvmXa2RW0kYV7UV-cVlVRS961OXasheOxY5VeaGw9UINymFF+BOGnGDfFct28i4kL0nYnUukMpkskhsmkc3PE-NW13Ev0vN6BpRfco-MOyhBtSPR2OQ+OquFNBCuDodLXpmGZgahfFoNQQOD6OsxSVVP7hhAAWmhSb3MJNG4mCTAW+l-1AdRhSa8XlTT8cbTc89M2eG3rzAFccFePa3hqSaQnYZBtE4b4GtiC45k2FrUIBO69oe44OCi6IYh+QSnghZxTBeyEysBE4dEmdjmOYZBOOYbSUTqk6TmYeE-vWlqXOSNyUlAxE3oYcp2MYZCgrCKqJuOxidFqWGYrBxrwWxiEelcFJ3KstAMJeXahihpF2AZNGuN0YEjhJCJvl4KI6nqMFGrhinFspBZcYKGmwL+eB4HA8A6duJECQgpiPlGriouYw4Jmq45dFZU7mJ+vTyQ535OQRKmuTxZBLBgOCMBAfG7sFVk+OFkWjhRQQuO4nh9DiKWmkp6UFkW5qkIVvb0a4UYxq4cZRWOCI6s4jiznJRpfo1aXui1+HkB5Xk+R1pH+PIWrgtGBlmdFCJuOBdhjR+k1njNjZNeQOV5ZAy2Bat63GJt4k7c0hl0V0PR1XBoRAA */
     schema: {
       context: {} as DynamicListContext,
       events: {} as DynamicListEvents,
@@ -28,15 +28,29 @@ export const createDynamicListMachine = () => {
     id: 'dynamicList',
     context: INITIAL_DYNAMIC_LIST_CONTEXT,
     type: 'parallel',
+    initial: 'idle',
     states: {
+      idle: {},
       ui: {
         on: {
 
         },
       },
       api: {
+        initial: 'idle',
         states: {
+          idle: {
+            on: {
+              GET_PAGE_CONFIG: {
+                target: 'getPageConfig',
+              },
+              GET_DYNAMIC_LIST: {
+                target: 'getDynamicList',
+              },
+            },
+          },
           getPageConfig: {
+            initial: 'initial',
             invoke: {
               src: 'getPageConfig',
               onDone: {
@@ -46,11 +60,13 @@ export const createDynamicListMachine = () => {
               onError: { target: '.failed', actions: 'handleError' },
             },
             states: {
+              initial: {},
               success: {},
               failed: {},
             },
           },
           getDynamicList: {
+            initial: 'initial',
             invoke: {
               src: 'getDynamicList',
               onDone: {
@@ -59,17 +75,10 @@ export const createDynamicListMachine = () => {
               onError: { target: '.failed', actions: 'handleError' },
             },
             states: {
+              initial: {},
               success: {},
               failed: {},
             },
-          },
-        },
-        on: {
-          GET_PAGE_CONFIG: {
-            target: 'api.getPageConfig',
-          },
-          GET_DYNAMIC_LIST: {
-            target: 'api.getDynamicList',
           },
         },
       },

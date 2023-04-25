@@ -3,7 +3,7 @@ import dayjs from 'dayjs'
 import type { FormInstance } from 'element-plus'
 import { LocaleEnum } from '@/enums'
 import { useDynamicList } from '@/hooks/useDynamicList'
-import type { ExportBtnItem, LocalSlicerItem } from '@/types'
+import type { ExportBtnItem, LocalSlicerItem, OptionsItem } from '@/types'
 
 const props = withDefaults(defineProps<{
   /** dynamicList 服务实例 */
@@ -18,15 +18,36 @@ defineOptions({
 const { t } = useI18n()
 const { locale } = useUser()
 const { addMenu } = useMenu()
-const { getDict } = useGlobal()
-const { menuId, slicerFormModels, localSlicerOptions, menuBtnOptions, exportBtnOptions, getPageConfig } = useDynamicList(props.service)
+const { isGetDictLoading, dictOptions, getDict } = useGlobal()
+const {
+  menuId,
+  slicerFormModels,
+  localSlicerOptions,
+  menuBtnOptions,
+  exportBtnOptions,
+  isGetPageConfigLoading,
+  getPageConfig,
+} = useDynamicList(props.service)
 const { shortcuts } = useElDateRangeShortcuts()
 
 const formRef = ref<FormInstance>()
+/** select 选项映射 */
+const optionsMap = ref<Map<string, OptionsItem[] | []>>(new Map())
 
 onMounted(async () => {
   await getPageConfig(menuId.value)
+  localSlicerOptions.value.filter(item => item.options).forEach((item) => {
+    optionsMap.value.set(item.field, item.options || [])
+  })
 })
+
+/**
+ * 获取选项数据
+ */
+async function getSelectOptions(item: LocalSlicerItem) {
+  await getDict(item.query)
+  optionsMap.value.set(item.field, dictOptions.value)
+}
 
 /**
  * 表单查询
@@ -95,10 +116,10 @@ function getTooltipContent(item: LocalSlicerItem) {
 </script>
 
 <template>
-  <div pt-4 px-5 min-h-128px relative>
+  <div v-loading="isGetPageConfigLoading" pt-4 px-5 min-h-128px relative>
     <el-form ref="formRef" :model="slicerFormModels" label-position="top">
       <div class="border-b-(solid 1 $zx-border)" flex flex-wrap relative>
-        <template v-for="item in localSlicerOptions" :key="item.label">
+        <template v-for="(item, index) in localSlicerOptions" :key="item.label">
           <el-tooltip
             :content="getTooltipContent(item)"
             placement="top"
@@ -128,10 +149,10 @@ function getTooltipContent(item: LocalSlicerItem) {
                   :placeholder="t('sys.common.text.select')"
                   clearable
                   filterable
-                  @focus="() => getDict(item.dictCode)"
+                  @focus="() => getSelectOptions(item)"
                 >
                   <el-option
-                    v-for="option in item.options"
+                    v-for="option in optionsMap.get(item.field)"
                     :key="option.code"
                     :label="locale === LocaleEnum.ZH_CN ? option.nameCn : option.nameEn"
                     :value="option.code"
@@ -141,7 +162,12 @@ function getTooltipContent(item: LocalSlicerItem) {
 
               <!-- 下拉多选 -->
               <template v-else-if="item.controlType === 'multiSelect'">
-                <ZxMultiSelect v-model="slicerFormModels[item.field]" :options="item.options" @focus="() => getDict(item.dictCode)" />
+                <ZxMultiSelect
+                  v-model="slicerFormModels[item.field]"
+                  :loading="isGetDictLoading"
+                  :options="optionsMap.get(item.field)"
+                  @focus="() => getSelectOptions(item)"
+                />
               </template>
 
               <!-- 日期选择 -->

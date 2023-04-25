@@ -1,12 +1,13 @@
 <script lang="ts" setup>
 import type { CheckboxValueType } from 'element-plus'
 import { LocaleEnum } from '@/enums'
+import type { OptionsItem } from '@/types'
 
 const props = withDefaults(defineProps<{
   /** 绑定的 v-model */
   modelValue: string[]
   /** 配置选项 */
-  options: DictionaryData[]
+  options: OptionsItem[]
 }>(), {
   modelValue: () => [],
   options: () => [],

@@ -33,8 +33,8 @@
           "getDynamicList": "GET_DYNAMIC_LIST";
 "getPageConfig": "GET_PAGE_CONFIG";
         };
-        matchesStates: "api" | "api.getDynamicList" | "api.getDynamicList.failed" | "api.getDynamicList.success" | "api.getPageConfig" | "api.getPageConfig.failed" | "api.getPageConfig.success" | "ui" | { "api"?: "getDynamicList" | "getPageConfig" | { "getDynamicList"?: "failed" | "success";
-"getPageConfig"?: "failed" | "success"; }; };
+        matchesStates: "api" | "api.getDynamicList" | "api.getDynamicList.failed" | "api.getDynamicList.initial" | "api.getDynamicList.success" | "api.getPageConfig" | "api.getPageConfig.failed" | "api.getPageConfig.initial" | "api.getPageConfig.success" | "api.idle" | "idle" | "ui" | { "api"?: "getDynamicList" | "getPageConfig" | "idle" | { "getDynamicList"?: "failed" | "initial" | "success";
+"getPageConfig"?: "failed" | "initial" | "success"; }; };
         tags: never;
       }
   
