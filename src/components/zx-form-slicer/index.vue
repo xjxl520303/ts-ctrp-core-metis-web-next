@@ -27,6 +27,7 @@ const {
   exportBtnOptions,
   isGetPageConfigLoading,
   getPageConfig,
+  getDynamicList,
 } = useDynamicList(props.service)
 const { shortcuts } = useElDateRangeShortcuts()
 
@@ -52,7 +53,7 @@ async function getSelectOptions(item: LocalSlicerItem) {
 /**
  * 表单查询
  */
-function query() {
+async function query() {
   // const params = clone(form.value);
   // // 条件中数组需转成字符串用逗号拼接
   // for (const item in params) {
@@ -62,6 +63,7 @@ function query() {
   // }
   // // ?实际上，可以在外部直接获取到表单值
   // emit('query', params);
+  await getDynamicList()
 }
 
 /**
@@ -135,7 +137,7 @@ function getTooltipContent(item: LocalSlicerItem) {
               <template v-if="item.controlType === 'textArea'">
                 <el-input v-model="slicerFormModels[item.field]" type="text" :placeholder="t('sys.common.text.input')" clearable>
                   <template v-if="!slicerFormModels[item.field]" #suffix>
-                    <el-button @click="handleWaybillNoBatchQuery(item)">
+                    <el-button class="!mr--10px" @click="handleWaybillNoBatchQuery(item)">
                       <i class="iconfont icon-piliangchaxun !text-hex-919398" />
                     </el-button>
                   </template>

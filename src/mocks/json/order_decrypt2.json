@@ -1,0 +1,19 @@
+{
+  "requestId": "REQ-f6f18c91-2bc2-4bec-88be-dc6c052d948a",
+  "code": "00000",
+  "message": "成功状态码",
+  "data": {
+    "name": null,
+    "phone": null,
+    "address": null,
+    "mobile": null,
+    "sendName": null,
+    "sendMobile": null,
+    "sendPhone": null,
+    "sendAddress": null,
+    "receiverName": "狼人头",
+    "receiverPhone": "13247220346",
+    "receiverMobile": "13247220346",
+    "receiverAddress": "你们平时跑步会加入跑团吗？"
+  }
+}

@@ -1,4 +1,4 @@
-import type { ErrorPayload, ExportBtnItem, FjtItem, MenuBtnItem, MilestoneItem, OrderListItem, SlicerItem } from '@/types'
+import type { ErrorPayload, ExportBtnItem, FjtItem, MenuBtnItem, MilestoneItem, OrderListItem, ResponseWithPagination, SlicerItem } from '@/types'
 
 export interface DynamicListContext {
   /** 接口错误信息 */
@@ -17,6 +17,8 @@ export interface DynamicListContext {
   milestoneOptions: MilestoneItem[]
   /** 订单列表数据 */
   orderListOptions: OrderListItem[]
+  /** 动态列表数据 */
+  dynamicList: ResponseWithPagination<any> | null
 }
 
 export const INITIAL_DYNAMIC_LIST_CONTEXT: DynamicListContext = {
@@ -28,4 +30,5 @@ export const INITIAL_DYNAMIC_LIST_CONTEXT: DynamicListContext = {
   fjtOption: null,
   milestoneOptions: [],
   orderListOptions: [],
+  dynamicList: null,
 }

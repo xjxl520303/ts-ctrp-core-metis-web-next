@@ -35,7 +35,7 @@ export const getDynamicListPromise = async (
   condition: DynamicListRequest,
 ): Promise<GetDynamicListResult> =>
   new Promise((resolve) => {
-    interpreter.send('GET_PAGE_CONFIG', { condition })
+    interpreter.send('GET_DYNAMIC_LIST', { condition })
     interpreter.onTransition((state) => {
       if (state.matches('api.getDynamicList.failed')) {
         resolve({

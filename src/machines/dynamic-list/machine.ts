@@ -17,7 +17,7 @@ export type DynamicListMachine = ReturnType<typeof createDynamicListMachine>
 
 export const createDynamicListMachine = () => {
   return createMachine({
-    /** @xstate-layout N4IgpgJg5mDOIC5QQJ4DsCGBbAlgYwBkdYAXAOgwAccycIAbMAYgHEBRAFQH0AFAQXZcAwgHkAcgDEAkiwDaABgC6iUJQD2sHCRxq0KkAA9EARgCsANgA0IFIgAspgJxlzAdkdvHADlfzz80ztXAF9g61RMXEJicioaOkZWTi4AEQBNMT4AWSkhLgIpAGUOBWUkEHVNbV19IwQzKxtEVwsXAGYAJi95Ox8-ANNQ8PRsfCJSCmoyGBIeDBghXQAzHCgmCF0wWjQANzUAay2I0eiJuOmwWfmwRbQVqAQcXbU8DGq0UtL9Sq0dPXK6m0vM4usYOsZHL0OnZwY5rLYEB03GQ7I40Y4Om1fP5AiEwiBjlFxrEpjM5gtlqsmGAAE40tQ0siUehvJYMrBkQljGKTGhk663e6PZ6vd6fJTfDS-GoAxBAkFeMEQqEwiHw+xIsiOUxtYzGVxY-q4oYEkZEnnnGYpM3c0jrTbbPaHTk204kvmXa2RW0kYV7UV-cVlVRS961OXasheOxY5VeaGw9UINymFF+BOGnGDfFct28i4kL0nYnUukMpkskhsmkc3PE-NW13Ev0vN6BpRfco-MOyhBtSPR2OQ+OquFNBCuDodLXpmGZgahfFoNQQOD6OsxSVVP7hhAAWmhSb3MJNG4mCTAW+l-1AdRhSa8XlTT8cbTc89M2eG3rzAFccFePa3hqSaQnYZBtE4b4GtiC45k2FrUIBO69oe44OCi6IYh+QSnghZxTBeyEysBE4dEmdjmOYZBOOYbSUTqk6TmYeE-vWlqXOSNyUlAxE3oYcp2MYZCgrCKqJuOxidFqWGYrBxrwWxiEelcFJ3KstAMJeXahihpF2AZNGuN0YEjhJCJvl4KI6nqMFGrhinFspBZcYKGmwL+eB4HA8A6duJECQgpiPlGriouYw4Jmq45dFZU7mJ+vTyQ535OQRKmuTxZBLBgOCMBAfG7sFVk+OFkWjhRQQuO4nh9DiKWmkp6UFkW5qkIVvb0a4UYxq4cZRWOCI6s4jiznJRpfo1aXui1+HkB5Xk+R1pH+PIWrgtGBlmdFCJuOBdhjR+k1njNjZNeQOV5ZAy2Bat63GJt4k7c0hl0V0PR1XBoRAA */
+    /** @xstate-layout N4IgpgJg5mDOIC5QQJ4DsCGBbAlgYwBkdYAXAOgwAccBiAcQFEAVAfQAUBBRlgYQHkAcgDEAknQDaABgC6iUJQD2sHCRwK0ckAA9EAdgBMAGhApEAFgBs+shd0BOW5LN2nADgCsrgL5fjqTLiExORUtIysACIAmgIcALIiPCwEIgDKTFKySCCKyqrqmjoIBsamCK66AMxknu66uhZOAIxN9t6+IP7Y+ESkFNRkMCRsGDA86gBmOFA0EOpgZDhoAG4KANYLXYG9IQNDI2OT0whLq3gY+WiZmZq5Kmoa2UWVku5k+q5N+laS+maudjslVKiG+ujIzkBujMlT+kgsQJ8fnQ3SCfVCgzAw1GYHGaCmMzAACciQoiWRKAAbC4TMlYMhbHrBfo4THYw7446nBTnS7XGS3JT3ApPRAvN4fL4-P4AoEghBmD5kOzuSpNGH6SovKyuCxIzoo7bMjFDCKGpmkWbzRYrdabc1o3as00OnYnW28h78rLyIWXQpilpkVwwqoGdyvSqK+W2VwQ+H6RMhsxNXWVfWMx0stlmgIWkg0Ymk8lUml0hmu417LG51Fu7me9TewV5B4BhBqprB0OVcOR6MmRCuSp2YPuOwy3TD3TuBE+DpoBQQOCaTM7FvCx6gIoAWj+8p3KeVgJPp5P7gzlb6OAglLAG-9ooVRkHCCakl+wa+sLMM61+kkdpkTzLMAFccAfNsnwHMp3wsLs1T+VoEX0Gd4UvECdhZSCRW3UEzHlMw3khOwPCjL53GcMwMLrKtnSxA5cSOKAcK3bRQTqd5Pm+ACZUBYFXyaWFjyheFXH0CNSPTDo1zotlGLxAkbXuDBKVY9tKk434o0k3VVQsAjX17SQIVVL5WinKN-hoo10WrdkmM5KAyFgUC8DwOB4GyO5HzwhAIwsYM0N4wCZUkASyg+UdEwsdw4qaFVfk8Gz82zfYcUU6YyAmDAcDvCB1KfAKgojELxP+cLCIjGx7EcZw3GSmSrydHNmsKvzvmqENe17CT+xfMpKOqFwrAS3irDnJrMLkl1puvNAVLU7y-SgvzKlishYVcSQ7DaCxxPg9x5SnBDx30UjPl7CNpOA2i7Pokha1s8hXPczz2vY-ymkCidU0qAFhzGixjo-MghNQiN32+naboNOaWtmu7yByvLIA+op3G+5V9D+gG1QnYHX11LtanqRoU1aQF5y8IA */
     schema: {
       context: {} as DynamicListContext,
       events: {} as DynamicListEvents,
@@ -37,18 +37,7 @@ export const createDynamicListMachine = () => {
         },
       },
       api: {
-        initial: 'idle',
         states: {
-          idle: {
-            on: {
-              GET_PAGE_CONFIG: {
-                target: 'getPageConfig',
-              },
-              GET_DYNAMIC_LIST: {
-                target: 'getDynamicList',
-              },
-            },
-          },
           getPageConfig: {
             initial: 'initial',
             invoke: {
@@ -71,6 +60,7 @@ export const createDynamicListMachine = () => {
               src: 'getDynamicList',
               onDone: {
                 target: '.success',
+                actions: 'initDynamicList',
               },
               onError: { target: '.failed', actions: 'handleError' },
             },
@@ -81,13 +71,23 @@ export const createDynamicListMachine = () => {
             },
           },
         },
+        on: {
+          GET_PAGE_CONFIG: {
+            target: 'api.getPageConfig',
+          },
+          GET_DYNAMIC_LIST: {
+            target: 'api.getDynamicList',
+          },
+        },
       },
     },
   }, {
     actions: {
       handleError: assign({ error: (_, event: any) => event.data }),
 
-      /** 初始化页面配置信息 */
+      /**
+       * 初始化页面配置信息
+       **/
       initPageConfig: assign({
         btnPermissionOptions: (_, { data }) => data.button ?? [],
         exportBtnOptions: (_, { data }) => data.export ?? [],
@@ -97,6 +97,11 @@ export const createDynamicListMachine = () => {
         milestoneOptions: (_, { data }) => data.mileStone ?? [],
         orderListOptions: (_, { data }) => data.orderList ?? [],
       }),
+
+      /**
+       * 初始化列表数据
+       */
+      initDynamicList: assign({ dynamicList: (_, event) => event.data }),
     },
     services: {
       /**

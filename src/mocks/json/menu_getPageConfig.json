@@ -1,0 +1,503 @@
+{
+  "requestId": "REQ-b85416e5-cb3f-4603-bdaa-f859304ef1cf",
+  "code": "00000",
+  "message": "成功状态码",
+  "data": {
+    "slicer": [
+      {
+        "field": "multiWorkOrderOpType",
+        "defaultValue": null,
+        "nameCn": "工单类型",
+        "nameEn": "WorkOrderType",
+        "type": "multiSelect",
+        "dict": "woTypeDict",
+        "limit": null,
+        "searchType": null
+      },
+      {
+        "field": "multiOrderMonthlyCard",
+        "defaultValue": null,
+        "nameCn": "月结卡号",
+        "nameEn": "companyCode",
+        "type": "text",
+        "dict": null,
+        "limit": null,
+        "searchType": null
+      },
+      {
+        "field": "multiWorkOrderNo",
+        "defaultValue": null,
+        "nameCn": "工单号",
+        "nameEn": "multiWorkOrderNo",
+        "type": "textArea",
+        "dict": null,
+        "limit": 50,
+        "searchType": null
+      },
+      {
+        "field": "scctErpOrderNo",
+        "defaultValue": null,
+        "nameCn": "订单号",
+        "nameEn": "scctErpOrderNo",
+        "type": "textArea",
+        "dict": null,
+        "limit": 50,
+        "searchType": null
+      },
+      {
+        "field": "multiWaybillNo",
+        "defaultValue": null,
+        "nameCn": "运单号",
+        "nameEn": "waybillNo",
+        "type": "textArea",
+        "dict": null,
+        "limit": 50,
+        "searchType": null
+      },
+      {
+        "field": "createDateTime",
+        "defaultValue": "",
+        "nameCn": "工单创建时间",
+        "nameEn": "createDateTime",
+        "type": "date",
+        "dict": null,
+        "limit": null,
+        "searchType": null
+      },
+      {
+        "field": "updateDateTime",
+        "defaultValue": "14",
+        "nameCn": "工单更新时间",
+        "nameEn": "updateDateTime",
+        "type": "date",
+        "dict": null,
+        "limit": null,
+        "searchType": null
+      },
+      {
+        "field": "multiSendCity",
+        "defaultValue": null,
+        "nameCn": "发件城市",
+        "nameEn": "SendCity",
+        "type": "text",
+        "dict": null,
+        "limit": null,
+        "searchType": null
+      },
+      {
+        "field": "multiReceiverCity",
+        "defaultValue": null,
+        "nameCn": "收件城市",
+        "nameEn": "DestCity",
+        "type": "text",
+        "dict": null,
+        "limit": null,
+        "searchType": null
+      },
+      {
+        "field": "multiShopName",
+        "defaultValue": null,
+        "nameCn": "店铺",
+        "nameEn": "DestCity",
+        "type": "text",
+        "dict": null,
+        "limit": null,
+        "searchType": null
+      },
+      {
+        "field": "multiWarehouseCode",
+        "defaultValue": null,
+        "nameCn": "发货仓库",
+        "nameEn": "Warehouse",
+        "type": "text",
+        "dict": null,
+        "limit": null,
+        "searchType": null
+      },
+      {
+        "field": "multiCreateBy",
+        "defaultValue": null,
+        "nameCn": "创建人",
+        "nameEn": "multiCreateBy",
+        "type": "text",
+        "dict": null,
+        "limit": null,
+        "searchType": null
+      },
+      {
+        "field": "multiFollowUpUser",
+        "defaultValue": null,
+        "nameCn": "跟进人",
+        "nameEn": "followUpBy",
+        "type": "text",
+        "dict": null,
+        "limit": null,
+        "searchType": null
+      }
+    ],
+    "mileStone": [
+      {
+        "id": 1,
+        "colour": "#2697FF",
+        "arrow": true,
+        "icon": "ready",
+        "nameCn": "新建待处理",
+        "nameEn": "新建待处理"
+      },
+      {
+        "id": 2,
+        "colour": "#2697FF",
+        "arrow": true,
+        "icon": "ready",
+        "nameCn": "客户催办",
+        "nameEn": "客户催办"
+      },
+      {
+        "id": 3,
+        "colour": "#2697FF",
+        "arrow": true,
+        "icon": "ready",
+        "nameCn": "重开待处理",
+        "nameEn": "重开待处理"
+      },
+      {
+        "id": 4,
+        "colour": "#2697FF",
+        "arrow": true,
+        "icon": "ready",
+        "nameCn": "回复处理中",
+        "nameEn": "回复处理中"
+      },
+      {
+        "id": 5,
+        "colour": "#FF7B43",
+        "arrow": true,
+        "icon": "asn",
+        "nameCn": "待澄清",
+        "nameEn": "待澄清"
+      },
+      {
+        "id": 6,
+        "colour": "#2697FF",
+        "arrow": true,
+        "icon": "asn",
+        "nameCn": "已澄清",
+        "nameEn": "已澄清"
+      },
+      {
+        "id": 7,
+        "colour": "#FF7B43",
+        "arrow": true,
+        "icon": "canceled",
+        "nameCn": "自动未成功",
+        "nameEn": "自动未成功"
+      },
+      {
+        "id": 8,
+        "colour": "#00EEA2",
+        "arrow": true,
+        "icon": "wmsInb",
+        "nameCn": "指令已下发",
+        "nameEn": "指令已下发"
+      },
+      {
+        "id": 9,
+        "colour": "#00EEA2",
+        "arrow": true,
+        "icon": "sending",
+        "nameCn": "指令成功执行",
+        "nameEn": "指令成功执行"
+      },
+      {
+        "id": 10,
+        "colour": "#00EEA2",
+        "arrow": true,
+        "icon": "finished",
+        "nameCn": "工单已关闭",
+        "nameEn": "closed"
+      }
+    ],
+    "orderList": [
+      {
+        "field": "wo_companyCode",
+        "nameCn": "货主编码",
+        "nameEn": "companyCode",
+        "dict": null,
+        "format": null,
+        "model": null,
+        "tableField": null,
+        "sign": null
+      },
+      {
+        "field": "wo_scctErpOrderNo",
+        "nameCn": "工单关联订单号",
+        "nameEn": "wo_scctErpOrderNo",
+        "dict": null,
+        "format": null,
+        "model": null,
+        "tableField": null,
+        "sign": null
+      },
+      {
+        "field": "wo_workOrderNo",
+        "nameCn": "工单号",
+        "nameEn": "workOderNo",
+        "dict": null,
+        "format": null,
+        "model": null,
+        "tableField": null,
+        "sign": null
+      },
+      {
+        "field": "wo_workOrderStatus",
+        "nameCn": "工单状态",
+        "nameEn": "Status",
+        "dict": null,
+        "format": null,
+        "model": null,
+        "tableField": null,
+        "sign": null
+      },
+      {
+        "field": "wo_sendMessage",
+        "nameCn": "下发失败原因",
+        "nameEn": "fail reason",
+        "dict": null,
+        "format": null,
+        "model": null,
+        "tableField": null,
+        "sign": null
+      },
+      {
+        "field": "wo_createBy",
+        "nameCn": "创建人",
+        "nameEn": "createBy",
+        "dict": null,
+        "format": null,
+        "model": null,
+        "tableField": null,
+        "sign": null
+      },
+      {
+        "field": "wo_followUpUser",
+        "nameCn": "跟进人",
+        "nameEn": "followUpBy",
+        "dict": null,
+        "format": null,
+        "model": null,
+        "tableField": null,
+        "sign": null
+      },
+      {
+        "field": "wo_waybillNo",
+        "nameCn": "关联运单号",
+        "nameEn": "waybill",
+        "dict": null,
+        "format": null,
+        "model": null,
+        "tableField": null,
+        "sign": null
+      },
+      {
+        "field": "wo_workOrderOpType",
+        "nameCn": "工单类型",
+        "nameEn": "WorkOrderType",
+        "dict": null,
+        "format": null,
+        "model": null,
+        "tableField": null,
+        "sign": null
+      },
+      {
+        "field": "wo_originalWorkOrderName",
+        "nameCn": "工单简述",
+        "nameEn": "workOrderInfo",
+        "dict": null,
+        "format": null,
+        "model": null,
+        "tableField": null,
+        "sign": null
+      },
+      {
+        "field": "wo_requestDescription",
+        "nameCn": "工单详情",
+        "nameEn": "workOrderInfo2",
+        "dict": null,
+        "format": null,
+        "model": null,
+        "tableField": null,
+        "sign": null
+      },
+      {
+        "field": "wo_extraRemark",
+        "nameCn": "工单备注",
+        "nameEn": "remark",
+        "dict": null,
+        "format": null,
+        "model": null,
+        "tableField": null,
+        "sign": null
+      },
+      {
+        "field": "wo_orderMonthlyCard",
+        "nameCn": "运单月结卡号",
+        "nameEn": "MonthlyCard",
+        "dict": null,
+        "format": null,
+        "model": null,
+        "tableField": null,
+        "sign": null
+      },
+      {
+        "field": "wo_createDateTime",
+        "nameCn": "工单创建时间",
+        "nameEn": "wo_createDateTime",
+        "dict": null,
+        "format": null,
+        "model": null,
+        "tableField": null,
+        "sign": null
+      },
+      {
+        "field": "wo_omsReceiveDatetime",
+        "nameCn": "订单创建日期",
+        "nameEn": "createOrderDatetime",
+        "dict": null,
+        "format": null,
+        "model": null,
+        "tableField": null,
+        "sign": null
+      },
+      {
+        "field": "wo_shopName",
+        "nameCn": "店铺",
+        "nameEn": "shopName",
+        "dict": null,
+        "format": null,
+        "model": null,
+        "tableField": null,
+        "sign": null
+      },
+      {
+        "field": "wo_tradePlatform",
+        "nameCn": "渠道",
+        "nameEn": "tradePlatform",
+        "dict": null,
+        "format": null,
+        "model": null,
+        "tableField": null,
+        "sign": null
+      },
+      {
+        "field": "multiScctStatus",
+        "nameCn": "订单状态",
+        "nameEn": "status",
+        "dict": null,
+        "format": null,
+        "model": null,
+        "tableField": null,
+        "sign": null
+      },
+      {
+        "field": "wo_sendCity",
+        "nameCn": "原寄件人城市",
+        "nameEn": "sendcity",
+        "dict": null,
+        "format": null,
+        "model": null,
+        "tableField": null,
+        "sign": null
+      },
+      {
+        "field": "wo_receiverCity",
+        "nameCn": "原收件人城市",
+        "nameEn": "ReceiverCity",
+        "dict": null,
+        "format": null,
+        "model": null,
+        "tableField": null,
+        "sign": null
+      },
+      {
+        "field": "wo_woUpdatedDestCity",
+        "nameCn": "转寄退回目的地",
+        "nameEn": "wo_woUpdatedDestCity",
+        "dict": null,
+        "format": null,
+        "model": null,
+        "tableField": null,
+        "sign": null
+      },
+      {
+        "field": "tmsParcelPicked",
+        "nameCn": "揽收时间",
+        "nameEn": "tmsParcelPicked",
+        "dict": null,
+        "format": null,
+        "model": null,
+        "tableField": null,
+        "sign": null
+      },
+      {
+        "field": "tmsInDelivery",
+        "nameCn": "首次派送时间",
+        "nameEn": "tmsInDelivery",
+        "dict": null,
+        "format": null,
+        "model": null,
+        "tableField": null,
+        "sign": null
+      },
+      {
+        "field": "tmsRedirected",
+        "nameCn": "开始转寄",
+        "nameEn": "Redirected",
+        "dict": null,
+        "format": null,
+        "model": null,
+        "tableField": null,
+        "sign": null
+      },
+      {
+        "field": "tmsReturned",
+        "nameCn": "开始退回",
+        "nameEn": "Returned",
+        "dict": null,
+        "format": null,
+        "model": null,
+        "tableField": null,
+        "sign": null
+      },
+      {
+        "field": "tmsFad",
+        "nameCn": "投柜/驿站时间",
+        "nameEn": "Fad",
+        "dict": null,
+        "format": null,
+        "model": null,
+        "tableField": null,
+        "sign": null
+      },
+      {
+        "field": "tmsPod",
+        "nameCn": "签收时间",
+        "nameEn": "tmsPod",
+        "dict": null,
+        "format": null,
+        "model": null,
+        "tableField": null,
+        "sign": null
+      }
+    ],
+    "export": [
+      {
+        "id": 1,
+        "nameCn": "导出",
+        "nameEn": "export"
+      }
+    ],
+    "fjt": null,
+    "button": null,
+    "menuButton": null
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "requestId": "REQ-9c73013b-f460-4b10-8ba2-50975f346123",
+  "code": "00000",
+  "message": "成功状态码",
+  "data": {
+    "name": null,
+    "phone": null,
+    "address": null,
+    "mobile": null,
+    "sendName": "YSL圣罗兰美妆官方旗舰店-天猫",
+    "sendMobile": "0512-65476071",
+    "sendPhone": "0512-65476071",
+    "sendAddress": "苏州市工业园区现代大道88号普洛斯物流园C17库欧莱雅",
+    "receiverName": null,
+    "receiverPhone": null,
+    "receiverMobile": null,
+    "receiverAddress": null
+  }
+}

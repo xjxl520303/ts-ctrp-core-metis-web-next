@@ -1,0 +1,47 @@
+{
+  "requestId": "REQ-51f2aa64-0d8b-4c25-961f-ee5e00fed54b",
+  "code": "00000",
+  "message": "成功状态码",
+  "data": [
+    {
+      "id": 1,
+      "count": 112
+    },
+    {
+      "id": 2,
+      "count": 19
+    },
+    {
+      "id": 3,
+      "count": 4
+    },
+    {
+      "id": 4,
+      "count": 389
+    },
+    {
+      "id": 5,
+      "count": null
+    },
+    {
+      "id": 6,
+      "count": null
+    },
+    {
+      "id": 7,
+      "count": null
+    },
+    {
+      "id": 8,
+      "count": 356
+    },
+    {
+      "id": 9,
+      "count": 2296
+    },
+    {
+      "id": 10,
+      "count": 26896
+    }
+  ]
+}

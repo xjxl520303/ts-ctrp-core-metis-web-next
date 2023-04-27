@@ -1,0 +1,579 @@
+{
+  "requestId": "REQ-e128f600-071a-4db7-91c8-9e6d7f61015d",
+  "code": "00000",
+  "message": "成功状态码",
+  "data": {
+    "config": [
+      {
+        "field": "baseInfo",
+        "nameCn": "基础信息",
+        "nameEn": "baseInfo",
+        "type": "field",
+        "children": [
+          {
+            "field": "companyCode",
+            "nameCn": "货主代码",
+            "nameEn": "companyCode",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          },
+          {
+            "field": "createOrderDatetime",
+            "nameCn": "OMS接单时间",
+            "nameEn": "createOrderDatetime",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          },
+          {
+            "field": "orderNote",
+            "nameCn": "订单备注",
+            "nameEn": "orderNote",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          },
+          {
+            "field": "waybillNo",
+            "nameCn": "运单号",
+            "nameEn": "waybillNo",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          },
+          {
+            "field": "orderTotalAmount",
+            "nameCn": "订单总金额",
+            "nameEn": "orderTotalAmount",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          },
+          {
+            "field": "payDatetime",
+            "nameCn": "付款时间",
+            "nameEn": "payDatetime",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          },
+          {
+            "field": "shopName",
+            "nameCn": "店铺名称",
+            "nameEn": "shopName",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          },
+          {
+            "field": "tradePlatform",
+            "nameCn": "交易平台",
+            "nameEn": "tradePlatform",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          },
+          {
+            "field": "tradeOrderNo",
+            "nameCn": "交易平台单号",
+            "nameEn": "tradeOrderNo",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          },
+          {
+            "field": "buyerId",
+            "nameCn": "买家ID",
+            "nameEn": "buyerId",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          },
+          {
+            "field": "erpOrderType",
+            "nameCn": "订单类型",
+            "nameEn": "erpOrderType",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          },
+          {
+            "field": "carrier",
+            "nameCn": "供应商",
+            "nameEn": "carrier",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          },
+          {
+            "field": "carrierProduct",
+            "nameCn": "供应商产品",
+            "nameEn": "carrierProduct",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          },
+          {
+            "field": "signbackWaybillNo",
+            "nameCn": "签回单运单号",
+            "nameEn": "signbackWaybillNo",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          },
+          {
+            "field": "note",
+            "nameCn": "备注",
+            "nameEn": "note",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          },
+          {
+            "field": "orgErpOrderNo",
+            "nameCn": "原始ERP单号",
+            "nameEn": "orgErpOrderNo",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          },
+          {
+            "field": "scctStatus",
+            "nameCn": "状态编码",
+            "nameEn": "scctStatus",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          }
+        ],
+        "detailChildren": null
+      },
+      {
+        "field": "detail",
+        "nameCn": "订单明细",
+        "nameEn": "detail",
+        "type": "list",
+        "children": [
+          {
+            "field": "itemCode",
+            "nameCn": "商品编码",
+            "nameEn": "itemCode",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          },
+          {
+            "field": "itemName",
+            "nameCn": "商品名",
+            "nameEn": "itemName",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          },
+          {
+            "field": "itemQuantity",
+            "nameCn": "商品数量",
+            "nameEn": "itemQuantity",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          },
+          {
+            "field": "itemPrice",
+            "nameCn": "单价",
+            "nameEn": "itemPrice",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          },
+          {
+            "field": "lot",
+            "nameCn": "批号",
+            "nameEn": "lot",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          },
+          {
+            "field": "note",
+            "nameCn": "备注",
+            "nameEn": "note",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          },
+          {
+            "field": "transportRestrictionsProperty",
+            "nameCn": "是否航禁",
+            "nameEn": "transportRestrictionsProperty",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          }
+        ],
+        "detailChildren": null
+      },
+      {
+        "field": "baseInfoSender",
+        "nameCn": "订单寄件人",
+        "nameEn": "baseInfoSender",
+        "type": "field",
+        "children": [
+          {
+            "field": "sendName",
+            "nameCn": "寄件人",
+            "nameEn": "sendName",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          },
+          {
+            "field": "sendMobile",
+            "nameCn": "寄件人手机",
+            "nameEn": "sendMobile",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          },
+          {
+            "field": "sendPhone",
+            "nameCn": "寄件人电话",
+            "nameEn": "sendPhone",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          },
+          {
+            "field": "sendProvince",
+            "nameCn": "始发地省",
+            "nameEn": "sendProvince",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          },
+          {
+            "field": "sendCity",
+            "nameCn": "始发地城市",
+            "nameEn": "sendCity",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          },
+          {
+            "field": "sendArea",
+            "nameCn": "始发地区县",
+            "nameEn": "sendArea",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          },
+          {
+            "field": "sendAddress",
+            "nameCn": "始发地地址",
+            "nameEn": "sendAddress",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          },
+          {
+            "field": "sendCompanyCode",
+            "nameCn": "寄件单位",
+            "nameEn": "sendCompanyCode",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          },
+          {
+            "field": "sendWarehouseCode",
+            "nameCn": "发货仓库",
+            "nameEn": "sendWarehouseCode",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          }
+        ],
+        "detailChildren": null
+      },
+      {
+        "field": "baseInfoReceiver",
+        "nameCn": "订单收件人",
+        "nameEn": "baseInfoReceiver",
+        "type": "field",
+        "children": [
+          {
+            "field": "receiverName",
+            "nameCn": "收件人姓名",
+            "nameEn": "receiverName",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          },
+          {
+            "field": "receiverMobile",
+            "nameCn": "收件人手机",
+            "nameEn": "receiverMobile",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          },
+          {
+            "field": "receiverPhone",
+            "nameCn": "收件人电话",
+            "nameEn": "receiverPhone",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          },
+          {
+            "field": "receiverProvince",
+            "nameCn": "目的地省",
+            "nameEn": "receiverProvince",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          },
+          {
+            "field": "receiverCity",
+            "nameCn": "目的地城市",
+            "nameEn": "receiverCity",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          },
+          {
+            "field": "receiverArea",
+            "nameCn": "目的地区县",
+            "nameEn": "receiverArea",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          },
+          {
+            "field": "receiverAddress",
+            "nameCn": "目的地地址",
+            "nameEn": "receiverAddress",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          },
+          {
+            "field": "receiverCompany",
+            "nameCn": "收件人公司",
+            "nameEn": "receiverCompany",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          }
+        ],
+        "detailChildren": null
+      },
+      {
+        "field": "exceptionList",
+        "nameCn": "订单异常",
+        "nameEn": "exceptionList",
+        "type": "list",
+        "children": [
+          {
+            "field": "waybillNo",
+            "nameCn": "运单号",
+            "nameEn": "waybillNo",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          },
+          {
+            "field": "reasonName",
+            "nameCn": "异常描述",
+            "nameEn": "reasonName",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          },
+          {
+            "field": "barScanLocationCity",
+            "nameCn": "异常发生地区",
+            "nameEn": "barScanLocationCity",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          },
+          {
+            "field": "barScanDatetime",
+            "nameCn": "上报时间",
+            "nameEn": "barScanDatetime",
+            "dict": null,
+            "format": null,
+            "model": null,
+            "tableField": null,
+            "sign": null
+          }
+        ],
+        "detailChildren": null
+      }
+    ],
+    "data": {
+      "sendCity": "苏州市",
+      "sendProvince": "江苏省",
+      "receiverCompany": "个人",
+      "receiverProvince": "上海",
+      "buyerId": "刘壹",
+      "receiverCity": "上海市",
+      "receiverPhone": "敏感信息加密",
+      "orderTotalAmount": 0.0,
+      "sendMobile": "敏感信息加密",
+      "tradePlatform": "CN_SF",
+      "scctStatus": "8450",
+      "carrierProduct": "SE0004",
+      "companyCode": "5125634530",
+      "sendName": "敏感信息加密",
+      "createOrderDatetime": "2023-04-25 23:18:28",
+      "receiverName": "敏感信息加密",
+      "sendArea": "苏州工业园区",
+      "receiverMobile": "敏感信息加密",
+      "exceptionList": [
+        {
+          "reasonName": "包裹收到转寄通缉指令",
+          "barScanDatetime": "2023-04-27",
+          "barScanLocationCity": "武汉市",
+          "waybillNo": "SF1626464471888"
+        }
+      ],
+      "receiverArea": "浦东新区",
+      "orgErpOrderNo": "2528254892TSHL2023042500077337",
+      "erpOrderType": "9",
+      "sendAddress": "敏感信息加密",
+      "receiverAddress": "敏感信息加密",
+      "carrier": "SF",
+      "sendCompanyCode": "5125634530",
+      "sendPhone": "敏感信息加密",
+      "detail": [
+        {
+          "itemName": "化妆品",
+          "itemQuantity": 1.0,
+          "transportRestrictionsProperty": 0,
+          "itemPrice": 0.0
+        },
+        {
+          "itemName": "化妆品",
+          "itemQuantity": 1.0,
+          "transportRestrictionsProperty": 0,
+          "itemPrice": 0.0
+        },
+        {
+          "itemName": "化妆品",
+          "itemQuantity": 1.0,
+          "transportRestrictionsProperty": 0,
+          "itemPrice": 0.0
+        },
+        {
+          "itemName": "化妆品",
+          "itemQuantity": 1.0,
+          "transportRestrictionsProperty": 0,
+          "itemPrice": 0.0
+        },
+        {
+          "itemName": "化妆品",
+          "itemQuantity": 1.0,
+          "transportRestrictionsProperty": 0,
+          "itemPrice": 0.0
+        },
+        {
+          "itemName": "化妆品",
+          "itemQuantity": 1.0,
+          "transportRestrictionsProperty": 0,
+          "itemPrice": 0.0
+        }
+      ],
+      "waybillNo": "SF1626464471888"
+    }
+  }
+}

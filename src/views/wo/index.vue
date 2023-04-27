@@ -11,10 +11,6 @@ defineOptions({
 const { addMenu } = useMenu()
 const { service, btnPermissionOptions } = useDynamicList()
 
-// onMounted(() => {
-//   getPageConfig(menuId.value)
-// })
-
 /**
  * 创建工单
  */
@@ -29,7 +25,9 @@ function create() {
     <div relative bg-hex-FAFAFB min-h-180px dark:bg-black>
       <ZxFormSlicer :service="service">
         <template v-if="btnPermissionOptions.includes('add')">
-          <el-button class="btn-default--dark" type="default" @click="create">新建工单</el-button>
+          <el-button class="btn-default--dark" type="default" @click="create">
+            新建工单
+          </el-button>
         </template>
       </ZxFormSlicer>
     </div>

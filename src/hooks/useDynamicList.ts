@@ -19,7 +19,8 @@ export interface UseDynamicListReturnType extends ToRefs<DynamicListContext> {
   /** 本地化后的切片器数据 */
   localSlicerOptions: ComputedRef<LocalSlicerItem[]>
   /** Slicer 中提取的表单模型 */
-  slicerFormModels: ComputedRef<Record<string, any>>
+  // slicerFormModels: ComputedRef<Record<string, any>>
+  slicerFormModels: Ref<Record<string, any>>
   /** Slicer 格式化后的提交数据 */
   slicerSubmitModels?: ComputedRef<Record<string, any>>
   /** 获取页面配置信息 - loading */
@@ -29,7 +30,7 @@ export interface UseDynamicListReturnType extends ToRefs<DynamicListContext> {
   /** 获取页面配置信息 */
   getPageConfig: (menuId: number) => Promise<GetPageConfigResult>
   /** 获取列表数据 */
-  getDynamicList: (condition: DynamicListRequest) => Promise<GetDynamicListResult>
+  getDynamicList: (condition?: DynamicListRequest) => Promise<GetDynamicListResult>
 }
 
 export const useDynamicList = (serviceInstance?: ReturnType<typeof useInterpret>): UseDynamicListReturnType => {
@@ -45,9 +46,11 @@ export const useDynamicList = (serviceInstance?: ReturnType<typeof useInterpret>
   const fjtOption = useSelector(service, state => state.context.fjtOption)
   const milestoneOptions = useSelector(service, state => state.context.milestoneOptions)
   const orderListOptions = useSelector(service, state => state.context.orderListOptions)
+  const dynamicList = useSelector(service, state => state.context.dynamicList)
   const menuId = computed(() => +(route.params.id as string))
   const isGetPageConfigLoading = useSelector(service, state => state.matches('api.getPageConfig.initial'))
   const isGetDynamicListLoading = useSelector(service, state => state.matches('api.getDynamicList.initial'))
+
   const fjtUrl = computed(() => {
     const compactTheme = getCompactTheme(theme.value)
     const compactLocale = getCompactLocale(locale.value)
@@ -130,25 +133,7 @@ export const useDynamicList = (serviceInstance?: ReturnType<typeof useInterpret>
     return []
   })
 
-  const slicerFormModels = computed(() => {
-    if (!isEmpty(localSlicerOptions.value)) {
-      const result: Record<string, any> = {}
-      localSlicerOptions.value.forEach((item: LocalSlicerItem) => {
-        // 这里在提交时将日期区间拆分成2个字段
-        if (item.controlType === 'date') {
-          result[`${item.field}Begin`] = item.value[0]
-          result[`${item.field}End`] = item.value[1]
-          result[item.field] = item.value
-        }
-        else {
-          result[item.field] = item.value
-        }
-      })
-      return result
-    }
-
-    return {}
-  })
+  const slicerFormModels = ref(_initFormModels(localSlicerOptions.value))
 
   const slicerSubmitModels = computed(() => {
     let dateFields: string[]
@@ -182,7 +167,37 @@ export const useDynamicList = (serviceInstance?: ReturnType<typeof useInterpret>
   })
 
   const getPageConfig = (menuId: number) => getPageConfigPromise(service, menuId)
-  const getDynamicList = (condition: DynamicListRequest) => getDynamicListPromise(service, condition)
+  const getDynamicList = (condition?: DynamicListRequest) => getDynamicListPromise(service, {
+    menuId: menuId.value,
+    condition: slicerSubmitModels.value,
+    milestoneList: [],
+    orderType: 'SALE_ORDER',
+    ...condition,
+  })
+
+  watch(() => localSlicerOptions.value, (val) => {
+    slicerFormModels.value = _initFormModels(val)
+  }, { deep: true })
+
+  function _initFormModels(options: LocalSlicerItem[]) {
+    if (!isEmpty(options)) {
+      const result: Record<string, any> = {}
+      options.forEach((item: LocalSlicerItem) => {
+        // 这里在提交时将日期区间拆分成2个字段
+        if (item.controlType === 'date') {
+          result[`${item.field}Begin`] = item.value[0]
+          result[`${item.field}End`] = item.value[1]
+          result[item.field] = item.value
+        }
+        else {
+          result[item.field] = item.value
+        }
+      })
+      return result
+    }
+
+    return {}
+  }
 
   return {
     service,
@@ -200,6 +215,7 @@ export const useDynamicList = (serviceInstance?: ReturnType<typeof useInterpret>
     localFjtOption,
     slicerFormModels,
     slicerSubmitModels,
+    dynamicList,
     isGetPageConfigLoading,
     isGetDynamicListLoading,
     getPageConfig,
