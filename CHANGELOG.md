@@ -1,5 +1,11 @@
 # ts-ctrp-core-metis-web-next
 
+## 0.1.2
+
+### Patch Changes
+
+- c650ab3: 添加里程碑和修复列表部分 bug
+
 ## 0.1.1
 
 ### Patch Changes
