@@ -1,8 +1,9 @@
 import type { InterpreterFrom } from 'xstate'
 import type { DynamicListMachine } from '@/machines/dynamic-list'
-import type { ActionErrorState, DynamicListRequest } from '@/types'
+import type { ActionErrorState, DynamicListRequest, MilestoneRequest } from '@/types'
 
 export type GetPageConfigResult = ActionErrorState
+export type GetMilestoneResult = ActionErrorState
 export type GetDynamicListResult = ActionErrorState
 
 export const getPageConfigPromise = async (
@@ -21,6 +22,31 @@ export const getPageConfigPromise = async (
       }
 
       if (state.matches('api.getPageConfig.success')) {
+        resolve({
+          isError: false,
+          isSuccess: true,
+          error: null,
+        })
+      }
+    })
+  })
+
+export const getMilestonePromise = async (
+  interpreter: InterpreterFrom<DynamicListMachine>,
+  condition: MilestoneRequest,
+): Promise<GetMilestoneResult> =>
+  new Promise((resolve) => {
+    interpreter.send('GET_MILESTONE', { condition })
+    interpreter.onTransition((state) => {
+      if (state.matches('api.getMilestone.failed')) {
+        resolve({
+          error: state.context.error,
+          isError: true,
+          isSuccess: false,
+        })
+      }
+
+      if (state.matches('api.getMilestone.success')) {
         resolve({
           isError: false,
           isSuccess: true,

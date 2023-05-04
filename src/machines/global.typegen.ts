@@ -22,10 +22,10 @@
 "setDict": "done.invoke.global.api.getDict:invocation[0]";
         };
         eventsCausingDelays: {
-          
+
         };
         eventsCausingGuards: {
-          
+
         };
         eventsCausingServices: {
           "getDict": "GET_DICT";
@@ -33,4 +33,3 @@
         matchesStates: "api" | "api.getDict" | "api.getDict.failed" | "api.getDict.initial" | "api.getDict.success" | "api.idle" | { "api"?: "getDict" | "idle" | { "getDict"?: "failed" | "initial" | "success"; }; };
         tags: never;
       }
-  

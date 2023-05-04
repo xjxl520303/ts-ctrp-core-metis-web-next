@@ -4,11 +4,19 @@ import type { FormInstance } from 'element-plus'
 import { LocaleEnum } from '@/enums'
 import { useDynamicList } from '@/hooks/useDynamicList'
 import type { ExportBtnItem, LocalSlicerItem, OptionsItem } from '@/types'
+import ZxMultiSelect from '@/components/ZxMultiSelect.vue'
 
 const props = withDefaults(defineProps<{
   /** dynamicList 服务实例 */
   service: ReturnType<typeof useInterpret>
 }>(), {})
+
+const emit = defineEmits<{
+  /**
+   * 切片器查询
+   */
+  (e: 'query'): void
+}>()
 
 defineOptions({
   name: 'ZxFormSlicer',
@@ -20,26 +28,27 @@ const { locale } = useUser()
 const { addMenu } = useMenu()
 const { isGetDictLoading, dictOptions, getDict } = useGlobal()
 const {
-  menuId,
   slicerFormModels,
   localSlicerOptions,
   menuBtnOptions,
   exportBtnOptions,
   isGetPageConfigLoading,
-  getPageConfig,
-  getDynamicList,
+  initSlicerForm,
+  setFormSlicerModels,
 } = useDynamicList(props.service)
 const { shortcuts } = useElDateRangeShortcuts()
 
 const formRef = ref<FormInstance>()
+const form = ref(slicerFormModels.value)
 /** select 选项映射 */
 const optionsMap = ref<Map<string, OptionsItem[] | []>>(new Map())
 
-onMounted(async () => {
-  await getPageConfig(menuId.value)
-  localSlicerOptions.value.filter(item => item.options).forEach((item) => {
+watch(() => localSlicerOptions.value, (val) => {
+  val.filter(item => item.options).forEach((item) => {
     optionsMap.value.set(item.field, item.options || [])
   })
+  form.value = initSlicerForm(val)
+  setFormSlicerModels(form.value)
 })
 
 /**
@@ -54,16 +63,8 @@ async function getSelectOptions(item: LocalSlicerItem) {
  * 表单查询
  */
 async function query() {
-  // const params = clone(form.value);
-  // // 条件中数组需转成字符串用逗号拼接
-  // for (const item in params) {
-  //   if (Array.isArray(params[item])) {
-  //     params[item] = params[item].join(',');
-  //   }
-  // }
-  // // ?实际上，可以在外部直接获取到表单值
-  // emit('query', params);
-  await getDynamicList()
+  setFormSlicerModels(form.value)
+  emit('query')
 }
 
 /**
@@ -71,6 +72,7 @@ async function query() {
  */
 function reset() {
   formRef.value?.resetFields()
+  setFormSlicerModels(form.value)
 }
 
 /**
@@ -88,12 +90,12 @@ async function handleExport(btn: ExportBtnItem) {
  */
 function handleDateChange(value: string[] | null, item: LocalSlicerItem) {
   if (value && Array.isArray(value) && value.length === 2) {
-    slicerFormModels.value[`${item.field}Begin`] = dayjs(value[0]).format('YYYY-MM-DD HH:mm:ss')
-    slicerFormModels.value[`${item.field}End`] = dayjs(value[1]).format('YYYY-MM-DD HH:mm:ss')
+    form.value[`${item.field}Begin`] = dayjs(value[0]).format('YYYY-MM-DD HH:mm:ss')
+    form.value[`${item.field}End`] = dayjs(value[1]).format('YYYY-MM-DD HH:mm:ss')
   }
   else {
-    slicerFormModels.value[`${item.field}Begin`] = ''
-    slicerFormModels.value[`${item.field}End`] = ''
+    form.value[`${item.field}Begin`] = ''
+    form.value[`${item.field}End`] = ''
   }
 }
 
@@ -109,8 +111,8 @@ function handleWaybillNoBatchQuery(item: LocalSlicerItem) {
  */
 function getTooltipContent(item: LocalSlicerItem) {
   if (item.controlType === 'date') {
-    if (slicerFormModels?.value[`${item.field}Begin`])
-      return `${slicerFormModels.value[`${item.field}Begin`]} - ${slicerFormModels.value[`${item.field}End`]}`
+    if (form?.value[`${item.field}Begin`])
+      return `${form.value[`${item.field}Begin`]} - ${form.value[`${item.field}End`]}`
     return ''
   }
   return ''
@@ -119,9 +121,9 @@ function getTooltipContent(item: LocalSlicerItem) {
 
 <template>
   <div v-loading="isGetPageConfigLoading" pt-4 px-5 min-h-128px relative>
-    <el-form ref="formRef" :model="slicerFormModels" label-position="top">
+    <el-form ref="formRef" :model="form" label-position="top">
       <div class="border-b-(solid 1 $zx-border)" flex flex-wrap relative>
-        <template v-for="(item, index) in localSlicerOptions" :key="item.label">
+        <template v-for="item in localSlicerOptions" :key="item.label">
           <el-tooltip
             :content="getTooltipContent(item)"
             placement="top"
@@ -130,13 +132,13 @@ function getTooltipContent(item: LocalSlicerItem) {
             <el-form-item :label="item.label" :prop="item.field">
               <!-- 文本 -->
               <template v-if="item.controlType === 'text'">
-                <el-input v-model.trim="slicerFormModels[item.field]" type="text" :placeholder="t('sys.common.text.input')" clearable />
+                <el-input v-model.trim="form[item.field]" type="text" :placeholder="t('sys.common.text.input')" clearable />
               </template>
 
               <!-- 运单号输入与批量查询  -->
               <template v-if="item.controlType === 'textArea'">
-                <el-input v-model="slicerFormModels[item.field]" type="text" :placeholder="t('sys.common.text.input')" clearable>
-                  <template v-if="!slicerFormModels[item.field]" #suffix>
+                <el-input v-model="form[item.field]" type="text" :placeholder="t('sys.common.text.input')" clearable>
+                  <template v-if="!form[item.field]" #suffix>
                     <el-button class="!mr--10px" @click="handleWaybillNoBatchQuery(item)">
                       <i class="iconfont icon-piliangchaxun !text-hex-919398" />
                     </el-button>
@@ -147,7 +149,7 @@ function getTooltipContent(item: LocalSlicerItem) {
               <!-- 下拉单选 -->
               <template v-else-if="item.controlType === 'select'">
                 <el-select
-                  v-model="slicerFormModels[item.field]"
+                  v-model="form[item.field]"
                   :placeholder="t('sys.common.text.select')"
                   clearable
                   filterable
@@ -165,7 +167,7 @@ function getTooltipContent(item: LocalSlicerItem) {
               <!-- 下拉多选 -->
               <template v-else-if="item.controlType === 'multiSelect'">
                 <ZxMultiSelect
-                  v-model="slicerFormModels[item.field]"
+                  v-model="form[item.field]"
                   :loading="isGetDictLoading"
                   :options="optionsMap.get(item.field)"
                   @focus="() => getSelectOptions(item)"
@@ -175,7 +177,7 @@ function getTooltipContent(item: LocalSlicerItem) {
               <!-- 日期选择 -->
               <template v-else-if="item.controlType === 'date'">
                 <el-date-picker
-                  v-model="slicerFormModels[item.field]"
+                  v-model="form[item.field]"
                   type="datetimerange"
                   :start-placeholder="t('sys.common.text.startAt')"
                   :end-placeholder="t('sys.common.text.endAt')"

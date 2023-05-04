@@ -1,0 +1,139 @@
+{
+  "requestId": "REQ-bead8046-3182-4c85-a1e5-2df3a1acaa6f",
+  "code": "00000",
+  "message": "成功状态码",
+  "data": [
+    {
+      "code": "1",
+      "nameCn": "转寄（自动）",
+      "nameEn": "转寄（自动）",
+      "children": null
+    },
+    {
+      "code": "2",
+      "nameCn": "退回（自动）",
+      "nameEn": "退回（自动）",
+      "children": null
+    },
+    {
+      "code": "5",
+      "nameCn": "改自取（自动）",
+      "nameEn": "改自取（自动）",
+      "children": null
+    },
+    {
+      "code": "6",
+      "nameCn": "改派送（自动）",
+      "nameEn": "改派送（自动）",
+      "children": null
+    },
+    {
+      "code": "7",
+      "nameCn": "更改派送时间（自动）",
+      "nameEn": "更改派送时间（自动）",
+      "children": null
+    },
+    {
+      "code": "21",
+      "nameCn": "拒绝上门投诉（人工）",
+      "nameEn": "拒绝上门投诉（人工）",
+      "children": null
+    },
+    {
+      "code": "23",
+      "nameCn": "查签收（人工）",
+      "nameEn": "查签收（人工）",
+      "children": null
+    },
+    {
+      "code": "26",
+      "nameCn": "路由未及时更新（人工）",
+      "nameEn": "路由未及时更新（人工）",
+      "children": null
+    },
+    {
+      "code": "111",
+      "nameCn": "拦截等通知（人工）",
+      "nameEn": "拦截等通知（人工）",
+      "children": null
+    },
+    {
+      "code": "9921",
+      "nameCn": "投诉快递服务态度（人工）",
+      "nameEn": "投诉快递服务态度（人工）",
+      "children": null
+    },
+    {
+      "code": "9908",
+      "nameCn": "查多发（人工）",
+      "nameEn": "查多发（人工）",
+      "children": null
+    },
+    {
+      "code": "9906",
+      "nameCn": "查少发（人工）",
+      "nameEn": "查少发（人工）",
+      "children": null
+    },
+    {
+      "code": "9907",
+      "nameCn": "查错发（人工）",
+      "nameEn": "查错发（人工）",
+      "children": null
+    },
+    {
+      "code": "9905",
+      "nameCn": "查破损（人工）",
+      "nameEn": "查破损（人工）",
+      "children": null
+    },
+    {
+      "code": "99",
+      "nameCn": "其他（人工）",
+      "nameEn": "其他（人工）",
+      "children": null
+    },
+    {
+      "code": "9900",
+      "nameCn": "催件（人工）",
+      "nameEn": "催件（人工）",
+      "children": null
+    },
+    {
+      "code": "9910",
+      "nameCn": "客制化不规范（人工）",
+      "nameEn": "客制化不规范（人工）",
+      "children": null
+    },
+    {
+      "code": "9911",
+      "nameCn": "时效需求/投诉（人工）",
+      "nameEn": "时效需求/投诉（人工）",
+      "children": null
+    },
+    {
+      "code": "0001",
+      "nameCn": "地址不详（人工）",
+      "nameEn": "地址不详（人工）",
+      "children": null
+    },
+    {
+      "code": "9920",
+      "nameCn": "转寄（人工）",
+      "nameEn": "转寄（人工）",
+      "children": null
+    },
+    {
+      "code": "9921",
+      "nameCn": "退回（人工）",
+      "nameEn": "退回（人工）",
+      "children": null
+    },
+    {
+      "code": "9922",
+      "nameCn": "修改收件人联系方式（人工）",
+      "nameEn": "修改收件人联系方式（人工）",
+      "children": null
+    }
+  ]
+}

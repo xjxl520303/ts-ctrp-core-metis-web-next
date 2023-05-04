@@ -16,9 +16,9 @@
           services: never;
         };
         eventsCausingActions: {
-          "selectNext": "STEP.next";
-"selectPrev": "STEP.prev";
-"selectStep": "SET_STEP";
+          "setAnim": "START.anim";
+"setHeight": "SET.height";
+"setWaiting": "SET.waiting";
         };
         eventsCausingDelays: {
 
@@ -27,8 +27,8 @@
 
         };
         eventsCausingServices: {
-
+          "raf": "SELECT";
         };
-        matchesStates: "api" | "ui" | "ui.one" | "ui.three" | "ui.two" | { "ui"?: "one" | "three" | "two"; };
+        matchesStates: "idle" | "waiting";
         tags: never;
       }

@@ -92,7 +92,7 @@ declare global {
   const resolveComponent: typeof import('vue')['resolveComponent']
   const resolveRef: typeof import('@vueuse/core')['resolveRef']
   const resolveUnref: typeof import('@vueuse/core')['resolveUnref']
-  const send: typeof import('xstate')['send']
+  const sendParent: typeof import('xstate')['sendParent']
   const sendTo: typeof import('xstate')['sendTo']
   const sendUpdate: typeof import('xstate')['sendUpdate']
   const shallowReactive: typeof import('vue')['shallowReactive']
@@ -400,7 +400,7 @@ declare module 'vue' {
     readonly resolveComponent: UnwrapRef<typeof import('vue')['resolveComponent']>
     readonly resolveRef: UnwrapRef<typeof import('@vueuse/core')['resolveRef']>
     readonly resolveUnref: UnwrapRef<typeof import('@vueuse/core')['resolveUnref']>
-    readonly send: UnwrapRef<typeof import('xstate')['send']>
+    readonly sendParent: UnwrapRef<typeof import('xstate')['sendParent']>
     readonly sendTo: UnwrapRef<typeof import('xstate')['sendTo']>
     readonly sendUpdate: UnwrapRef<typeof import('xstate')['sendUpdate']>
     readonly shallowReactive: UnwrapRef<typeof import('vue')['shallowReactive']>

@@ -1,5 +1,5 @@
 import type { ErrorPayload, OptionsItem, ResponseWithPagination, Result } from './common'
-import type { PageConfigDto } from './model/dynamicListModel'
+import type { MilestoneDataItem, PageConfigDto } from './model/dynamicListModel'
 import type { MenuGroupItem } from './model/menuModel'
 import type { UserDto } from './model/userModel'
 
@@ -20,6 +20,9 @@ export interface GetPageConfigResponse extends NullableErrorResponse, Result<Pag
 
 /** 获取动态列表数据 */
 export interface GetDynamicListResponse extends NullableErrorResponse, Result<ResponseWithPagination<any>> {}
+
+/** 获取里程碑数据 */
+export interface GetMilestonesResponse extends NullableErrorResponse, Result<MilestoneDataItem[]> {}
 
 /* ------------------------------- page: Login ------------------------------ */
 /** 发送手机号短信验证码 */

@@ -29,6 +29,7 @@
     "vue-i18n": "^9.2.2",
     "vue-router": "^4.1.6",
     "vue-upload-component": "^2.8.23",
+    "vue3-lottie": "^2.5.0",
     "vue3-perfect-scrollbar": "^1.6.1",
     "watermark-package": "^2.1.2",
     "xstate": "^4.37.0"

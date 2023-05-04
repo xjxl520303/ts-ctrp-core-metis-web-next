@@ -3,10 +3,20 @@ import { capitalize, cloneDeep, isEmpty } from 'lodash-es'
 import dayjs from 'dayjs'
 import { createDynamicListMachine } from '@/machines/dynamic-list'
 import type { DynamicListContext } from '@/machines/dynamic-list'
-import type { GetDynamicListResult, GetPageConfigResult } from '@/promises'
-import { getDynamicListPromise, getPageConfigPromise } from '@/promises'
-import type { DynamicListRequest, LocalFjtItem, LocalSlicerItem, SlicerItem } from '@/types'
+import type { GetDynamicListResult, GetMilestoneResult, GetPageConfigResult } from '@/promises'
+import { getDynamicListPromise, getMilestonePromise, getPageConfigPromise } from '@/promises'
+import type { DynamicListRequest, LocalFjtItem, LocalMilestoneItem, LocalSlicerItem, MilestoneDataItem, MilestoneRequest, SlicerItem } from '@/types'
 import { getCompactLocale, getCompactTheme } from '@/utils/compact'
+
+/** 里程碑支持的颜色 */
+const MILESTONE_DEFAULT_COLORS = ['#AA7CFF', '#2697FF', '#20DEFF', '#14F8B3', '#FFD300', '#FF7B43', '#FF393C']
+/** 里程碑颜色兼容白名单 */
+const MILESTONE_COLOR_WHITE_LIST: Record<string, any> = {
+  BLUE: '#2697FF',
+  ORANGE: '#FF7B43',
+  GREEN: '#00EEA2',
+  RED: '#FF393C',
+}
 
 export interface UseDynamicListReturnType extends ToRefs<DynamicListContext> {
   service: ReturnType<typeof useInterpret>
@@ -18,17 +28,24 @@ export interface UseDynamicListReturnType extends ToRefs<DynamicListContext> {
   localFjtOption?: ComputedRef<LocalFjtItem[]>
   /** 本地化后的切片器数据 */
   localSlicerOptions: ComputedRef<LocalSlicerItem[]>
-  /** Slicer 中提取的表单模型 */
-  // slicerFormModels: ComputedRef<Record<string, any>>
-  slicerFormModels: Ref<Record<string, any>>
   /** Slicer 格式化后的提交数据 */
   slicerSubmitModels?: ComputedRef<Record<string, any>>
+  /** 合并后的里程碑数据 */
+  localMilestoneData: Ref<LocalMilestoneItem[]>
   /** 获取页面配置信息 - loading */
   isGetPageConfigLoading: Ref<boolean>
   /** 获取列表数据 - loading */
   isGetDynamicListLoading: Ref<boolean>
+  /** 获取里程碑数据 - loading */
+  isGetMilestoneLoading: Ref<boolean>
+  /** 初始化切片器表单 */
+  initSlicerForm: (options: LocalSlicerItem[]) => Record<string, any>
+  /** 设置切片器表单模型 */
+  setFormSlicerModels: (models: Record<string, any>) => void
   /** 获取页面配置信息 */
   getPageConfig: (menuId: number) => Promise<GetPageConfigResult>
+  /** 获取里程碑数据 */
+  getMilestone: (condition?: MilestoneRequest) => Promise<GetMilestoneResult>
   /** 获取列表数据 */
   getDynamicList: (condition?: DynamicListRequest) => Promise<GetDynamicListResult>
 }
@@ -37,19 +54,23 @@ export const useDynamicList = (serviceInstance?: ReturnType<typeof useInterpret>
   const { theme, locale } = useUser()
   const route = useRoute()
 
-  const service = serviceInstance || useInterpret(createDynamicListMachine())
+  const service: ReturnType<typeof useInterpret> = serviceInstance || useInterpret(createDynamicListMachine())
   const error = useSelector(service, state => state.context.error)
   const btnPermissionOptions = useSelector(service, state => state.context.btnPermissionOptions)
   const exportBtnOptions = useSelector(service, state => state.context.exportBtnOptions)
   const menuBtnOptions = useSelector(service, state => state.context.menuBtnOptions)
   const slicerOptions = useSelector(service, state => state.context.slicerOptions)
+  const slicerFormModels = useSelector(service, state => state.context.slicerFormModels)
   const fjtOption = useSelector(service, state => state.context.fjtOption)
   const milestoneOptions = useSelector(service, state => state.context.milestoneOptions)
+  const milestoneData = useSelector(service, state => state.context.milestoneData)
   const orderListOptions = useSelector(service, state => state.context.orderListOptions)
   const dynamicList = useSelector(service, state => state.context.dynamicList)
   const menuId = computed(() => +(route.params.id as string))
   const isGetPageConfigLoading = useSelector(service, state => state.matches('api.getPageConfig.initial'))
+  const isGetMilestoneLoading = useSelector(service, state => state.matches('api.getMilestone.initial'))
   const isGetDynamicListLoading = useSelector(service, state => state.matches('api.getDynamicList.initial'))
+  const setFormSlicerModels = (models: Record<string, any>) => service.send({ type: 'SET.slicerFormModels', models })
 
   const fjtUrl = computed(() => {
     const compactTheme = getCompactTheme(theme.value)
@@ -133,7 +154,7 @@ export const useDynamicList = (serviceInstance?: ReturnType<typeof useInterpret>
     return []
   })
 
-  const slicerFormModels = ref(_initFormModels(localSlicerOptions.value))
+  const localMilestoneData = ref(_initLocalMilestoneData(milestoneData.value))
 
   const slicerSubmitModels = computed(() => {
     let dateFields: string[]
@@ -166,20 +187,7 @@ export const useDynamicList = (serviceInstance?: ReturnType<typeof useInterpret>
     return {}
   })
 
-  const getPageConfig = (menuId: number) => getPageConfigPromise(service, menuId)
-  const getDynamicList = (condition?: DynamicListRequest) => getDynamicListPromise(service, {
-    menuId: menuId.value,
-    condition: slicerSubmitModels.value,
-    milestoneList: [],
-    orderType: 'SALE_ORDER',
-    ...condition,
-  })
-
-  watch(() => localSlicerOptions.value, (val) => {
-    slicerFormModels.value = _initFormModels(val)
-  }, { deep: true })
-
-  function _initFormModels(options: LocalSlicerItem[]) {
+  const initSlicerForm = (options: LocalSlicerItem[]) => {
     if (!isEmpty(options)) {
       const result: Record<string, any> = {}
       options.forEach((item: LocalSlicerItem) => {
@@ -198,6 +206,47 @@ export const useDynamicList = (serviceInstance?: ReturnType<typeof useInterpret>
 
     return {}
   }
+  const getPageConfig = (menuId: number) => getPageConfigPromise(service, menuId)
+  const getMilestone = (condition?: MilestoneRequest) => getMilestonePromise(service, {
+    menuId: menuId.value,
+    condition: slicerSubmitModels.value,
+    orderType: 'SALE_ORDER',
+    ...condition,
+  })
+
+  const getDynamicList = (condition?: DynamicListRequest) => getDynamicListPromise(service, {
+    menuId: menuId.value,
+    condition: slicerSubmitModels.value,
+    milestoneList: [],
+    orderType: 'SALE_ORDER',
+    ...condition,
+  })
+
+  watch(() => milestoneData.value, (val) => {
+    localMilestoneData.value = _initLocalMilestoneData(val)
+  }, { deep: true })
+
+  function _initLocalMilestoneData(options: MilestoneDataItem[]) {
+    if (!isEmpty(options)) {
+      return options.map((item: MilestoneDataItem, index: number) => {
+        return {
+          ...milestoneOptions.value[index],
+          colour: (() => {
+            const reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/
+            const color = milestoneOptions.value[index].colour.toUpperCase()
+            if (reg.test(color))
+              return color
+
+            else
+              return MILESTONE_COLOR_WHITE_LIST[color] || MILESTONE_DEFAULT_COLORS[1]
+          })(),
+          count: item.count,
+        }
+      })
+    }
+
+    return []
+  }
 
   return {
     service,
@@ -209,6 +258,8 @@ export const useDynamicList = (serviceInstance?: ReturnType<typeof useInterpret>
     localSlicerOptions,
     fjtOption,
     milestoneOptions,
+    milestoneData,
+    localMilestoneData,
     orderListOptions,
     menuId,
     fjtUrl,
@@ -217,8 +268,12 @@ export const useDynamicList = (serviceInstance?: ReturnType<typeof useInterpret>
     slicerSubmitModels,
     dynamicList,
     isGetPageConfigLoading,
+    isGetMilestoneLoading,
     isGetDynamicListLoading,
     getPageConfig,
+    getMilestone,
     getDynamicList,
+    initSlicerForm,
+    setFormSlicerModels,
   }
 }

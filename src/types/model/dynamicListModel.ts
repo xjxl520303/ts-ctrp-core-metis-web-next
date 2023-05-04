@@ -99,7 +99,25 @@ export interface MilestoneItem extends I18nItem {
 }
 
 /**
- * 里程碑配置信息
+ * 里程碑数据元素
+ */
+export interface MilestoneDataItem {
+  /** ID */
+  id: number
+  /** 数量 */
+  count: number | null
+}
+
+/**
+ * 里程碑合并后的数据
+ */
+export interface LocalMilestoneItem extends MilestoneItem {
+  /** 数量 */
+  count: number | null
+}
+
+/**
+ * 表格表头配置信息
  */
 export interface OrderListItem extends I18nItem {
 /** 字段 */
@@ -131,6 +149,18 @@ export interface PageConfigDto {
   slicer?: SlicerItem[]
   /** 订单列表 */
   orderList?: OrderListItem[]
+}
+
+/**
+ * 动态列表请求参数
+ */
+export interface MilestoneRequest {
+  /** 动态搜索条件 */
+  condition?: Record<string, any>
+  /** 页面 id */
+  menuId?: number
+  /** 订单类型 */
+  orderType?: string
 }
 
 /**

@@ -75,7 +75,6 @@ const errorHandler = (error: AxiosError) => {
 }
 
 service.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-  console.log(token.value, 'kkkk')
   const _token = token.value || (isDev() ? import.meta.env.VITE_API_TOKEN : null)
   if (_token)
     isFunction(config.headers?.set) && config.headers?.set('token', _token)
@@ -88,7 +87,6 @@ service.interceptors.request.use((config: InternalAxiosRequestConfig) => {
 
 service.interceptors.response.use((response: AxiosResponse) => {
   // TODO: 文件上传/下载
-  // console.log(response.data, 'res', router)
   if (response.data.code === ResponseCodeEnum.SUCCESS)
     return response.data
 

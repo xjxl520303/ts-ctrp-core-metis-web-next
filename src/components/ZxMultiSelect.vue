@@ -5,7 +5,7 @@ import type { OptionsItem } from '@/types'
 
 const props = withDefaults(defineProps<{
   /** 绑定的 v-model */
-  modelValue: string[]
+  modelValue: string | string[]
   /** 配置选项 */
   options: OptionsItem[]
 }>(), {
@@ -42,7 +42,7 @@ watch(() => props.modelValue, (val, oldVal) => {
 })
 
 watch(() => localModelValue.value, (val) => {
-  emit('update:modelValue', val)
+  emit('update:modelValue', val as string[])
 })
 
 /**

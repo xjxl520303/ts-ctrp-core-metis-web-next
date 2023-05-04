@@ -31,10 +31,10 @@
 "setTabVisible": "SET.tabVisible";
         };
         eventsCausingDelays: {
-          
+
         };
         eventsCausingGuards: {
-          
+
         };
         eventsCausingServices: {
           "request": "REQUEST";
@@ -42,4 +42,3 @@
         matchesStates: "action" | "action.addCacheGroup" | "action.addCacheMenu" | "action.idle" | "action.removeCacheGroupMenu" | "action.setActive" | "action.setActiveGroup" | "action.setCache" | "action.setTabVisible" | "fetchMenus" | "idle" | { "action"?: "addCacheGroup" | "addCacheMenu" | "idle" | "removeCacheGroupMenu" | "setActive" | "setActiveGroup" | "setCache" | "setTabVisible"; };
         tags: never;
       }
-  

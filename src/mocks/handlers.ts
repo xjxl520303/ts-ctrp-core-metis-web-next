@@ -20,9 +20,54 @@ export const handlers = [
   }),
   /** 页面配置 */
   rest.get('/api/metis/menu/getPageConfig', (req, res, ctx) => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(
+          res(
+            ctx.status(200),
+            ctx.json(import.meta.glob('./json/menu_getPageConfig.json', { eager: true })['./json/menu_getPageConfig.json']),
+          ),
+        )
+      }, 200)
+    })
+  }),
+  /** 工单类型 */
+  rest.get('/api/metis/dict/getDict', (req, res, ctx) => {
     return res(
-      ctx.json({ requestId: 'REQ-0144f20c-8cb5-445f-9b21-43640c93706f', code: '00000', message: '成功状态码', data: { slicer: null, mileStone: null, orderList: null, export: null, fjt: { pageBlackCnUrl: 'https://scmw-fjt.sit.sf-express.com/#/external?workbookId=a839f5b7174b46ab829fd0213d11a189&workbookStyle=3&appId=SRFLZXSCCT&token=RkVCNEYxOTJBNEZGQzU3RUJFRDFDODhERkY5RERFMjY4NUNENjUwQzc5NjkyOEQ3MzY4RkE5MDFBMEJGQzIyQg==&extId=boschpro1&copyRight=0', pageBlackEnUrl: 'https://scmw-fjt.sit.sf-express.com/#/external?workbookId=a839f5b7174b46ab829fd0213d11a189&workbookStyle=3&appId=SRFLZXSCCT&token=RkVCNEYxOTJBNEZGQzU3RUJFRDFDODhERkY5RERFMjY4NUNENjUwQzc5NjkyOEQ3MzY4RkE5MDFBMEJGQzIyQg==&extId=boschpro1&copyRight=0', pageWhiteCnUrl: 'https://scmw-fjt.sit.sf-express.com/#/external?workbookId=a839f5b7174b46ab829fd0213d11a189&workbookStyle=3&appId=SRFLZXSCCT&token=RkVCNEYxOTJBNEZGQzU3RUJFRDFDODhERkY5RERFMjY4NUNENjUwQzc5NjkyOEQ3MzY4RkE5MDFBMEJGQzIyQg==&extId=boschpro1&copyRight=0', pageWhiteEnUrl: 'https://scmw-fjt.sit.sf-express.com/#/external?workbookId=a839f5b7174b46ab829fd0213d11a189&workbookStyle=3&appId=SRFLZXSCCT&token=RkVCNEYxOTJBNEZGQzU3RUJFRDFDODhERkY5RERFMjY4NUNENjUwQzc5NjkyOEQ3MzY4RkE5MDFBMEJGQzIyQg==&extId=boschpro1&copyRight=0' }, button: null, menuButton: null } }),
+      ctx.json(import.meta.glob('./json/dict_getDict_woTypeDict.json', { eager: true })['./json/dict_getDict_woTypeDict.json']),
     )
+  }),
+  /** 里程碑数据 */
+  rest.post('/api/metis/dynamic/getMileStoneData', (req, res, ctx) => {
+    // return res(
+    //   ctx.json(import.meta.glob('./json/dynamic_getMileStoneData.json', { eager: true })['./json/dynamic_getMileStoneData.json']),
+    // )
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(
+          res(
+            ctx.status(200),
+            ctx.json(import.meta.glob('./json/dynamic_getMileStoneData.json', { eager: true })['./json/dynamic_getMileStoneData.json']),
+          ),
+        )
+      }, 200)
+    })
+  }),
+  /** 列表数据 */
+  rest.post('/api/metis/dynamic/getPage', (req, res, ctx) => {
+    // return res(
+    //   ctx.json(import.meta.glob('./json/dynamic_getPage.json', { eager: true })['./json/dynamic_getPage.json']),
+    // )
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(
+          res(
+            ctx.status(200),
+            ctx.json(import.meta.glob('./json/dynamic_getPage.json', { eager: true })['./json/dynamic_getPage.json']),
+          ),
+        )
+      }, 500)
+    })
   }),
   /** 菜单 */
   rest.get('/api/metis/menu/getMenu', (req, res, ctx) => {
