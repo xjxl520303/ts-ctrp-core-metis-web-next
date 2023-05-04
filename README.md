@@ -1,58 +1,58 @@
 # ts-ctrp-core-metis-web-next
 
-正行控制塔 SCCT(Supply Chain Control Tower) v3.0
+正行控制塔 SCCT(Supply Chain Control Tower) v3.0【停止开发】
 
-## 环境说明
+> **声明**：2023年五一前已离职原有公司，本项目仅作为学习交流使用，不涉及公司账号和信息泄漏。所有接口使用本地MOCK数据展示。如有侵犯原有公司的利益请联系作者。
 
-- `dev`：开发环境 对应2.0系统的 https://metis-web-dev1.sit.sf-express.com/#/login
-- `sit`: 集成测试环境 对应 2.0 系统的 https://metis-web.sit.sf-express.com/#/login
-- `uat`: 用户接收测试环境 对应 2.0 系统的 https://metis-web-dev.sit.sf-express.com/#/login
-- `pre`: 预生产环境 对应 2.0 系统的 https://metis-web-pr.sf-express.com/#/login
-- `prod`: 生成环境 对应 2.0 系统的 https://scct.sf-express.com/
+这个项目原为作者空余时间对现有项目的一次全面升级尝试，解决老项目构建速度慢，UI框架版本老旧，代码混乱等问题。主要从以下方面进行了优化：
 
-## Git 提交规范
+- 使用 Vite 替换 Webpack
+- 将 Element Plus 1.0.x beta 版本升级到最新版本
+- 不再使用 Vuex，全面使用 XState 来管理状态
+- 自动导入API和组件
+- 引入 `portal-vue` 库来更加方便组织复杂的页面模板代码
+- 引入 `ue-final-modal` 来统一封装模态框
+- API 服务封装到 machine 中，使用 promises 目录来放置所有的接口调用方法，然后统一由 Hooks 函数消费
+- 数据返回的类型声明不再放置在 API 服务中，而统一放置在 `src/types` 目录中
+- 全面采用原子化 CSS 来管理项目的样式
+- 将改变主题、国际化的操作直接放置在标题栏右上方，方便切换
+- 加入 commitlint, changelog, 数据 mock 功能
+- 全面重写导航菜单和标签页功能
+- 重新调整项目目录
+- 废弃项目处理暗色/亮色主题的 CSS 文件的方式
+- 废弃 `vue-query` 的使用
 
-- `feat` 增加新功能
-- `fix` 修复问题/BUG
-- `style` 样式修改
-- `perf` 优化/性能提升
-- `refactor` 重构
-- `revert` 撤销修改
-- `test` 测试相关
-- `docs` 文档/注释
-- `chore` 依赖更新/脚手架配置修改等
-- `workflow` 工作流程改进
-- `ci` 持续集成
-- `types` 类型定义文件修改
-- `wip` 开发中
+## 项目进度
 
-## Machine 样例代码
-
-```ts
-/* eslint-disable @typescript-eslint/consistent-type-definitions */
-import type { RegisterContext } from './context'
-import type { RegisterEvents } from './events'
-
-type RegisterServices = {
-
-}
-
-export type RegisterMachine = ReturnType<typeof createRegisterMachine>
-
-export const createRegisterMachine = () => {
-  return createMachine({
-    schema: {
-      context: {} as RegisterContext,
-      events: {} as RegisterEvents,
-      services: {} as RegisterServices,
-    },
-    tsTypes: {} as import('./machine.typegen').Typegen0,
-    predictableActionArguments: true,
-    id: 'register',
-    states: {},
-  }, {
-    actions: {},
-    services: {},
-  })
-}
-```
+- [ ] 登录页面
+  - [x] 手机号/短信码登录
+  - [ ] 内部用户APP扫码登录
+- [ ] 注册商机页面
+  - [ ] 身份验证
+  - [ ] 信息填报
+  - [ ] 等待审核
+- [ ] 租户选择
+- [x] Layout（菜单，标签页）部分功能
+- [x] 动态列表服务封装（切片器部分功能、里程碑）
+- [ ] 工单列表页
+  - [ ] 表格
+  - [ ] 创建工单
+  - [ ] 工单处理
+    - [ ] 编辑
+    - [ ] 通知 - 短信/邮件
+    - [ ] 处理 - 处理/备注
+- [ ] 工单批量导入
+- [ ] 订单列表
+- [ ] 订单详情
+  - [ ] 订单信息
+  - [ ] 仓库作业
+  - [ ] 全链路轨迹
+  - [ ] 单据影像
+  - [ ] 关联工单
+- [ ] 订单导出
+- [ ] 账单列表
+- [ ] 账单导出
+- [ ] 账户中心
+- [ ] 账务中心
+- [ ] 消息中心
+- [ ] 悬浮快捷操作按钮
