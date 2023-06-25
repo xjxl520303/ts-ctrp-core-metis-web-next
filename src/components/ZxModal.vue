@@ -48,14 +48,17 @@ defineOptions({
   inheritAttrs: false,
 })
 
-const localModelValue = ref(props.modelValue)
+const localModelValue = computed({
+  get() {
+    return props.modelValue
+  },
+  set(val) {
+    emit('update:modelValue', val)
+  }
+})
 
 watch(() => props.modelValue, (val) => {
   localModelValue.value = val
-})
-
-watch(() => localModelValue.value, (val) => {
-  emit('update:modelValue', val)
 })
 </script>
 
